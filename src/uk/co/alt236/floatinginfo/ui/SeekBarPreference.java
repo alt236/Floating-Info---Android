@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.memoryoverlay.ui;
+package uk.co.alt236.floatinginfo.ui;
 
 import uk.co.alt236.floatinginfo.R;
 import android.content.Context;

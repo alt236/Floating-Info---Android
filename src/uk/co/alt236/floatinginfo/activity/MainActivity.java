@@ -1,9 +1,9 @@
-package uk.co.alt236.memoryoverlay.activity;
+package uk.co.alt236.floatinginfo.activity;
 
 import java.util.List;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.memoryoverlay.service.MemoryInfoService;
+import uk.co.alt236.floatinginfo.service.MemoryInfoService;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;

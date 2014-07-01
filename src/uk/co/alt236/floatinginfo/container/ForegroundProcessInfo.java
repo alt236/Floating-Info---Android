@@ -1,4 +1,4 @@
-package uk.co.alt236.memoryoverlay.container;
+package uk.co.alt236.floatinginfo.container;
 
 public class ForegroundProcessInfo {
 	private final int mPid;

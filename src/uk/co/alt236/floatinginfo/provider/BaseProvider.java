@@ -1,4 +1,4 @@
-package uk.co.alt236.memoryoverlay.provider;
+package uk.co.alt236.floatinginfo.provider;
 
 import android.app.Notification;
 import android.app.Service;

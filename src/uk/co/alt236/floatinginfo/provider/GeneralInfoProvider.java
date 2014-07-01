@@ -1,11 +1,12 @@
-package uk.co.alt236.memoryoverlay.provider;
+package uk.co.alt236.floatinginfo.provider;
 
 import uk.co.alt236.floatinginfo.MemoryInfoReceiver;
-import uk.co.alt236.floatinginfo.MemoryLogEntry;
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.memoryoverlay.activity.MainActivity;
-import uk.co.alt236.memoryoverlay.asynctask.ProcessMonitorAsyncTask;
-import uk.co.alt236.memoryoverlay.container.ForegroundProcessInfo;
+import uk.co.alt236.floatinginfo.activity.MainActivity;
+import uk.co.alt236.floatinginfo.asynctask.ProcessMonitorAsyncTask;
+import uk.co.alt236.floatinginfo.container.ForegroundProcessInfo;
+import uk.co.alt236.floatinginfo.container.InfoStore;
+import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -38,11 +39,13 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	private boolean mIsLogPaused = false;
 	private int mForegroundAppPid;
 	private ProcessMonitorAsyncTask mProcessMonitorTask;
-	private ForegroundProcessInfo mForegroundProcessInfo;
+	private InfoStore mInfoStore;
+//	private ForegroundProcessInfo mForegroundProcessInfo;
 
 
 	public GeneralInfoProvider(Service context) {
 		super(context);
+		mInfoStore = new InfoStore();
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
@@ -117,7 +120,7 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 
 	@Override
 	public void onLogClear() {
-		updateBuffer();
+		updateDisplay();
 	}
 
 	@Override
@@ -129,7 +132,7 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	@Override
 	public void onLogResume() {
 		mIsLogPaused = false;
-		updateBuffer();
+		updateDisplay();
 		showNotification();
 	}
 
@@ -152,29 +155,9 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//		if (mAdapter != null) {
-//			mAdapter.updateAppearance();
-//		}
-//		if (key.equals(getString(R.string.pref_bg_opacity))) {
-//			setSystemViewBackground();
-//		} else if (key.equals(getString(R.string.pref_log_level))) {
-//			mLogLevel = mPrefs.getString(getString(R.string.pref_log_level), LogLine.LEVEL_VERBOSE);
-//			showNotification();
-//			updateBuffer();
-//		} else if (key.equals(getString(R.string.pref_auto_filter))) {
-//			mAutoFilter = mPrefs.getBoolean(getString(R.string.pref_auto_filter), false);
-//			if (mAutoFilter) {
-//				startProcessMonitor();
-//			} else {
-//				stopProcessMonitor();
-//			}
-//			showNotification();
-//			updateBuffer();
-//		} else if (key.equals(getString(R.string.pref_tag_filter))) {
-//			mTagFilter = mPrefs.getString(getString(R.string.pref_tag_filter), null);
-//			showNotification();
-//			updateBuffer();
-//		}
+		if (key.equals(getString(R.string.pref_bg_opacity))) {
+			setSystemViewBackground();
+		}
 	}
 
 	private void removeNotification() {
@@ -203,25 +186,8 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	}
 
 	private void showNotification() {
-//
-//		final String level = LogLine.getLevelName(this, mLogLevel);
-
 		String smallText = "small text!";
 		String bigText = "big text!";
-
-//		if (mAutoFilter && mForegroundAppPkg != null) {
-//			smallText = mLogLevel + "/" + mForegroundAppPkg;
-//			bigText += "\n" + getString(R.string.auto_filter) + ": " + mForegroundAppPkg;
-//		} else {
-//			bigText += "\n" + getString(R.string.auto_filter) + ": " + getString(R.string.off);
-//		}
-//
-//		if (mTagFilter != null) {
-//			smallText += "/" + mTagFilter;
-//			bigText += "\n" + getString(R.string.tag_filter) + ": " + mTagFilter;
-//		} else {
-//			bigText += "\n" + getString(R.string.tag_filter) + ": " + getString(R.string.none);
-//		}
 
 		final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
 				.setStyle(new NotificationCompat.BigTextStyle()
@@ -253,9 +219,7 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 						getString(R.string.statusbar_share),
 						getNotificationIntent(MemoryInfoReceiver.ACTION_SHARE));
 
-		// issue the notification
 		startForeground(NOTIFICATION_ID, mBuilder.build());
-
 	}
 
 	@Override
@@ -277,9 +241,9 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 					change = true;
 				}
 
-				mForegroundProcessInfo = values[0];
+				mInfoStore.set(values[0]);
 
-				updateBuffer();
+				updateDisplay();
 				if (change) {
 					showNotification();
 				}
@@ -299,19 +263,24 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 		Log.i(TAG, "process monitor task stopped");
 	}
 
-	private void updateBuffer() {
-		updateBuffer(null);
-	}
-
-	private void updateBuffer(final MemoryLogEntry entry) {
+	private void updateDisplay() {
 		mViewUpdateHandler.post(new Runnable() {
 			@Override
 			public void run() {
 
-				if(mForegroundProcessInfo != null){
-					mTextView.setText(mForegroundProcessInfo.toString());
+				final StringBuilderHelper sb  = new StringBuilderHelper();
+
+				if(mInfoStore != null){
+					final ForegroundProcessInfo procInfo = mInfoStore.getForeGroundProcessInfo();
+					if(procInfo != null){
+						sb.appendBold("CPU INFO");
+						sb.append("Application Name", String.valueOf(procInfo.getAppName()));
+						sb.append("Package Name", procInfo.getPackage());
+						sb.append("Process Id", procInfo.getPid());
+					}
 				}
 
+				mTextView.setText(sb.toString());
 			}
 		});
 	}

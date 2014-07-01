@@ -1,7 +1,7 @@
-package uk.co.alt236.memoryoverlay.service;
+package uk.co.alt236.floatinginfo.service;
 
-import uk.co.alt236.memoryoverlay.provider.BaseProvider;
-import uk.co.alt236.memoryoverlay.provider.GeneralInfoProvider;
+import uk.co.alt236.floatinginfo.provider.BaseProvider;
+import uk.co.alt236.floatinginfo.provider.GeneralInfoProvider;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;

@@ -1,4 +1,4 @@
-package uk.co.alt236.memoryoverlay.activity;
+package uk.co.alt236.floatinginfo.activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.ListPreference;

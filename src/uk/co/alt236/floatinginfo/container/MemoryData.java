@@ -1,5 +1,7 @@
 package uk.co.alt236.floatinginfo.container;
 
+import java.lang.reflect.Field;
+
 import android.os.Debug.MemoryInfo;
 
 public class MemoryData {
@@ -63,7 +65,7 @@ public class MemoryData {
 	/** @hide We may want to expose this, eventually. */
 	private final int otherSwappedOut;
 
-	public MemoryData(MemoryInfo mi) {
+	public MemoryData(final MemoryInfo mi) {
 		dalvikPrivateClean = getValueReflectively(mi, "dalvikPrivateClean");
 		dalvikPrivateDirty = mi.dalvikPrivateDirty;
 		dalvikPss = mi.dalvikPss;
@@ -173,7 +175,23 @@ public class MemoryData {
 		return otherSwappedOut;
 	}
 
-	private int getValueReflectively(MemoryInfo mi, String name) {
+	private int getValueReflectively(final MemoryInfo mi, final String name) {
+		if(mi != null){
+			final Class<?> clazz = mi.getClass();
+			final Field field;
+			try {
+				field = clazz.getField(name);
+				return field.getInt(mi);
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e){
+				e.printStackTrace();
+			}
+		}
 		return -1;
 	}
 

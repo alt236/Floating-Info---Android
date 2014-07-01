@@ -1,11 +1,17 @@
 package uk.co.alt236.floatinginfo.provider;
 
-import uk.co.alt236.floatinginfo.MemoryInfoReceiver;
+import java.util.List;
+
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.MainActivity;
 import uk.co.alt236.floatinginfo.asynctask.ProcessMonitorAsyncTask;
+import uk.co.alt236.floatinginfo.container.CpuData;
 import uk.co.alt236.floatinginfo.container.ForegroundProcessInfo;
 import uk.co.alt236.floatinginfo.container.InfoStore;
+import uk.co.alt236.floatinginfo.container.MemoryData;
+import uk.co.alt236.floatinginfo.reader.CpuUtilisationReader;
+import uk.co.alt236.floatinginfo.reader.MemoryInfoReader;
+import uk.co.alt236.floatinginfo.util.FloatingInfoReceiver;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,28 +32,34 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class GeneralInfoProvider extends BaseProvider implements MemoryInfoReceiver.Callbacks {
+public class GeneralInfoProvider extends BaseProvider implements FloatingInfoReceiver.Callbacks {
 
 	private static final String TAG = "GeneralInfoProvider";
 	private static final int NOTIFICATION_ID = 1138;
 
 	private Handler mViewUpdateHandler = new Handler();
 	private TextView mTextView;
-	private MemoryInfoReceiver mLogReceiver;
+	private FloatingInfoReceiver mLogReceiver;
 	private NotificationManager mNotificationManager;
 	private SharedPreferences mPrefs;
 	private boolean mIsLogPaused = false;
 	private int mForegroundAppPid;
 	private ProcessMonitorAsyncTask mProcessMonitorTask;
-	private InfoStore mInfoStore;
+	private final CpuUtilisationReader mCpuUtilisationReader;
+	private final MemoryInfoReader mMemoryInfoReader;
+
+	private final InfoStore mInfoStore;
 
 	public GeneralInfoProvider(Service context) {
 		super(context);
+		mCpuUtilisationReader = new CpuUtilisationReader();
+		mMemoryInfoReader = new MemoryInfoReader(getContext());
 		mInfoStore = new InfoStore();
+
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
-		mLogReceiver = new MemoryInfoReceiver(this);
+		mLogReceiver = new FloatingInfoReceiver(this);
 		registerReceiver(mLogReceiver, mLogReceiver.getIntentFilter());
 	}
 
@@ -74,6 +86,70 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 		stopProcessMonitor();
 		removeSystemWindow();
 		removeNotification();
+	}
+
+	private CharSequence getInfoText(){
+		final StringBuilderHelper sb  = new StringBuilderHelper();
+
+		if(mInfoStore != null){
+			final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
+			if(procInfo != null){
+				sb.appendBold("Foreground Application Info");
+				sb.append("App Name", String.valueOf(procInfo.getAppName()));
+				sb.append("Package", procInfo.getPackage());
+				sb.append("PID", procInfo.getPid());
+			}
+
+			sb.appendNewLine();
+
+			final CpuData cpuInfo = mInfoStore.getCpuInfo();
+			sb.setPadding(6);
+			if(cpuInfo != null){
+				sb.appendBold("Global CPU Utilisation");
+				sb.append("Total", String.valueOf(cpuInfo.getOveralCpu()) + "%");
+				final List<Integer> list = cpuInfo.getPerCpuUtilisation();
+
+				int count = 0;
+
+				for(Integer value : list){
+					sb.append("CPU" + count, String.valueOf(value) + "%");
+					count++;
+				}
+			}
+
+			sb.appendNewLine();
+
+			final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
+			sb.setPadding(20);
+			if(memoryInfo != null){
+				sb.appendBold("Current Process Memory Utilisation");
+				sb.append("DalvikPrivateClean", memoryInfo.getDalvikPrivateClean());
+				sb.append("DalvikPrivateDirty", memoryInfo.getDalvikPrivateDirty());
+				sb.append("DalvikPss", memoryInfo.getDalvikPss());
+				sb.append("DalvikSharedClean", memoryInfo.getDalvikSharedClean());
+				sb.append("DalvikSharedDirty", memoryInfo.getDalvikSharedDirty());
+				sb.append("DalvikSwappablePss", memoryInfo.getDalvikSwappablePss());
+				sb.append("DalvikSwappedOut", memoryInfo.getDalvikSwappedOut());
+
+				sb.append("NativePrivateClean", memoryInfo.getNativePrivateClean());
+				sb.append("NativePrivateDirty", memoryInfo.getNativePrivateDirty());
+				sb.append("NativePss", memoryInfo.getNativePss());
+				sb.append("NativeSharedClean", memoryInfo.getNativeSharedClean());
+				sb.append("NativeSharedDirty", memoryInfo.getNativeSharedDirty());
+				sb.append("NativeSwappablePss", memoryInfo.getNativeSwappablePss());
+				sb.append("NativeSwappedOut", memoryInfo.getNativeSwappedOut());
+
+				sb.append("OtherPrivateClean", memoryInfo.getOtherPrivateClean());
+				sb.append("OtherPrivateDirty", memoryInfo.getOtherPrivateDirty());
+				sb.append("OtherPss", memoryInfo.getOtherPss());
+				sb.append("OtherSharedClean", memoryInfo.getOtherSharedClean());
+				sb.append("OtherSharedDirty", memoryInfo.getOtherSharedDirty());
+				sb.append("OtherSwappablePss", memoryInfo.getOtherSwappablePss());
+				sb.append("OtherSwappedOut", memoryInfo.getOtherSwappedOut());
+			}
+		}
+
+		return sb.toCharSequence();
 	}
 
 	private PendingIntent getNotificationIntent(String action) {
@@ -118,7 +194,7 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 
 		final String ts = now.format3339(false);
 
-		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.setType("text/plain");
 		shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 		shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject) + " " + ts);
@@ -134,7 +210,6 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	}
 
 	private void removeNotification() {
-		// cancel the notification
 		mNotificationManager.cancel(NOTIFICATION_ID);
 	}
 
@@ -145,7 +220,6 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setSystemViewBackground() {
 		final int v = mPrefs.getInt(getString(R.string.pref_bg_opacity), 0);
 		final int level = 0
@@ -154,7 +228,7 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 			int a = (int) ((float) v / 100f * 255);
 			mTextView.setBackgroundColor(Color.argb(a, level, level, level));
 		} else {
-			mTextView.setBackgroundDrawable(null);
+			mTextView.setBackground(null);
 		}
 	}
 
@@ -175,22 +249,22 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 			mBuilder.addAction(
 					R.drawable.ic_stat_play,
 					getString(R.string.statusbar_play),
-					getNotificationIntent(MemoryInfoReceiver.ACTION_PLAY));
+					getNotificationIntent(FloatingInfoReceiver.ACTION_PLAY));
 		} else {
 			mBuilder.addAction(
 					R.drawable.ic_stat_pause,
 					getString(R.string.statusbar_pause),
-					getNotificationIntent(MemoryInfoReceiver.ACTION_PAUSE));
+					getNotificationIntent(FloatingInfoReceiver.ACTION_PAUSE));
 		}
 
 		mBuilder.addAction(
 				R.drawable.ic_stat_clear,
 				getString(R.string.statusbar_clear),
-				getNotificationIntent(MemoryInfoReceiver.ACTION_CLEAR))
+				getNotificationIntent(FloatingInfoReceiver.ACTION_CLEAR))
 				.addAction(
 						R.drawable.ic_stat_share,
 						getString(R.string.statusbar_share),
-						getNotificationIntent(MemoryInfoReceiver.ACTION_SHARE));
+						getNotificationIntent(FloatingInfoReceiver.ACTION_SHARE));
 
 		startForeground(NOTIFICATION_ID, mBuilder.build());
 	}
@@ -212,9 +286,15 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 				boolean change = false;
 				if (values[0].getPid() != mForegroundAppPid) {
 					change = true;
+					mForegroundAppPid = values[0].getPid();
 				}
 
+				mMemoryInfoReader.update(mForegroundAppPid);
+				mCpuUtilisationReader.update();
+
 				mInfoStore.set(values[0]);
+				mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
+				mInfoStore.set(mMemoryInfoReader.getInfo());
 
 				updateDisplay();
 				if (change) {
@@ -237,23 +317,12 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	}
 
 	private void updateDisplay() {
+		final CharSequence output = getInfoText();
+
 		mViewUpdateHandler.post(new Runnable() {
 			@Override
 			public void run() {
-
-				final StringBuilderHelper sb  = new StringBuilderHelper();
-
-				if(mInfoStore != null){
-					final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
-					if(procInfo != null){
-						sb.appendBold("Application Info");
-						sb.append("App Name", String.valueOf(procInfo.getAppName()));
-						sb.append("Package", procInfo.getPackage());
-						sb.append("PID", procInfo.getPid());
-					}
-				}
-
-				sb.setTextToView(mTextView);
+				mTextView.setText(output);
 			}
 		});
 	}

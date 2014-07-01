@@ -14,8 +14,16 @@ public class InfoStore {
 		}
 	}
 
+	public CpuData getCpuInfo(){
+		return (CpuData) get(Key.CPU_INFO);
+	}
+
 	public ForegroundProcessInfo getForegroundProcessInfo(){
 		return (ForegroundProcessInfo) get(Key.PROCESS_INFO);
+	}
+
+	public MemoryData getMemoryInfo(){
+		return (MemoryData) get(Key.MEMORY_INFO);
 	}
 
 	private void put(Key key, Object value){
@@ -24,12 +32,21 @@ public class InfoStore {
 		}
 	}
 
+	public void set(CpuData value) {
+		put(Key.CPU_INFO, value);
+	}
+
 	public void set(ForegroundProcessInfo value){
 		put(Key.PROCESS_INFO, value);
 	}
 
+	public void set(MemoryData value){
+		put(Key.MEMORY_INFO, value);
+	}
+
 	private enum Key{
 		PROCESS_INFO,
-		CPU_INFO
+		CPU_INFO,
+		MEMORY_INFO
 	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
+import uk.co.alt236.floatinginfo.container.CpuData;
 import android.util.Log;
 
 // Taken http://stackoverflow.com/questions/7593829/how-to-get-the-processor-number-on-android
@@ -15,6 +16,7 @@ public class CpuUtilisationReader {
 	private ArrayList<CpuInfo> mCpuInfoList;
 
 	public CpuUtilisationReader() {
+		update();
 	}
 
 	private void closeFile() throws IOException {
@@ -45,7 +47,6 @@ public class CpuUtilisationReader {
 	}
 
 	public int getCpuUsage(int cpuId) {
-		update();
 		int usage = 0;
 		if (mCpuInfoList != null) {
 			int cpuCount = mCpuInfoList.size();
@@ -65,7 +66,6 @@ public class CpuUtilisationReader {
 	}
 
 	public int getTotalCpuUsage() {
-		update();
 		int usage = 0;
 		if (mCpuInfoTotal != null)
 			usage = mCpuInfoTotal.getUsage();
@@ -74,14 +74,26 @@ public class CpuUtilisationReader {
 
 	private void parseCpuLine(int cpuId, String cpuLine) {
 		if (cpuLine != null && cpuLine.length() > 0) {
-			String[] parts = cpuLine.split("[ ]+");
-			String cpuLabel = "cpu";
+			final String[] parts = cpuLine.split("[ ]+");
+			final String cpuLabel = "cpu";
+
 			if (parts[0].indexOf(cpuLabel) != -1) {
 				createCpuInfo(cpuId, parts);
 			}
 		} else {
 			Log.e(TAG, "unable to get cpu line");
 		}
+	}
+
+	public uk.co.alt236.floatinginfo.container.CpuData getCpuInfo(){
+		final CpuData result = new CpuData(getTotalCpuUsage());
+
+		for (int i = 0; i < mCpuInfoList.size(); i++) {
+			final CpuInfo info = mCpuInfoList.get(i);
+			result.addCpuUtil(info.getUsage());
+		}
+
+		return result;
 	}
 
 	private void parseFile() {
@@ -103,7 +115,6 @@ public class CpuUtilisationReader {
 
 	@Override
 	public String toString() {
-		update();
 		final StringBuilder buf = new StringBuilder();
 		if (mCpuInfoTotal != null) {
 			buf.append("Cpu Total : ");
@@ -122,7 +133,7 @@ public class CpuUtilisationReader {
 		return buf.toString();
 	}
 
-	private void update() {
+	public void update() {
 		try {
 			createFile();
 			parseFile();
@@ -135,7 +146,7 @@ public class CpuUtilisationReader {
 		}
 	}
 
-	public class CpuInfo {
+	private class CpuInfo {
 		private int mUsage;
 		private long mLastTotal;
 		private long mLastIdle;

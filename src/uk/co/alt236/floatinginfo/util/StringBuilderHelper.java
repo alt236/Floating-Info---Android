@@ -9,11 +9,15 @@ import android.widget.TextView;
 
 public class StringBuilderHelper {
 	private static final String BULLET_CHARACTER = Character.toString('\u2022');
-	private final static String SECTION_LINE = "------------------------------";
 	private final static String NEW_LINE = System.getProperty("line.separator");
+	private final static String SECTION_LINE = "------------------------------";
+	private int mPadding = 10;
+
 	private final SpannableStringBuilder mStringBuilder = new SpannableStringBuilder();
 
-	private int mPadding = 10;
+	public void append(int value) {
+		append(String.valueOf(value));
+	}
 
 	public void append(String value) {
 		mStringBuilder.append(value);
@@ -66,8 +70,20 @@ public class StringBuilderHelper {
 		append(label, NEW_LINE + padRight("", 5) + value);
 	}
 
+	public int getPadding(){
+		return mPadding;
+	}
+
+	public void setPadding(int padding){
+		mPadding = padding;
+	}
+
 	public void setTextToView(TextView view){
 		view.setText(mStringBuilder);
+	}
+
+	public CharSequence toCharSequence(){
+		return mStringBuilder;
 	}
 
 	@Override

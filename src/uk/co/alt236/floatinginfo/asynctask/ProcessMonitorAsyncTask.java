@@ -9,18 +9,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessInfo, Void> {
 
 	private static final String UNKNOWN_APP_NAME = "???";
 
-	private static final String TAG = "ProcessMonitorAsyncTask";
-
 	private ActivityManager mActivityManager;
 	private PackageManager mPackageManager;
-
-	private int mPidCache = 0;
 
 	public ProcessMonitorAsyncTask(Context context) {
 		mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -34,11 +29,8 @@ public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessIn
 		while (!isCancelled()) {
 			p = getForegroundApp(mActivityManager);
 
-			if (p.getPid() != mPidCache) {
-				mPidCache = p.getPid();
-				Log.i(TAG, "new foreground pid = " + mPidCache);
-				publishProgress(p);
-			}
+			publishProgress(p);
+
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

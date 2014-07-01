@@ -5,6 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.widget.TextView;
 
 public class StringBuilderHelper {
 	private static final String BULLET_CHARACTER = Character.toString('\u2022');
@@ -63,6 +64,15 @@ public class StringBuilderHelper {
 
 	public void appendWithValueAsNewLine(String label, String value) {
 		append(label, NEW_LINE + padRight("", 5) + value);
+	}
+
+	public void setTextToView(TextView view){
+		view.setText(mStringBuilder);
+	}
+
+	@Override
+	public String toString(){
+		return mStringBuilder.toString();
 	}
 
 	private static String padRight(String s, int n) {

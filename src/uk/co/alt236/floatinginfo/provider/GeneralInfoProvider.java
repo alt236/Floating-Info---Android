@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 public class GeneralInfoProvider extends BaseProvider implements MemoryInfoReceiver.Callbacks {
 
-	private static final String TAG = "MemoryMonitor";
+	private static final String TAG = "GeneralInfoProvider";
 	private static final int NOTIFICATION_ID = 1138;
 
 	private Handler mViewUpdateHandler = new Handler();
@@ -40,8 +40,6 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 	private int mForegroundAppPid;
 	private ProcessMonitorAsyncTask mProcessMonitorTask;
 	private InfoStore mInfoStore;
-//	private ForegroundProcessInfo mForegroundProcessInfo;
-
 
 	public GeneralInfoProvider(Service context) {
 		super(context);
@@ -58,7 +56,6 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-				// WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
 				0,
 				PixelFormat.TRANSLUCENT
 				);
@@ -93,30 +90,6 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 			return PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 		}
 	}
-
-	// private boolean isFiltered(MemoryLogEntry entry) {
-	// if (entry != null) {
-	// if (mAutoFilter && mForegroundAppPid != 0) {
-	// if (entry.getPid() != mForegroundAppPid) {
-	// return true;
-	// }
-	// }
-	// if (!LogLine.LEVEL_VERBOSE.equals(mLogLevel)) {
-	// if (entry.getLevel() != null && !entry.getLevel().equals(mLogLevel)) {
-	// return true;
-	// }
-	// }
-	// if (mTagFilter != null) {
-	// if (entry.getTag() == null ||
-	// !entry.getTag().toLowerCase().contains(mTagFilter.toLowerCase())) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// } else {
-	// return true;
-	// }
-	// }
 
 	@Override
 	public void onLogClear() {
@@ -271,16 +244,16 @@ public class GeneralInfoProvider extends BaseProvider implements MemoryInfoRecei
 				final StringBuilderHelper sb  = new StringBuilderHelper();
 
 				if(mInfoStore != null){
-					final ForegroundProcessInfo procInfo = mInfoStore.getForeGroundProcessInfo();
+					final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
 					if(procInfo != null){
-						sb.appendBold("CPU INFO");
-						sb.append("Application Name", String.valueOf(procInfo.getAppName()));
-						sb.append("Package Name", procInfo.getPackage());
-						sb.append("Process Id", procInfo.getPid());
+						sb.appendBold("Application Info");
+						sb.append("App Name", String.valueOf(procInfo.getAppName()));
+						sb.append("Package", procInfo.getPackage());
+						sb.append("PID", procInfo.getPid());
 					}
 				}
 
-				mTextView.setText(sb.toString());
+				sb.setTextToView(mTextView);
 			}
 		});
 	}

@@ -14,7 +14,7 @@ public class InfoStore {
 		}
 	}
 
-	public ForegroundProcessInfo getForeGroundProcessInfo(){
+	public ForegroundProcessInfo getForegroundProcessInfo(){
 		return (ForegroundProcessInfo) get(Key.PROCESS_INFO);
 	}
 

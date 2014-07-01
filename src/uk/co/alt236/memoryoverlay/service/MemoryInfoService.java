@@ -1,7 +1,7 @@
 package uk.co.alt236.memoryoverlay.service;
 
-import uk.co.alt236.memoryoverlay.monitor.BaseMonitor;
-import uk.co.alt236.memoryoverlay.monitor.MemoryMonitor;
+import uk.co.alt236.memoryoverlay.provider.BaseProvider;
+import uk.co.alt236.memoryoverlay.provider.GeneralInfoProvider;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -10,7 +10,7 @@ public class MemoryInfoService extends Service {
 
     private static boolean sIsRunning = false;
 
-    private BaseMonitor mMonitor;
+    private BaseProvider mMonitor;
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not implemented");
@@ -19,7 +19,7 @@ public class MemoryInfoService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mMonitor = new MemoryMonitor(this);
+        mMonitor = new GeneralInfoProvider(this);
     }
 
     @Override

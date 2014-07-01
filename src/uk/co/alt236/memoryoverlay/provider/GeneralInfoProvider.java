@@ -1,4 +1,4 @@
-package uk.co.alt236.memoryoverlay.monitor;
+package uk.co.alt236.memoryoverlay.provider;
 
 import uk.co.alt236.floatinginfo.MemoryInfoReceiver;
 import uk.co.alt236.floatinginfo.MemoryLogEntry;
@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class MemoryMonitor extends BaseMonitor implements MemoryInfoReceiver.Callbacks {
+public class GeneralInfoProvider extends BaseProvider implements MemoryInfoReceiver.Callbacks {
 
 	private static final String TAG = "MemoryMonitor";
 	private static final int NOTIFICATION_ID = 1138;
@@ -41,7 +41,7 @@ public class MemoryMonitor extends BaseMonitor implements MemoryInfoReceiver.Cal
 	private ForegroundProcessInfo mForegroundProcessInfo;
 
 
-	public MemoryMonitor(Service context) {
+	public GeneralInfoProvider(Service context) {
 		super(context);
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -233,16 +233,24 @@ public class MemoryMonitor extends BaseMonitor implements MemoryInfoReceiver.Cal
 				.setContentIntent(getNotificationIntent(null));
 
 		if (mIsLogPaused) {
-			mBuilder.addAction(R.drawable.ic_stat_play, getString(R.string.statusbar_play),
+			mBuilder.addAction(
+					R.drawable.ic_stat_play,
+					getString(R.string.statusbar_play),
 					getNotificationIntent(MemoryInfoReceiver.ACTION_PLAY));
 		} else {
-			mBuilder.addAction(R.drawable.ic_stat_pause, getString(R.string.statusbar_pause),
+			mBuilder.addAction(
+					R.drawable.ic_stat_pause,
+					getString(R.string.statusbar_pause),
 					getNotificationIntent(MemoryInfoReceiver.ACTION_PAUSE));
 		}
 
-		mBuilder.addAction(R.drawable.ic_stat_clear, getString(R.string.statusbar_clear),
+		mBuilder.addAction(
+				R.drawable.ic_stat_clear,
+				getString(R.string.statusbar_clear),
 				getNotificationIntent(MemoryInfoReceiver.ACTION_CLEAR))
-				.addAction(R.drawable.ic_stat_share, getString(R.string.statusbar_share),
+				.addAction(
+						R.drawable.ic_stat_share,
+						getString(R.string.statusbar_share),
 						getNotificationIntent(MemoryInfoReceiver.ACTION_SHARE));
 
 		// issue the notification

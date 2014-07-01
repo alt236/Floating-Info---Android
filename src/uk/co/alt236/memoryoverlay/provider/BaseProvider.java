@@ -1,4 +1,4 @@
-package uk.co.alt236.memoryoverlay.monitor;
+package uk.co.alt236.memoryoverlay.provider;
 
 import android.app.Notification;
 import android.app.Service;
@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
-public abstract class BaseMonitor implements SharedPreferences.OnSharedPreferenceChangeListener{
+public abstract class BaseProvider implements SharedPreferences.OnSharedPreferenceChangeListener{
 	private final Service mService;
 
 
-	public BaseMonitor(Service context){
+	public BaseProvider(Service context){
 		mService = context;
 	}
 

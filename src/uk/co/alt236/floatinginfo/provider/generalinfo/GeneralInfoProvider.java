@@ -194,11 +194,12 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 				getString(R.string.pref_text_color_blue),
 				getInteger(R.integer.default_text_blue));
 		mTextView.setTextColor(Color.argb(alpha, red, green, blue));
+		mTextView.setShadowLayer(1.5f, -1, 1, Color.DKGRAY);
 	}
 
 	private void setTextSize(){
-		final int dp = 6 + mPrefs.getInt(getContext().getString(R.string.pref_text_size), 0);
-        mTextView.setTextSize(dp);
+		final int sp = 6 + mPrefs.getInt(getContext().getString(R.string.pref_text_size), 0);
+        mTextView.setTextSize(sp);
 	}
 
 	private void showNotification() {
@@ -242,9 +243,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	public boolean start() {
 		createSystemWindow();
 		showNotification();
-
 		startProcessMonitor();
-
 		return true;
 	}
 

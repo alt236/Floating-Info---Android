@@ -66,29 +66,29 @@ public class MemoryData {
 	private final int otherSwappedOut;
 
 	public MemoryData(final MemoryInfo mi) {
-		dalvikPrivateClean = getValueReflectively(mi, "dalvikPrivateClean");
+		dalvikPrivateClean = getIntReflectively(mi, "dalvikPrivateClean");
 		dalvikPrivateDirty = mi.dalvikPrivateDirty;
 		dalvikPss = mi.dalvikPss;
-		dalvikSharedClean = getValueReflectively(mi, "dalvikSharedClean");
+		dalvikSharedClean = getIntReflectively(mi, "dalvikSharedClean");
 		dalvikSharedDirty = mi.dalvikSharedDirty;
-		dalvikSwappablePss = getValueReflectively(mi, "dalvikSwappablePss");
-		dalvikSwappedOut = getValueReflectively(mi, "dalvikSwappedOut");
+		dalvikSwappablePss = getIntReflectively(mi, "dalvikSwappablePss");
+		dalvikSwappedOut = getIntReflectively(mi, "dalvikSwappedOut");
 
-		nativePrivateClean = getValueReflectively(mi, "nativePrivateClean");
+		nativePrivateClean = getIntReflectively(mi, "nativePrivateClean");
 		nativePrivateDirty = mi.nativePrivateDirty;
 		nativePss = mi.nativePss;
-		nativeSharedClean = getValueReflectively(mi, "nativeSharedClean");
+		nativeSharedClean = getIntReflectively(mi, "nativeSharedClean");
 		nativeSharedDirty = mi.nativeSharedDirty;
-		nativeSwappablePss = getValueReflectively(mi, "nativeSwappablePss");
-		nativeSwappedOut = getValueReflectively(mi, "nativeSwappedOut");
+		nativeSwappablePss = getIntReflectively(mi, "nativeSwappablePss");
+		nativeSwappedOut = getIntReflectively(mi, "nativeSwappedOut");
 
-		otherPrivateClean = getValueReflectively(mi, "otherPrivateClean");
+		otherPrivateClean = getIntReflectively(mi, "otherPrivateClean");
 		otherPrivateDirty = mi.otherPrivateDirty;
 		otherPss = mi.otherPss;
-		otherSharedClean = getValueReflectively(mi, "otherSharedClean");
+		otherSharedClean = getIntReflectively(mi, "otherSharedClean");
 		otherSharedDirty = mi.otherSharedDirty;
-		otherSwappablePss = getValueReflectively(mi, "otherSwappablePss");
-		otherSwappedOut = getValueReflectively(mi, "otherSwappedOut");
+		otherSwappablePss = getIntReflectively(mi, "otherSwappablePss");
+		otherSwappedOut = getIntReflectively(mi, "otherSwappedOut");
 	}
 
 	public int getDalvikPrivateClean() {
@@ -175,8 +175,66 @@ public class MemoryData {
 		return otherSwappedOut;
 	}
 
-	private int getValueReflectively(final MemoryInfo mi, final String name) {
-		if(mi != null){
+	/**
+	 * Return total shared clean memory usage in kB.
+	 */
+	public int getTotalPrivateClean() {
+		return dalvikPrivateClean + nativePrivateClean + otherPrivateClean;
+	}
+
+	/**
+	 * Return total private dirty memory usage in kB.
+	 */
+	public int getTotalPrivateDirty() {
+		return dalvikPrivateDirty + nativePrivateDirty + otherPrivateDirty;
+	}
+
+	/**
+	 * Return total PSS memory usage in kB.
+	 */
+	public int getTotalPss() {
+		return dalvikPss + nativePss + otherPss;
+	}
+
+	/**
+	 * Return total shared clean memory usage in kB.
+	 */
+	public int getTotalSharedClean() {
+		return dalvikSharedClean + nativeSharedClean + otherSharedClean;
+	}
+
+	/**
+	 * Return total shared dirty memory usage in kB.
+	 */
+	public int getTotalSharedDirty() {
+		return dalvikSharedDirty + nativeSharedDirty + otherSharedDirty;
+	}
+
+	/**
+	 * Return total PSS memory usage in kB.
+	 */
+	public int getTotalSwappablePss() {
+		return dalvikSwappablePss + nativeSwappablePss + otherSwappablePss;
+	}
+
+	/**
+	 * Return total swapped out memory in kB.
+	 */
+	public int getTotalSwappedOut() {
+		return dalvikSwappedOut + nativeSwappedOut + otherSwappedOut;
+	}
+
+	/**
+	 * Return total PSS memory usage in kB.
+	 */
+	public int getTotalUss() {
+		return dalvikPrivateClean + dalvikPrivateDirty
+				+ nativePrivateClean + nativePrivateDirty
+				+ otherPrivateClean + otherPrivateDirty;
+	}
+
+	private static int getIntReflectively(final MemoryInfo mi, final String name) {
+		if (mi != null) {
 			final Class<?> clazz = mi.getClass();
 			final Field field;
 			try {
@@ -188,7 +246,7 @@ public class MemoryData {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} catch (NullPointerException e){
+			} catch (NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

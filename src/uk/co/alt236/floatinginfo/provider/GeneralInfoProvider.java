@@ -13,6 +13,7 @@ import uk.co.alt236.floatinginfo.reader.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.reader.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.util.FloatingInfoReceiver;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
+import uk.co.alt236.floatinginfo.util.Util;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -123,29 +124,29 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 			sb.setPadding(20);
 			if(memoryInfo != null){
 				sb.appendBold("Current Process Memory Utilisation");
-				sb.append("DalvikPrivateClean", memoryInfo.getDalvikPrivateClean());
-				sb.append("DalvikPrivateDirty", memoryInfo.getDalvikPrivateDirty());
-				sb.append("DalvikPss", memoryInfo.getDalvikPss());
-				sb.append("DalvikSharedClean", memoryInfo.getDalvikSharedClean());
-				sb.append("DalvikSharedDirty", memoryInfo.getDalvikSharedDirty());
-				sb.append("DalvikSwappablePss", memoryInfo.getDalvikSwappablePss());
-				sb.append("DalvikSwappedOut", memoryInfo.getDalvikSwappedOut());
+				sb.append("DalvikPrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPrivateClean(), true));
+				sb.append("DalvikPrivateDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPrivateDirty(), true));
+				sb.append("DalvikPss", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPss(), true));
+				sb.append("DalvikSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSharedClean(), true));
+				sb.append("DalvikSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSharedDirty(), true));
+				sb.append("DalvikSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSwappablePss(), true));
+				sb.append("DalvikSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSwappedOut(), true));
 
-				sb.append("NativePrivateClean", memoryInfo.getNativePrivateClean());
-				sb.append("NativePrivateDirty", memoryInfo.getNativePrivateDirty());
-				sb.append("NativePss", memoryInfo.getNativePss());
-				sb.append("NativeSharedClean", memoryInfo.getNativeSharedClean());
-				sb.append("NativeSharedDirty", memoryInfo.getNativeSharedDirty());
-				sb.append("NativeSwappablePss", memoryInfo.getNativeSwappablePss());
-				sb.append("NativeSwappedOut", memoryInfo.getNativeSwappedOut());
+				sb.append("NativePrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getNativePrivateClean(), true));
+				sb.append("NativePrivateDirty",Util.getHumanReadableKiloByteCount( memoryInfo.getNativePrivateDirty(), true));
+				sb.append("NativePss", Util.getHumanReadableKiloByteCount(memoryInfo.getNativePss(), true));
+				sb.append("NativeSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSharedClean(), true));
+				sb.append("NativeSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSharedDirty(), true));
+				sb.append("NativeSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSwappablePss(), true));
+				sb.append("NativeSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSwappedOut(), true));
 
-				sb.append("OtherPrivateClean", memoryInfo.getOtherPrivateClean());
-				sb.append("OtherPrivateDirty", memoryInfo.getOtherPrivateDirty());
-				sb.append("OtherPss", memoryInfo.getOtherPss());
-				sb.append("OtherSharedClean", memoryInfo.getOtherSharedClean());
-				sb.append("OtherSharedDirty", memoryInfo.getOtherSharedDirty());
-				sb.append("OtherSwappablePss", memoryInfo.getOtherSwappablePss());
-				sb.append("OtherSwappedOut", memoryInfo.getOtherSwappedOut());
+				sb.append("OtherPrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPrivateClean(), true));
+				sb.append("OtherPrivateDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPrivateDirty(), true));
+				sb.append("OtherPss", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPss(), true));
+				sb.append("OtherSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSharedClean(), true));
+				sb.append("OtherSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSharedDirty(), true));
+				sb.append("OtherSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSwappablePss(), true));
+				sb.append("OtherSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSwappedOut(), true));
 			}
 		}
 

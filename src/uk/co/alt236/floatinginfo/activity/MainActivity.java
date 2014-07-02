@@ -109,11 +109,19 @@ public class MainActivity extends BasePreferenceActivity {
 		getPreferenceScreen().addPreference(fakeHeader);
 		addPreferencesFromResource(R.xml.pref_appearance);
 
+		// Add 'text color' preferences.
+		fakeHeader = new PreferenceCategory(this);
+		fakeHeader.setTitle(R.string.text_color);
+		getPreferenceScreen().addPreference(fakeHeader);
+		addPreferencesFromResource(R.xml.pref_textcolor);
+
 		// Add 'info' preferences.
 		fakeHeader = new PreferenceCategory(this);
 		fakeHeader.setTitle(R.string.information);
 		getPreferenceScreen().addPreference(fakeHeader);
 		addPreferencesFromResource(R.xml.pref_info);
+
+		// Add others
 		setupOpenSourceInfoPreference(this, findPreference(getString(R.string.pref_info_open_source)));
 		setupVersionPref(this, findPreference(getString(R.string.pref_version)));
 
@@ -177,6 +185,7 @@ public class MainActivity extends BasePreferenceActivity {
 					.setView(content)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int whichButton) {
 									dialog.dismiss();
 								}
@@ -221,6 +230,7 @@ public class MainActivity extends BasePreferenceActivity {
 					.setView(webView)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int whichButton) {
 									dialog.dismiss();
 								}

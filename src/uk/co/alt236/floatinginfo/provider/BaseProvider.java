@@ -26,6 +26,10 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
 		return mService;
 	}
 
+	public int getInteger(int resId){
+		return mService.getResources().getInteger(resId);
+	}
+
 	public String getString(int resId){
 		return mService.getString(resId);
 	}

@@ -37,21 +37,21 @@ import android.widget.TextView;
 
 public class GeneralInfoProvider extends BaseProvider implements FloatingInfoReceiver.Callbacks {
 
-	private static final String TAG = "GeneralInfoProvider";
 	private static final int NOTIFICATION_ID = 1138;
+	private static final String TAG = "GeneralInfoProvider";
 
-	private AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
-	private AtomicInteger mForegroundAppPid = new AtomicInteger();
-	private FloatingInfoReceiver mLogReceiver;
-	private Handler mViewUpdateHandler = new Handler();
-	private NotificationManager mNotificationManager;
-	private ProcessMonitorAsyncTask mProcessMonitorTask;
-	private SharedPreferences mPrefs;
-	private TextView mTextView;
 	private final CpuUtilisationReader mCpuUtilisationReader;
-	private final MemoryInfoReader mMemoryInfoReader;
-
+	private final AtomicInteger mForegroundAppPid = new AtomicInteger();
 	private final InfoStore mInfoStore;
+	private final AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
+	private final FloatingInfoReceiver mLogReceiver;
+	private final MemoryInfoReader mMemoryInfoReader;
+	private final NotificationManager mNotificationManager;
+	private final SharedPreferences mPrefs;
+	private ProcessMonitorAsyncTask mProcessMonitorTask;
+	private TextView mTextView;
+
+	private Handler mViewUpdateHandler = new Handler();
 
 	public GeneralInfoProvider(Service context) {
 		super(context);
@@ -79,6 +79,8 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		mTextView = (TextView) inflator.inflate(R.layout.screen_overlay, null);
 		setSystemViewBackground();
+		setTextSize();
+		setTextColor();
 		wm.addView(mTextView, lp);
 	}
 
@@ -172,7 +174,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 
 	@Override
 	public void onLogClear() {
-		updateDisplay();
+		updateDisplay(true);
 	}
 
 	@Override
@@ -184,7 +186,6 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	@Override
 	public void onLogResume() {
 		mIsLogPaused.set(false);
-		updateDisplay();
 		showNotification();
 	}
 
@@ -209,6 +210,16 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(getString(R.string.pref_bg_opacity))) {
 			setSystemViewBackground();
+		} else if (key.equals(getString(R.string.pref_text_opacity))) {
+			setTextColor();
+		} else if (key.equals(getString(R.string.pref_text_size))) {
+			setTextSize();
+		} else if (key.equals(getString(R.string.pref_text_color_red))) {
+			setTextColor();
+		} else if (key.equals(getString(R.string.pref_text_color_green))) {
+			setTextColor();
+		} else if (key.equals(getString(R.string.pref_text_color_blue))) {
+			setTextColor();
 		}
 	}
 
@@ -233,6 +244,27 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		} else {
 			mTextView.setBackground(null);
 		}
+	}
+
+	private void setTextColor(){
+		final int alpha = mPrefs.getInt(
+				getString(R.string.pref_text_opacity),
+				getInteger(R.integer.default_text_opacity));
+		final int red = mPrefs.getInt(
+				getString(R.string.pref_text_color_red),
+				getInteger(R.integer.default_text_red));
+		final int green = mPrefs.getInt(
+				getString(R.string.pref_text_color_green),
+				getInteger(R.integer.default_text_green));
+		final int blue = mPrefs.getInt(
+				getString(R.string.pref_text_color_blue),
+				getInteger(R.integer.default_text_blue));
+		mTextView.setTextColor(Color.argb(alpha, red, green, blue));
+	}
+
+	private void setTextSize(){
+		final int dp = 6 + mPrefs.getInt(getContext().getString(R.string.pref_text_size), 0);
+        mTextView.setTextSize(dp);
 	}
 
 	private void showNotification() {
@@ -303,7 +335,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 					mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
 					mInfoStore.set(mMemoryInfoReader.getInfo());
 
-					updateDisplay();
+					updateDisplay(false);
 					if (change) {
 						showNotification();
 					}
@@ -324,8 +356,14 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		Log.i(TAG, "process monitor task stopped");
 	}
 
-	private void updateDisplay() {
-		final CharSequence output = getInfoText();
+	private void updateDisplay(final boolean clear) {
+		final CharSequence output;
+
+		if(clear){
+			output = "";
+		} else {
+			output = getInfoText();
+		}
 
 		mViewUpdateHandler.post(new Runnable() {
 			@Override

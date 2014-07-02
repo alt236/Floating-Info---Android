@@ -131,9 +131,9 @@ public class MainActivity extends BasePreferenceActivity {
 		preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				FragmentManager fm = activity.getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
-				Fragment prev = fm.findFragmentByTag("dialog");
+				final FragmentManager fm = activity.getFragmentManager();
+				final FragmentTransaction ft = fm.beginTransaction();
+				final Fragment prev = fm.findFragmentByTag("dialog");
 				if (prev != null) {
 					ft.remove(prev);
 				}
@@ -148,9 +148,9 @@ public class MainActivity extends BasePreferenceActivity {
 		preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				FragmentManager fm = activity.getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
-				Fragment prev = fm.findFragmentByTag("dialog");
+				final FragmentManager fm = activity.getFragmentManager();
+				final FragmentTransaction ft = fm.beginTransaction();
+				final Fragment prev = fm.findFragmentByTag("dialog");
 				if (prev != null) {
 					ft.remove(prev);
 				}
@@ -168,13 +168,13 @@ public class MainActivity extends BasePreferenceActivity {
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			View content = inflater.inflate(R.layout.dialog_about, null, false);
-			TextView version = (TextView) content.findViewById(R.id.version);
+			final View content = inflater.inflate(R.layout.dialog_about, null, false);
+			final TextView version = (TextView) content.findViewById(R.id.version);
 
 			try {
-				String name = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+				final String name = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
 				version.setText(getString(R.string.version) + " " + name);
 			} catch (PackageManager.NameNotFoundException e) {
 				e.printStackTrace();
@@ -201,6 +201,15 @@ public class MainActivity extends BasePreferenceActivity {
 			super.onCreate(savedInstanceState);
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.pref_appearance);
+		}
+	}
+
+	public static class TextColorPreferenceFragment extends PreferenceFragment {
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			// Load the preferences from an XML resource
+			addPreferencesFromResource(R.xml.pref_textcolor);
 		}
 	}
 

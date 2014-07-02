@@ -1,10 +1,10 @@
-package uk.co.alt236.floatinginfo.util;
+package uk.co.alt236.floatinginfo.provider.generalinfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class FloatingInfoReceiver extends BroadcastReceiver {
+public class GeneralInfoReceiver extends BroadcastReceiver {
 
     public static final String ACTION_PLAY = "uk.co.alt236.memoryoverlay.ACTION_PLAY";
     public static final String ACTION_PAUSE = "uk.co.alt236.memoryoverlay.ACTION_PAUSE";
@@ -20,7 +20,7 @@ public class FloatingInfoReceiver extends BroadcastReceiver {
 
     private Callbacks mCallbacks;
 
-    public FloatingInfoReceiver(Callbacks callbacks) {
+    public GeneralInfoReceiver(Callbacks callbacks) {
         mCallbacks = callbacks;
     }
 

@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.MainActivity;
+import uk.co.alt236.floatinginfo.activity.ShareActivity;
 import uk.co.alt236.floatinginfo.provider.BaseProvider;
 import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
 import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorAsyncTask;
@@ -12,7 +13,6 @@ import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.provider.generalinfo.ui.UiUpdater;
-import uk.co.alt236.floatinginfo.util.FloatingInfoReceiver;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -32,7 +32,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class GeneralInfoProvider extends BaseProvider implements FloatingInfoReceiver.Callbacks {
+public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
 
 	private static final int NOTIFICATION_ID = 1138;
 	private static final String TAG = "GeneralInfoProvider";
@@ -41,7 +41,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	private final AtomicInteger mForegroundAppPid = new AtomicInteger();
 	private final InfoStore mInfoStore;
 	private final AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
-	private final FloatingInfoReceiver mLogReceiver;
+	private final GeneralInfoReceiver mLogReceiver;
 	private final MemoryInfoReader mMemoryInfoReader;
 	private final NotificationManager mNotificationManager;
 	private final SharedPreferences mPrefs;
@@ -60,7 +60,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
-		mLogReceiver = new FloatingInfoReceiver(this);
+		mLogReceiver = new GeneralInfoReceiver(this);
 		registerReceiver(mLogReceiver, mLogReceiver.getIntentFilter());
 	}
 
@@ -95,11 +95,15 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		if (action == null) {
 			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 			return PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-			// } else if (action == MemoryInfoReceiver.ACTION_SHARE) {
-			// Intent intent = new Intent(getApplicationContext(),
-			// ShareActivity.class);
-			// return PendingIntent.getActivity(getApplicationContext(), 0,
-			// intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		} else if (action == GeneralInfoReceiver.ACTION_SHARE) {
+			final Intent intent = new Intent(
+					getApplicationContext(),
+					ShareActivity.class);
+			return PendingIntent.getActivity(
+					getApplicationContext(),
+					0,
+					intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
 		} else {
 			Intent intent = new Intent(action);
 			return PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -126,6 +130,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	@Override
 	public void onLogShare() {
 		final StringBuilder sb = new StringBuilder();
+		sb.append(mUiUpdater.getSharePayload());
 
 		final Time now = new Time();
 		now.setToNow();
@@ -199,7 +204,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 
 	private void setTextSize(){
 		final int sp = 6 + mPrefs.getInt(getContext().getString(R.string.pref_text_size), 0);
-        mTextView.setTextSize(sp);
+		mTextView.setTextSize(sp);
 	}
 
 	private void showNotification() {
@@ -219,22 +224,22 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 			mBuilder.addAction(
 					R.drawable.ic_stat_play,
 					getString(R.string.statusbar_play),
-					getNotificationIntent(FloatingInfoReceiver.ACTION_PLAY));
+					getNotificationIntent(GeneralInfoReceiver.ACTION_PLAY));
 		} else {
 			mBuilder.addAction(
 					R.drawable.ic_stat_pause,
 					getString(R.string.statusbar_pause),
-					getNotificationIntent(FloatingInfoReceiver.ACTION_PAUSE));
+					getNotificationIntent(GeneralInfoReceiver.ACTION_PAUSE));
 		}
 
 		mBuilder.addAction(
 				R.drawable.ic_stat_clear,
 				getString(R.string.statusbar_clear),
-				getNotificationIntent(FloatingInfoReceiver.ACTION_CLEAR))
+				getNotificationIntent(GeneralInfoReceiver.ACTION_CLEAR))
 				.addAction(
 						R.drawable.ic_stat_share,
 						getString(R.string.statusbar_share),
-						getNotificationIntent(FloatingInfoReceiver.ACTION_SHARE));
+						getNotificationIntent(GeneralInfoReceiver.ACTION_SHARE));
 
 		startForeground(NOTIFICATION_ID, mBuilder.build());
 	}

@@ -170,7 +170,7 @@ public class UiUpdater {
 	}
 
 
-	public CharSequence getShareText(){
+	public CharSequence getSharePayload(){
 		return getInfoText();
 	}
 

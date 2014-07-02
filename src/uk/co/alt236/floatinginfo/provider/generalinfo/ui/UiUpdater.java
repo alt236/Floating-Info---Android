@@ -16,32 +16,35 @@ public class UiUpdater {
 	private final InfoStore mInfoStore;
 	private final PeakKeeper mPeakKeeper;
 
-	public UiUpdater(InfoStore store){
+	public UiUpdater(InfoStore store) {
 		mPeakKeeper = new PeakKeeper();
 		mInfoStore = store;
 	}
 
-	public void clearPeakUsage(){
+	public void clearPeakUsage() {
 		mPeakKeeper.clear();
 	}
 
-	private void constructMemoryLine(StringBuilderHelper sb, String key, int value){
-		String valueStr = Util.getHumanReadableKiloByteCount(value, true);
-		mPeakKeeper.update(key, value);
-		final int peak = mPeakKeeper.getValue(key);
-		if(peak > 0){
-			valueStr += " (Peak: " + Util.getHumanReadableKiloByteCount(peak, true) + ")";
-		}
+	private void constructMemoryLine(StringBuilderHelper sb, String key, int value) {
+		if (value >= 0) { // We assume negative values mean that something went
+							// wrong with reflection.
+			String valueStr = Util.getHumanReadableKiloByteCount(value, true);
+			mPeakKeeper.update(key, value);
+			final int peak = mPeakKeeper.getValue(key);
+			if (peak > 0) {
+				valueStr += " (Peak: " + Util.getHumanReadableKiloByteCount(peak, true) + ")";
+			}
 
-		sb.append(key, valueStr);
+			sb.append(key, valueStr);
+		}
 	}
 
-	private CharSequence getInfoText(){
-		final StringBuilderHelper sb  = new StringBuilderHelper();
+	private CharSequence getInfoText() {
+		final StringBuilderHelper sb = new StringBuilderHelper();
 
-		if(mInfoStore != null){
+		if (mInfoStore != null) {
 			final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
-			if(procInfo != null){
+			if (procInfo != null) {
 				sb.appendBold("Foreground Application Info");
 				sb.startKeyValueSection();
 				sb.append("App Name", String.valueOf(procInfo.getAppName()));
@@ -53,7 +56,7 @@ public class UiUpdater {
 
 			final CpuData cpuInfo = mInfoStore.getCpuInfo();
 
-			if(cpuInfo != null){
+			if (cpuInfo != null) {
 				sb.appendBold("Global CPU Utilisation");
 				sb.startKeyValueSection();
 				sb.append("Total", String.valueOf(cpuInfo.getOveralCpu()) + "%");
@@ -61,7 +64,7 @@ public class UiUpdater {
 
 				int count = 0;
 
-				for(Integer value : list){
+				for (Integer value : list) {
 					sb.append("CPU" + count, String.valueOf(value) + "%");
 					count++;
 				}
@@ -71,7 +74,7 @@ public class UiUpdater {
 
 			final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
 
-			if(memoryInfo != null){
+			if (memoryInfo != null) {
 				sb.appendBold("Current Process Memory Utilisation");
 				sb.startKeyValueSection();
 				constructMemoryLine(
@@ -110,7 +113,7 @@ public class UiUpdater {
 				constructMemoryLine(
 						sb,
 						"NativePrivateDirty",
-						 memoryInfo.getNativePrivateDirty());
+						memoryInfo.getNativePrivateDirty());
 				constructMemoryLine(
 						sb,
 						"NativePss",
@@ -169,12 +172,11 @@ public class UiUpdater {
 		return sb.toCharSequence();
 	}
 
-
-	public CharSequence getSharePayload(){
+	public CharSequence getSharePayload() {
 		return getInfoText();
 	}
 
-	public void update(View view){
+	public void update(View view) {
 		((TextView) view).setText(getInfoText());
 	}
 }

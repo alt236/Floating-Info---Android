@@ -1,6 +1,8 @@
 package uk.co.alt236.floatinginfo.provider;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.MainActivity;
@@ -38,14 +40,14 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	private static final String TAG = "GeneralInfoProvider";
 	private static final int NOTIFICATION_ID = 1138;
 
-	private Handler mViewUpdateHandler = new Handler();
-	private TextView mTextView;
+	private AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
+	private AtomicInteger mForegroundAppPid = new AtomicInteger();
 	private FloatingInfoReceiver mLogReceiver;
+	private Handler mViewUpdateHandler = new Handler();
 	private NotificationManager mNotificationManager;
-	private SharedPreferences mPrefs;
-	private boolean mIsLogPaused = false;
-	private int mForegroundAppPid;
 	private ProcessMonitorAsyncTask mProcessMonitorTask;
+	private SharedPreferences mPrefs;
+	private TextView mTextView;
 	private final CpuUtilisationReader mCpuUtilisationReader;
 	private final MemoryInfoReader mMemoryInfoReader;
 
@@ -175,13 +177,13 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 
 	@Override
 	public void onLogPause() {
-		mIsLogPaused = true;
+		mIsLogPaused.set(true);
 		showNotification();
 	}
 
 	@Override
 	public void onLogResume() {
-		mIsLogPaused = false;
+		mIsLogPaused.set(false);
 		updateDisplay();
 		showNotification();
 	}
@@ -238,15 +240,15 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		String bigText = "big text!";
 
 		final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
-				.setStyle(new NotificationCompat.BigTextStyle()
-						.bigText(bigText))
-				.setSmallIcon(R.drawable.ic_stat_main)
-				.setOngoing(true)
-				.setContentTitle(getString(R.string.notification_title))
-				.setContentText(smallText)
-				.setContentIntent(getNotificationIntent(null));
+		.setStyle(new NotificationCompat.BigTextStyle()
+		.bigText(bigText))
+		.setSmallIcon(R.drawable.ic_stat_main)
+		.setOngoing(true)
+		.setContentTitle(getString(R.string.notification_title))
+		.setContentText(smallText)
+		.setContentIntent(getNotificationIntent(null));
 
-		if (mIsLogPaused) {
+		if (mIsLogPaused.get()) {
 			mBuilder.addAction(
 					R.drawable.ic_stat_play,
 					getString(R.string.statusbar_play),
@@ -284,22 +286,27 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		mProcessMonitorTask = new ProcessMonitorAsyncTask(getContext()) {
 			@Override
 			protected void onProgressUpdate(ForegroundProcessInfo... values) {
-				boolean change = false;
-				if (values[0].getPid() != mForegroundAppPid) {
-					change = true;
-					mForegroundAppPid = values[0].getPid();
-				}
+				if(!mIsLogPaused.get()){
+					final boolean change; // = false;
 
-				mMemoryInfoReader.update(mForegroundAppPid);
-				mCpuUtilisationReader.update();
+					if (values[0].getPid() != mForegroundAppPid.get()) {
+						change = true;
+						mForegroundAppPid.set(values[0].getPid());
+					} else {
+						change = false;
+					}
 
-				mInfoStore.set(values[0]);
-				mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
-				mInfoStore.set(mMemoryInfoReader.getInfo());
+					mMemoryInfoReader.update(mForegroundAppPid.get());
+					mCpuUtilisationReader.update();
 
-				updateDisplay();
-				if (change) {
-					showNotification();
+					mInfoStore.set(values[0]);
+					mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
+					mInfoStore.set(mMemoryInfoReader.getInfo());
+
+					updateDisplay();
+					if (change) {
+						showNotification();
+					}
 				}
 			}
 		};

@@ -1,11 +1,10 @@
-package uk.co.alt236.floatinginfo.reader;
+package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-import uk.co.alt236.floatinginfo.container.CpuData;
 import android.util.Log;
 
 // Taken http://stackoverflow.com/questions/7593829/how-to-get-the-processor-number-on-android
@@ -85,7 +84,7 @@ public class CpuUtilisationReader {
 		}
 	}
 
-	public uk.co.alt236.floatinginfo.container.CpuData getCpuInfo(){
+	public uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuData getCpuInfo(){
 		final CpuData result = new CpuData(getTotalCpuUsage());
 
 		for (int i = 0; i < mCpuInfoList.size(); i++) {

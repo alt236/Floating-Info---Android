@@ -1,4 +1,4 @@
-package uk.co.alt236.floatinginfo.container;
+package uk.co.alt236.floatinginfo.provider.generalinfo.asynctask;
 
 public class ForegroundProcessInfo {
 	private final int mPid;

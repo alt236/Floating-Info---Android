@@ -1,6 +1,5 @@
-package uk.co.alt236.floatinginfo.reader;
+package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory;
 
-import uk.co.alt236.floatinginfo.container.MemoryData;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Debug.MemoryInfo;

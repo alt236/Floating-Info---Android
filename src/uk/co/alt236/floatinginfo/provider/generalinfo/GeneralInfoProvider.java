@@ -1,4 +1,4 @@
-package uk.co.alt236.floatinginfo.provider;
+package uk.co.alt236.floatinginfo.provider.generalinfo;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -6,13 +6,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.MainActivity;
-import uk.co.alt236.floatinginfo.asynctask.ProcessMonitorAsyncTask;
-import uk.co.alt236.floatinginfo.container.CpuData;
-import uk.co.alt236.floatinginfo.container.ForegroundProcessInfo;
-import uk.co.alt236.floatinginfo.container.InfoStore;
-import uk.co.alt236.floatinginfo.container.MemoryData;
-import uk.co.alt236.floatinginfo.reader.CpuUtilisationReader;
-import uk.co.alt236.floatinginfo.reader.MemoryInfoReader;
+import uk.co.alt236.floatinginfo.provider.BaseProvider;
+import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
+import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorAsyncTask;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.InfoStore;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuData;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuUtilisationReader;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryData;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.util.FloatingInfoReceiver;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 import uk.co.alt236.floatinginfo.util.Util;

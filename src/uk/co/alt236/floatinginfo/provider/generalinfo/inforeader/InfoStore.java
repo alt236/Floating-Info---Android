@@ -1,7 +1,11 @@
-package uk.co.alt236.floatinginfo.container;
+package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuData;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryData;
 
 public class InfoStore {
 	public final Object mLock = new Object();

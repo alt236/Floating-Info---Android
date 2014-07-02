@@ -1,4 +1,4 @@
-package uk.co.alt236.floatinginfo.container;
+package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory;
 
 import java.lang.reflect.Field;
 

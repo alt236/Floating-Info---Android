@@ -1,8 +1,7 @@
-package uk.co.alt236.floatinginfo.asynctask;
+package uk.co.alt236.floatinginfo.provider.generalinfo.asynctask;
 
 import java.util.List;
 
-import uk.co.alt236.floatinginfo.container.ForegroundProcessInfo;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;

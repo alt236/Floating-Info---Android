@@ -1,6 +1,5 @@
 package uk.co.alt236.floatinginfo.provider.generalinfo;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,13 +9,10 @@ import uk.co.alt236.floatinginfo.provider.BaseProvider;
 import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
 import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorAsyncTask;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.InfoStore;
-import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuUtilisationReader;
-import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryInfoReader;
+import uk.co.alt236.floatinginfo.provider.generalinfo.ui.UiUpdater;
 import uk.co.alt236.floatinginfo.util.FloatingInfoReceiver;
-import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
-import uk.co.alt236.floatinginfo.util.Util;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -49,6 +45,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	private final MemoryInfoReader mMemoryInfoReader;
 	private final NotificationManager mNotificationManager;
 	private final SharedPreferences mPrefs;
+	private final UiUpdater mUiUpdater;
 	private ProcessMonitorAsyncTask mProcessMonitorTask;
 	private TextView mTextView;
 
@@ -59,7 +56,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		mCpuUtilisationReader = new CpuUtilisationReader();
 		mMemoryInfoReader = new MemoryInfoReader(getContext());
 		mInfoStore = new InfoStore();
-
+		mUiUpdater = new UiUpdater(mInfoStore);
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
@@ -92,70 +89,6 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 		stopProcessMonitor();
 		removeSystemWindow();
 		removeNotification();
-	}
-
-	private CharSequence getInfoText(){
-		final StringBuilderHelper sb  = new StringBuilderHelper();
-
-		if(mInfoStore != null){
-			final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
-			if(procInfo != null){
-				sb.appendBold("Foreground Application Info");
-				sb.append("App Name", String.valueOf(procInfo.getAppName()));
-				sb.append("Package", procInfo.getPackage());
-				sb.append("PID", procInfo.getPid());
-			}
-
-			sb.appendNewLine();
-
-			final CpuData cpuInfo = mInfoStore.getCpuInfo();
-			sb.setPadding(6);
-			if(cpuInfo != null){
-				sb.appendBold("Global CPU Utilisation");
-				sb.append("Total", String.valueOf(cpuInfo.getOveralCpu()) + "%");
-				final List<Integer> list = cpuInfo.getPerCpuUtilisation();
-
-				int count = 0;
-
-				for(Integer value : list){
-					sb.append("CPU" + count, String.valueOf(value) + "%");
-					count++;
-				}
-			}
-
-			sb.appendNewLine();
-
-			final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
-			sb.setPadding(20);
-			if(memoryInfo != null){
-				sb.appendBold("Current Process Memory Utilisation");
-				sb.append("DalvikPrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPrivateClean(), true));
-				sb.append("DalvikPrivateDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPrivateDirty(), true));
-				sb.append("DalvikPss", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikPss(), true));
-				sb.append("DalvikSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSharedClean(), true));
-				sb.append("DalvikSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSharedDirty(), true));
-				sb.append("DalvikSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSwappablePss(), true));
-				sb.append("DalvikSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getDalvikSwappedOut(), true));
-
-				sb.append("NativePrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getNativePrivateClean(), true));
-				sb.append("NativePrivateDirty",Util.getHumanReadableKiloByteCount( memoryInfo.getNativePrivateDirty(), true));
-				sb.append("NativePss", Util.getHumanReadableKiloByteCount(memoryInfo.getNativePss(), true));
-				sb.append("NativeSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSharedClean(), true));
-				sb.append("NativeSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSharedDirty(), true));
-				sb.append("NativeSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSwappablePss(), true));
-				sb.append("NativeSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getNativeSwappedOut(), true));
-
-				sb.append("OtherPrivateClean", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPrivateClean(), true));
-				sb.append("OtherPrivateDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPrivateDirty(), true));
-				sb.append("OtherPss", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherPss(), true));
-				sb.append("OtherSharedClean", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSharedClean(), true));
-				sb.append("OtherSharedDirty", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSharedDirty(), true));
-				sb.append("OtherSwappablePss", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSwappablePss(), true));
-				sb.append("OtherSwappedOut", Util.getHumanReadableKiloByteCount(memoryInfo.getOtherSwappedOut(), true));
-			}
-		}
-
-		return sb.toCharSequence();
 	}
 
 	private PendingIntent getNotificationIntent(String action) {
@@ -325,6 +258,7 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 					if (values[0].getPid() != mForegroundAppPid.get()) {
 						change = true;
 						mForegroundAppPid.set(values[0].getPid());
+						mUiUpdater.clearPeakUsage();
 					} else {
 						change = false;
 					}
@@ -358,18 +292,15 @@ public class GeneralInfoProvider extends BaseProvider implements FloatingInfoRec
 	}
 
 	private void updateDisplay(final boolean clear) {
-		final CharSequence output;
-
-		if(clear){
-			output = "";
-		} else {
-			output = getInfoText();
-		}
 
 		mViewUpdateHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				mTextView.setText(output);
+				if(clear){
+					mTextView.setText("");
+				} else {
+					mUiUpdater.update(mTextView);
+				}
 			}
 		});
 	}

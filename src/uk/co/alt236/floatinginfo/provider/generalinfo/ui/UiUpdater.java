@@ -43,17 +43,19 @@ public class UiUpdater {
 			final ForegroundProcessInfo procInfo = mInfoStore.getForegroundProcessInfo();
 			if(procInfo != null){
 				sb.appendBold("Foreground Application Info");
+				sb.startKeyValueSection();
 				sb.append("App Name", String.valueOf(procInfo.getAppName()));
 				sb.append("Package", procInfo.getPackage());
 				sb.append("PID", procInfo.getPid());
+				sb.endKeyValueSection();
+				sb.appendNewLine();
 			}
 
-			sb.appendNewLine();
-
 			final CpuData cpuInfo = mInfoStore.getCpuInfo();
-			sb.setPadding(6);
+
 			if(cpuInfo != null){
 				sb.appendBold("Global CPU Utilisation");
+				sb.startKeyValueSection();
 				sb.append("Total", String.valueOf(cpuInfo.getOveralCpu()) + "%");
 				final List<Integer> list = cpuInfo.getPerCpuUtilisation();
 
@@ -63,14 +65,15 @@ public class UiUpdater {
 					sb.append("CPU" + count, String.valueOf(value) + "%");
 					count++;
 				}
+				sb.endKeyValueSection();
+				sb.appendNewLine();
 			}
 
-			sb.appendNewLine();
-
 			final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
-			sb.setPadding(18);
+
 			if(memoryInfo != null){
 				sb.appendBold("Current Process Memory Utilisation");
+				sb.startKeyValueSection();
 				constructMemoryLine(
 						sb,
 						"DalvikPrivateClean",
@@ -157,6 +160,9 @@ public class UiUpdater {
 						sb,
 						"OtherSwappedOut",
 						memoryInfo.getOtherSwappedOut());
+
+				sb.endKeyValueSection();
+				sb.appendNewLine();
 			}
 		}
 

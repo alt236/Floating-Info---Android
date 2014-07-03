@@ -24,11 +24,16 @@ Floating Info is an Android application that displays the following in a system 
 * The Memory information displayed come via a [Debug.MemoryInfo](http://developer.android.com/reference/android/os/Debug.MemoryInfo.html) object, while using reflection to expose a number of hidden [fields](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/Debug.java).
 * Data updates happen approximately every 1 second.
 
+# Android Memory Usage
+Memory management on Android is pretty complex and the easiest way to get started with understanding it is reading [this](https://developer.android.com/tools/debugging/debugging-memory.html) article - especially the "Viewing Overall Memory Allocations" section.
+
 ## Credits
 
 Author: [Alexandros Schillings](https://github.com/alt236)
 
 Based on [GhostLog](https://github.com/jgilfelt/GhostLog) by [Jeff Gilfelt](https://github.com/jgilfelt)
+
+The icon was adapted from [this](http://www.clker.com/clipart-duck-silhouette.html) one.
 
 ## License
 

@@ -14,6 +14,8 @@
     <string name="delete">Delete</string>
     <string name="information">Application Info</string>
     <string name="log_level">Log Level</string>
+    <string name="notification_big_text">Tap to open the settings window</string>
+    <string name="notification_small_text">Tap to open the settings window</string>
     <string name="notification_title">Floating Info service is active</string>
     <string name="off">Off</string>
     <string name="ok">OK</string>

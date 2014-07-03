@@ -164,16 +164,13 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 	}
 
 	private void showNotification() {
-		String smallText = "small text!";
-		String bigText = "big text!";
-
 		final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
 		.setStyle(new NotificationCompat.BigTextStyle()
-		.bigText(bigText))
+		.bigText(getString(R.string.notification_big_text)))
 		.setSmallIcon(R.drawable.ic_stat_main)
 		.setOngoing(true)
 		.setContentTitle(getString(R.string.notification_title))
-		.setContentText(smallText)
+		.setContentText(getString(R.string.notification_small_text))
 		.setContentIntent(getNotificationIntent(null));
 
 		if (mIsLogPaused.get()) {

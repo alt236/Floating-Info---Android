@@ -1,6 +1,8 @@
 package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.os.Debug.MemoryInfo;
 
@@ -8,6 +10,7 @@ public class MemoryData {
 	/** The private clean pages used by dalvik heap. */
 	/** @hide We may want to expose this, eventually. */
 	private final int dalvikPrivateClean;
+
 	/** The private dirty pages used by dalvik heap. */
 	private final int dalvikPrivateDirty;
 	/**
@@ -26,6 +29,7 @@ public class MemoryData {
 	/** The dirty dalvik pages that have been swapped out. */
 	/** @hide We may want to expose this, eventually. */
 	private final int dalvikSwappedOut;
+	private final Set<String> mReflectionErrorKeys = new HashSet<String>();
 
 	/** The private clean pages used by the native heap. */
 	/** @hide We may want to expose this, eventually. */
@@ -117,6 +121,32 @@ public class MemoryData {
 
 	public int getDalvikSwappedOut() {
 		return dalvikSwappedOut;
+	}
+
+	private int getIntReflectively(final MemoryInfo mi, final String name) {
+		if(!mReflectionErrorKeys.contains(name)){
+			if (mi != null) {
+				final Class<?> clazz = mi.getClass();
+				final Field field;
+				try {
+					field = clazz.getField(name);
+					return field.getInt(mi);
+				} catch (NoSuchFieldException e) {
+					mReflectionErrorKeys.add(name);
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					mReflectionErrorKeys.add(name);
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					mReflectionErrorKeys.add(name);
+					e.printStackTrace();
+				} catch (NullPointerException e) {
+					mReflectionErrorKeys.add(name);
+					e.printStackTrace();
+				}
+			}
+		}
+		return -1;
 	}
 
 	public int getNativePrivateClean() {
@@ -231,26 +261,6 @@ public class MemoryData {
 		return dalvikPrivateClean + dalvikPrivateDirty
 				+ nativePrivateClean + nativePrivateDirty
 				+ otherPrivateClean + otherPrivateDirty;
-	}
-
-	private static int getIntReflectively(final MemoryInfo mi, final String name) {
-		if (mi != null) {
-			final Class<?> clazz = mi.getClass();
-			final Field field;
-			try {
-				field = clazz.getField(name);
-				return field.getInt(mi);
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
-		}
-		return -1;
 	}
 
 }

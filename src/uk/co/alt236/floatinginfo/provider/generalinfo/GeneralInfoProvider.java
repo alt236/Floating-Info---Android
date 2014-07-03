@@ -12,14 +12,13 @@ import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorAs
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryInfoReader;
-import uk.co.alt236.floatinginfo.provider.generalinfo.ui.UiUpdater;
+import uk.co.alt236.floatinginfo.provider.generalinfo.ui.UiManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -27,27 +26,24 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
 
 	private static final int NOTIFICATION_ID = 1138;
 	private static final String TAG = "GeneralInfoProvider";
 
-	private final CpuUtilisationReader mCpuUtilisationReader;
-	private final AtomicInteger mForegroundAppPid = new AtomicInteger();
-	private final InfoStore mInfoStore;
+	private ProcessMonitorAsyncTask mProcessMonitorTask;
 	private final AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
+	private final AtomicInteger mForegroundAppPid = new AtomicInteger();
+	private final CpuUtilisationReader mCpuUtilisationReader;
 	private final GeneralInfoReceiver mLogReceiver;
+	private final InfoStore mInfoStore;
 	private final MemoryInfoReader mMemoryInfoReader;
 	private final NotificationManager mNotificationManager;
 	private final SharedPreferences mPrefs;
-	private final UiUpdater mUiUpdater;
-	private ProcessMonitorAsyncTask mProcessMonitorTask;
-	private TextView mTextView;
+	private final UiManager mUiManager;
 
 	private Handler mViewUpdateHandler = new Handler();
 
@@ -56,7 +52,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 		mCpuUtilisationReader = new CpuUtilisationReader();
 		mMemoryInfoReader = new MemoryInfoReader(getContext());
 		mInfoStore = new InfoStore();
-		mUiUpdater = new UiUpdater(mInfoStore);
+		mUiManager = new UiManager(context, mInfoStore);
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
@@ -72,14 +68,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 				0,
 				PixelFormat.TRANSLUCENT
 				);
-
-		final LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-		mTextView = (TextView) inflator.inflate(R.layout.screen_overlay, null);
-		setSystemViewBackground();
-		setTextSize();
-		setTextColor();
-		wm.addView(mTextView, lp);
+		wm.addView(mUiManager.getView(), lp);
 	}
 
 	@Override
@@ -130,7 +120,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 	@Override
 	public void onLogShare() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(mUiUpdater.getSharePayload());
+		sb.append(mUiManager.getSharePayload());
 
 		final Time now = new Time();
 		now.setToNow();
@@ -148,17 +138,17 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(getString(R.string.pref_bg_opacity))) {
-			setSystemViewBackground();
+			mUiManager.setBackground();
 		} else if (key.equals(getString(R.string.pref_text_opacity))) {
-			setTextColor();
+			mUiManager.setTextColor();
 		} else if (key.equals(getString(R.string.pref_text_size))) {
-			setTextSize();
+			mUiManager.setTextSize();
 		} else if (key.equals(getString(R.string.pref_text_color_red))) {
-			setTextColor();
+			mUiManager.setTextColor();
 		} else if (key.equals(getString(R.string.pref_text_color_green))) {
-			setTextColor();
+			mUiManager.setTextColor();
 		} else if (key.equals(getString(R.string.pref_text_color_blue))) {
-			setTextColor();
+			mUiManager.setTextColor();
 		}
 	}
 
@@ -167,44 +157,10 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 	}
 
 	private void removeSystemWindow() {
-		if (mTextView != null && mTextView.getParent() != null) {
+		if (mUiManager.getView() != null && mUiManager.getView().getParent() != null) {
 			final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-			wm.removeView(mTextView);
+			wm.removeView(mUiManager.getView());
 		}
-	}
-
-	private void setSystemViewBackground() {
-		final int v = mPrefs.getInt(getString(R.string.pref_bg_opacity), 0);
-		final int level = 0
-				;
-		if (v > 0) {
-			int a = (int) ((float) v / 100f * 255);
-			mTextView.setBackgroundColor(Color.argb(a, level, level, level));
-		} else {
-			mTextView.setBackground(null);
-		}
-	}
-
-	private void setTextColor(){
-		final int alpha = mPrefs.getInt(
-				getString(R.string.pref_text_opacity),
-				getInteger(R.integer.default_text_opacity));
-		final int red = mPrefs.getInt(
-				getString(R.string.pref_text_color_red),
-				getInteger(R.integer.default_text_red));
-		final int green = mPrefs.getInt(
-				getString(R.string.pref_text_color_green),
-				getInteger(R.integer.default_text_green));
-		final int blue = mPrefs.getInt(
-				getString(R.string.pref_text_color_blue),
-				getInteger(R.integer.default_text_blue));
-		mTextView.setTextColor(Color.argb(alpha, red, green, blue));
-		mTextView.setShadowLayer(1.5f, -1, 1, Color.DKGRAY);
-	}
-
-	private void setTextSize(){
-		final int sp = 6 + mPrefs.getInt(getContext().getString(R.string.pref_text_size), 0);
-		mTextView.setTextSize(sp);
 	}
 
 	private void showNotification() {
@@ -232,14 +188,15 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 					getNotificationIntent(GeneralInfoReceiver.ACTION_PAUSE));
 		}
 
+//		mBuilder.addAction(
+//				R.drawable.ic_stat_clear,
+//				getString(R.string.statusbar_clear),
+//				getNotificationIntent(GeneralInfoReceiver.ACTION_CLEAR));
+
 		mBuilder.addAction(
-				R.drawable.ic_stat_clear,
-				getString(R.string.statusbar_clear),
-				getNotificationIntent(GeneralInfoReceiver.ACTION_CLEAR))
-				.addAction(
-						R.drawable.ic_stat_share,
-						getString(R.string.statusbar_share),
-						getNotificationIntent(GeneralInfoReceiver.ACTION_SHARE));
+				R.drawable.ic_stat_share,
+				getString(R.string.statusbar_share),
+				getNotificationIntent(GeneralInfoReceiver.ACTION_SHARE));
 
 		startForeground(NOTIFICATION_ID, mBuilder.build());
 	}
@@ -262,7 +219,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 					if (values[0].getPid() != mForegroundAppPid.get()) {
 						change = true;
 						mForegroundAppPid.set(values[0].getPid());
-						mUiUpdater.clearPeakUsage();
+						mUiManager.clearPeakUsage();
 					} else {
 						change = false;
 					}
@@ -300,11 +257,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 		mViewUpdateHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if(clear){
-					mTextView.setText("");
-				} else {
-					mUiUpdater.update(mTextView);
-				}
+				mUiManager.update();
 			}
 		});
 	}

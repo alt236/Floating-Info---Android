@@ -7,6 +7,8 @@ import java.util.Set;
 import android.os.Debug.MemoryInfo;
 
 public class MemoryData {
+	private final static Set<String> sReflectionErrorKeys = new HashSet<String>();
+
 	/** The private clean pages used by dalvik heap. */
 	/** @hide We may want to expose this, eventually. */
 	private final int dalvikPrivateClean;
@@ -29,7 +31,6 @@ public class MemoryData {
 	/** The dirty dalvik pages that have been swapped out. */
 	/** @hide We may want to expose this, eventually. */
 	private final int dalvikSwappedOut;
-	private final Set<String> mReflectionErrorKeys = new HashSet<String>();
 
 	/** The private clean pages used by the native heap. */
 	/** @hide We may want to expose this, eventually. */
@@ -124,7 +125,7 @@ public class MemoryData {
 	}
 
 	private int getIntReflectively(final MemoryInfo mi, final String name) {
-		if(!mReflectionErrorKeys.contains(name)){
+		if(!sReflectionErrorKeys.contains(name)){
 			if (mi != null) {
 				final Class<?> clazz = mi.getClass();
 				final Field field;
@@ -132,16 +133,16 @@ public class MemoryData {
 					field = clazz.getField(name);
 					return field.getInt(mi);
 				} catch (NoSuchFieldException e) {
-					mReflectionErrorKeys.add(name);
+					sReflectionErrorKeys.add(name);
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					mReflectionErrorKeys.add(name);
+					sReflectionErrorKeys.add(name);
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
-					mReflectionErrorKeys.add(name);
+					sReflectionErrorKeys.add(name);
 					e.printStackTrace();
 				} catch (NullPointerException e) {
-					mReflectionErrorKeys.add(name);
+					sReflectionErrorKeys.add(name);
 					e.printStackTrace();
 				}
 			}

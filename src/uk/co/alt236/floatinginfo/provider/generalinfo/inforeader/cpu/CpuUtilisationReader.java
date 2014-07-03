@@ -187,7 +187,7 @@ public class CpuUtilisationReader {
 			mUsage = (int) ((float) (diffTotal - diffIdle) / diffTotal * 100);
 			mLastTotal = total;
 			mLastIdle = idle;
-			Log.i(TAG, "CPU total=" + total + "; idle=" + idle + "; usage=" + mUsage);
+			//Log.i(TAG, "CPU total=" + total + "; idle=" + idle + "; usage=" + mUsage);
 		}
 	}
 }

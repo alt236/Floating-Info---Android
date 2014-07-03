@@ -6,10 +6,10 @@ import android.content.IntentFilter;
 
 public class GeneralInfoReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_PLAY = "uk.co.alt236.memoryoverlay.ACTION_PLAY";
-    public static final String ACTION_PAUSE = "uk.co.alt236.memoryoverlay.ACTION_PAUSE";
-    public static final String ACTION_CLEAR = "uk.co.alt236.memoryoverlay.ACTION_CLEAR";
-    public static final String ACTION_SHARE = "uk.co.alt236.memoryoverlay.ACTION_SHARE";
+    public static final String ACTION_PLAY = "uk.co.alt236.floatinginfo.ACTION_PLAY";
+    public static final String ACTION_PAUSE = "uk.co.alt236.floatinginfo.ACTION_PAUSE";
+    public static final String ACTION_CLEAR = "uk.co.alt236.floatinginfo.ACTION_CLEAR";
+    public static final String ACTION_SHARE = "uk.co.alt236.floatinginfo.ACTION_SHARE";
 
     public interface Callbacks {
         public void onLogPause();

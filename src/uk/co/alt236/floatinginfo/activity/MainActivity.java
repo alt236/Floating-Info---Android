@@ -3,7 +3,7 @@ package uk.co.alt236.floatinginfo.activity;
 import java.util.List;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.floatinginfo.service.MemoryInfoService;
+import uk.co.alt236.floatinginfo.service.FloatingInfoService;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -47,13 +47,13 @@ public class MainActivity extends BasePreferenceActivity {
 
 		final Switch mainSwitch = new Switch(this);
 
-		mainSwitch.setChecked(MemoryInfoService.isRunning());
+		mainSwitch.setChecked(FloatingInfoService.isRunning());
 		mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				Intent intent = new Intent(MainActivity.this, MemoryInfoService.class);
+				Intent intent = new Intent(MainActivity.this, FloatingInfoService.class);
 				if (b) {
-					if (!MemoryInfoService.isRunning()) {
+					if (!FloatingInfoService.isRunning()) {
 						startService(intent);
 					}
 				} else {

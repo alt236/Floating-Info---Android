@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="uk.co.alt236.floatinginfo.service.MemoryInfoService" />
+        <service android:name="uk.co.alt236.floatinginfo.service.FloatingInfoService" />
     </application>
 
 </manifest>

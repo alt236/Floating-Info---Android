@@ -6,11 +6,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class MemoryInfoService extends Service {
+public class FloatingInfoService extends Service {
 
     private static boolean sIsRunning = false;
-
     private BaseProvider mMonitor;
+
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not implemented");

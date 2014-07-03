@@ -2,6 +2,7 @@ package uk.co.alt236.floatinginfo.provider.generalinfo.asynctask;
 
 import java.util.List;
 
+import uk.co.alt236.floatinginfo.util.Constants;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -31,7 +32,7 @@ public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessIn
 			publishProgress(p);
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(Constants.PROC_MONITOR_SLEEP);
 			} catch (InterruptedException e) {
 			}
 		}

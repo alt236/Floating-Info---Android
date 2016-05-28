@@ -38,7 +38,7 @@ public class CpuUtilisationReader {
             statFile.close();
     }
 
-    private void createCpuInfo(int cpuId, String[] parts) {
+    private void createCpuInfo(final int cpuId, final String[] parts) {
         if (cpuId == -1) {
             if (mCpuInfoTotal == null)
                 mCpuInfoTotal = new CpuInfo();
@@ -49,7 +49,7 @@ public class CpuUtilisationReader {
             if (cpuId < mCpuInfoList.size())
                 mCpuInfoList.get(cpuId).update(parts);
             else {
-                CpuInfo info = new CpuInfo();
+                final CpuInfo info = new CpuInfo();
                 info.update(parts);
                 mCpuInfoList.add(info);
             }
@@ -60,7 +60,7 @@ public class CpuUtilisationReader {
         statFile = new RandomAccessFile("/proc/stat", "r");
     }
 
-    public int getCpuUsage(int cpuId) {
+    public int getCpuUsage(final int cpuId) {
         int usage = 0;
         if (mCpuInfoList != null) {
             int cpuCount = mCpuInfoList.size();
@@ -86,7 +86,7 @@ public class CpuUtilisationReader {
         return usage;
     }
 
-    private void parseCpuLine(int cpuId, String cpuLine) {
+    private void parseCpuLine(final int cpuId, final String cpuLine) {
         if (cpuLine != null && cpuLine.length() > 0) {
             final String[] parts = cpuLine.split("[ ]+");
             final String cpuLabel = "cpu";
@@ -121,7 +121,7 @@ public class CpuUtilisationReader {
                     parseCpuLine(cpuId, cpuLine);
                     cpuId++;
                 } while (cpuLine != null);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Log.e(TAG, "Ops: " + e);
             }
         }
@@ -138,7 +138,9 @@ public class CpuUtilisationReader {
         if (mCpuInfoList != null) {
             for (int i = 0; i < mCpuInfoList.size(); i++) {
                 final CpuInfo info = mCpuInfoList.get(i);
-                buf.append(" Cpu Core(" + i + ") : ");
+                buf.append(" Cpu Core(");
+                buf.append(i);
+                buf.append(") : ");
                 buf.append(info.getUsage());
                 buf.append("%");
                 info.getUsage();
@@ -152,10 +154,10 @@ public class CpuUtilisationReader {
             createFile();
             parseFile();
             closeFile();
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             statFile = null;
             Log.e(TAG, "cannot open /proc/stat: " + e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Log.e(TAG, "cannot close /proc/stat: " + e);
         }
     }
@@ -175,7 +177,7 @@ public class CpuUtilisationReader {
             return mUsage;
         }
 
-        public void update(String[] parts) {
+        public void update(final String[] parts) {
             // the columns are:
             //
             // 0 "cpu": the string "cpu" that identifies the line
@@ -187,18 +189,18 @@ public class CpuUtilisationReader {
             // 6 irq: servicing interrupts
             // 7 softirq: servicing softirqs
             //
-            long idle = Long.parseLong(parts[4], 10);
+            final long idle = Long.parseLong(parts[4], 10);
             long total = 0;
             boolean head = true;
-            for (String part : parts) {
+            for (final String part : parts) {
                 if (head) {
                     head = false;
                     continue;
                 }
                 total += Long.parseLong(part, 10);
             }
-            long diffIdle = idle - mLastIdle;
-            long diffTotal = total - mLastTotal;
+            final long diffIdle = idle - mLastIdle;
+            final long diffTotal = total - mLastTotal;
             mUsage = (int) ((float) (diffTotal - diffIdle) / diffTotal * 100);
             mLastTotal = total;
             mLastIdle = idle;

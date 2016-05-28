@@ -27,7 +27,7 @@ public class InfoStore {
 
     private final Map<Key, Object> mStore = new HashMap<Key, Object>();
 
-    private Object get(Key key) {
+    private Object get(final Key key) {
         synchronized (mLock) {
             return mStore.get(key);
         }
@@ -45,21 +45,21 @@ public class InfoStore {
         return (MemoryData) get(Key.MEMORY_INFO);
     }
 
-    private void put(Key key, Object value) {
+    private void put(final Key key, final Object value) {
         synchronized (mLock) {
             mStore.put(key, value);
         }
     }
 
-    public void set(CpuData value) {
+    public void set(final CpuData value) {
         put(Key.CPU_INFO, value);
     }
 
-    public void set(ForegroundProcessInfo value) {
+    public void set(final ForegroundProcessInfo value) {
         put(Key.PROCESS_INFO, value);
     }
 
-    public void set(MemoryData value) {
+    public void set(final MemoryData value) {
         put(Key.MEMORY_INFO, value);
     }
 

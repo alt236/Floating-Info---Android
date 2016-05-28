@@ -38,13 +38,13 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
      */
     protected static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
+        public boolean onPreferenceChange(final Preference preference, final Object value) {
+            final String stringValue = value.toString();
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
+                final ListPreference listPreference = (ListPreference) preference;
+                final int index = listPreference.findIndexOfValue(stringValue);
                 // Set the summary to reflect the new value.
                 preference
                         .setSummary(index >= 0 ? listPreference.getEntries()[index]
@@ -67,7 +67,7 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
-    protected static void bindPreferenceSummaryToValue(Preference preference) {
+    protected static void bindPreferenceSummaryToValue(final Preference preference) {
         // Set the listener to watch for value changes.
         preference
                 .setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
@@ -84,7 +84,7 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
      */
-    protected static boolean isXLargeTablet(Context context) {
+    protected static boolean isXLargeTablet(final Context context) {
         return (context.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
@@ -96,12 +96,12 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
      * doesn't have an extra-large screen. In these cases, a single-pane
      * "simplified" settings UI should be shown.
      */
-    protected static boolean isSimplePreferences(Context context) {
+    protected static boolean isSimplePreferences(final Context context) {
         return ALWAYS_SIMPLE_PREFS || !isXLargeTablet(context);
     }
 
     @Override
-    protected boolean isValidFragment(String fragmentName) {
+    protected boolean isValidFragment(final String fragmentName) {
         return true;
     }
 

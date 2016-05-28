@@ -139,7 +139,7 @@ public class MemoryData {
         return dalvikSwappedOut;
     }
 
-    private int getIntReflectively(final MemoryInfo mi, final String name) {
+    private static int getIntReflectively(final MemoryInfo mi, final String name) {
         if (!sReflectionErrorKeys.contains(name)) {
             if (mi != null) {
                 final Class<?> clazz = mi.getClass();
@@ -147,16 +147,16 @@ public class MemoryData {
                 try {
                     field = clazz.getField(name);
                     return field.getInt(mi);
-                } catch (NoSuchFieldException e) {
+                } catch (final NoSuchFieldException e) {
                     sReflectionErrorKeys.add(name);
                     e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                } catch (final IllegalAccessException e) {
                     sReflectionErrorKeys.add(name);
                     e.printStackTrace();
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     sReflectionErrorKeys.add(name);
                     e.printStackTrace();
-                } catch (NullPointerException e) {
+                } catch (final NullPointerException e) {
                     sReflectionErrorKeys.add(name);
                     e.printStackTrace();
                 }

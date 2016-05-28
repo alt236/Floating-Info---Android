@@ -21,14 +21,14 @@ import android.os.Debug.MemoryInfo;
 
 public class MemoryInfoReader {
     private MemoryData mMemoryInfo;
-    private ActivityManager mActivityManager;
+    private final ActivityManager mActivityManager;
 
-    public MemoryInfoReader(Context context) {
+    public MemoryInfoReader(final Context context) {
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     }
 
 
-    public void update(int pid) {
+    public void update(final int pid) {
         final MemoryInfo mi = mActivityManager.getProcessMemoryInfo(new int[]{pid})[0];
 
         mMemoryInfo = new MemoryData(mi);

@@ -23,12 +23,12 @@ public class CpuData {
     private final List<Integer> mPerCpuUtilisation;
     private final int mOveralCpu;
 
-    public CpuData(int overalCpu) {
+    public CpuData(final int overalCpu) {
         mPerCpuUtilisation = new ArrayList<Integer>();
         mOveralCpu = overalCpu;
     }
 
-    public void addCpuUtil(int value) {
+    public void addCpuUtil(final int value) {
         mPerCpuUtilisation.add(value);
     }
 

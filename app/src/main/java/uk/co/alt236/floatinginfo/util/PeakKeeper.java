@@ -29,7 +29,7 @@ public class PeakKeeper {
         }
     }
 
-    public int getValue(String key) {
+    public int getValue(final String key) {
         synchronized (mLock) {
             final Integer res = mStore.get(key);
             if (res == null) {
@@ -40,7 +40,7 @@ public class PeakKeeper {
         }
     }
 
-    public void update(String key, int value) {
+    public void update(final String key, final int value) {
         synchronized (mLock) {
             final Integer stored = mStore.get(key);
             final int tmp;

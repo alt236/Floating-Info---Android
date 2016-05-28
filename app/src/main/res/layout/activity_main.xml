@@ -3,5 +3,4 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="uk.co.alt236.memoryoverlay.activity.MainActivity"
     tools:ignore="MergeRootFrame" />

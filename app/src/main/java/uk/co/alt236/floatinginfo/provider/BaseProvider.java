@@ -27,7 +27,7 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
     private final Service mService;
 
 
-    public BaseProvider(Service context) {
+    public BaseProvider(final Service context) {
         mService = context;
     }
 
@@ -41,33 +41,33 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
         return mService;
     }
 
-    public int getInteger(int resId) {
+    public int getInteger(final int resId) {
         return mService.getResources().getInteger(resId);
     }
 
-    public String getString(int resId) {
+    public String getString(final int resId) {
         return mService.getString(resId);
     }
 
-    public Object getSystemService(String name) {
+    public Object getSystemService(final String name) {
         return mService.getSystemService(name);
     }
 
-    protected void registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+    protected void registerReceiver(final BroadcastReceiver receiver, final IntentFilter filter) {
         getContext().registerReceiver(receiver, filter);
     }
 
     public abstract boolean start();
 
-    protected void startActivity(Intent intent) {
+    protected void startActivity(final Intent intent) {
         getContext().startActivity(intent);
     }
 
-    protected void startForeground(int id, Notification notification) {
+    protected void startForeground(final int id, final Notification notification) {
         mService.startForeground(id, notification);
     }
 
-    protected void unregisterReceiver(BroadcastReceiver receiver) {
+    protected void unregisterReceiver(final BroadcastReceiver receiver) {
         getContext().unregisterReceiver(receiver);
     }
 }

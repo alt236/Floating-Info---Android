@@ -59,9 +59,9 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private final SharedPreferences mPrefs;
     private final UiManager mUiManager;
     private ProcessMonitorAsyncTask mProcessMonitorTask;
-    private Handler mViewUpdateHandler = new Handler();
+    private final Handler mViewUpdateHandler = new Handler();
 
-    public GeneralInfoProvider(Service context) {
+    public GeneralInfoProvider(final Service context) {
         super(context);
         mCpuUtilisationReader = new CpuUtilisationReader();
         mMemoryInfoReader = new MemoryInfoReader(getContext());
@@ -95,9 +95,9 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         removeNotification();
     }
 
-    private PendingIntent getNotificationIntent(String action) {
+    private PendingIntent getNotificationIntent(final String action) {
         if (action == null) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             return PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         } else if (action == GeneralInfoReceiver.ACTION_SHARE) {
             final Intent intent = new Intent(
@@ -109,7 +109,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
                     intent,
                     PendingIntent.FLAG_CANCEL_CURRENT);
         } else {
-            Intent intent = new Intent(action);
+            final Intent intent = new Intent(action);
             return PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         }
     }
@@ -150,7 +150,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (key.equals(getString(R.string.pref_bg_opacity))) {
             mUiManager.setBackground();
         } else if (key.equals(getString(R.string.pref_text_opacity))) {
@@ -223,7 +223,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private void startProcessMonitor() {
         mProcessMonitorTask = new ProcessMonitorAsyncTask(getContext()) {
             @Override
-            protected void onProgressUpdate(ForegroundProcessInfo... values) {
+            protected void onProgressUpdate(final ForegroundProcessInfo... values) {
                 if (!mIsLogPaused.get()) {
                     final boolean change; // = false;
 

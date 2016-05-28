@@ -41,7 +41,7 @@ public class UiManager {
     private final SharedPreferences mPrefs;
     private final TextView mTextView;
 
-    public UiManager(Context context, InfoStore store) {
+    public UiManager(final Context context, final InfoStore store) {
         mPeakKeeper = new PeakKeeper();
         mContext = context;
         mInfoStore = store;
@@ -56,7 +56,7 @@ public class UiManager {
         mPeakKeeper.clear();
     }
 
-    private void constructMemoryLine(StringBuilderHelper sb, String key, int value) {
+    private void constructMemoryLine(final StringBuilderHelper sb, final String key, final int value) {
         if (value >= 0) { // We assume negative values mean that something went
             // wrong with reflection.
             String valueStr = Util.getHumanReadableKiloByteCount(value, true);
@@ -72,7 +72,7 @@ public class UiManager {
 
     private View generateView() {
         final LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return (TextView) inflator.inflate(R.layout.screen_overlay, null);
+        return inflator.inflate(R.layout.screen_overlay, null);
     }
 
     private CharSequence getInfoText() {
@@ -100,7 +100,7 @@ public class UiManager {
 
                 int count = 0;
 
-                for (Integer value : list) {
+                for (final Integer value : list) {
                     sb.append("CPU" + count, String.valueOf(value) + "%");
                     count++;
                 }
@@ -220,7 +220,7 @@ public class UiManager {
         final int v = mPrefs.getInt(mContext.getString(R.string.pref_bg_opacity), 0);
         final int level = 0;
         if (v > 0) {
-            int a = (int) ((float) v / 100f * 255);
+            final int a = (int) ((float) v / 100f * 255);
             mTextView.setBackgroundColor(Color.argb(a, level, level, level));
         } else {
             mTextView.setBackground(null);

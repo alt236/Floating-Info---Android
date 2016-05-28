@@ -32,7 +32,7 @@ public class FloatingInfoService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
@@ -50,7 +50,7 @@ public class FloatingInfoService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
         sIsRunning = true;
         mMonitor.start();
         return Service.START_STICKY;

@@ -26,10 +26,10 @@ public class ShareActivity extends Activity {
     // this activity exists so we can launch the share chooser
     // from a notification action - see LogService.onLogShare()
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // simply post the share event and finish
-        Intent intent = new Intent(GeneralInfoReceiver.ACTION_SHARE);
+        final Intent intent = new Intent(GeneralInfoReceiver.ACTION_SHARE);
         sendBroadcast(intent);
         finish();
     }

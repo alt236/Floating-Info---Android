@@ -26,14 +26,15 @@ public class GeneralInfoReceiver extends BroadcastReceiver {
     public static final String ACTION_PAUSE = "uk.co.alt236.floatinginfo.ACTION_PAUSE";
     public static final String ACTION_CLEAR = "uk.co.alt236.floatinginfo.ACTION_CLEAR";
     public static final String ACTION_SHARE = "uk.co.alt236.floatinginfo.ACTION_SHARE";
-    private Callbacks mCallbacks;
+    private final Callbacks mCallbacks;
 
-    public GeneralInfoReceiver(Callbacks callbacks) {
+    public GeneralInfoReceiver(final Callbacks callbacks) {
         mCallbacks = callbacks;
     }
 
+    @SuppressWarnings("MethodMayBeStatic")
     public IntentFilter getIntentFilter() {
-        IntentFilter f = new IntentFilter();
+        final IntentFilter f = new IntentFilter();
         f.addAction(ACTION_PLAY);
         f.addAction(ACTION_PAUSE);
         f.addAction(ACTION_CLEAR);
@@ -42,8 +43,8 @@ public class GeneralInfoReceiver extends BroadcastReceiver {
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+    public void onReceive(final Context context, final Intent intent) {
+        final String action = intent.getAction();
         if (ACTION_PLAY.equals(action)) {
             mCallbacks.onLogResume();
         } else if (ACTION_PAUSE.equals(action)) {
@@ -56,12 +57,12 @@ public class GeneralInfoReceiver extends BroadcastReceiver {
     }
 
     public interface Callbacks {
-        public void onLogPause();
+        void onLogPause();
 
-        public void onLogResume();
+        void onLogResume();
 
-        public void onLogClear();
+        void onLogClear();
 
-        public void onLogShare();
+        void onLogShare();
     }
 }

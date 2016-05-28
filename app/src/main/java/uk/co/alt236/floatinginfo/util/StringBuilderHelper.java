@@ -35,15 +35,15 @@ public class StringBuilderHelper {
     private boolean mKeyValueSectionEntryEnabled;
     private int mPadding = 10;
 
-    private static String padRight(String s, int n) {
+    private static String padRight(final String s, final int n) {
         return String.format("%1$-" + n + "s", s);
     }
 
-    public void append(int value) {
+    public void append(final int value) {
         append(String.valueOf(value));
     }
 
-    private void append(int padding, String label, String value) {
+    private void append(final int padding, final String label, final String value) {
         mStringBuilder.append(' ');
         mStringBuilder.append(BULLET_CHARACTER);
         mStringBuilder.append(padRight(label, padding));
@@ -52,24 +52,24 @@ public class StringBuilderHelper {
         appendNewLine();
     }
 
-    public void append(String value) {
+    public void append(final String value) {
         mStringBuilder.append(value);
         appendNewLine();
     }
 
-    public void append(String label, boolean value) {
+    public void append(final String label, final boolean value) {
         append(label, String.valueOf(value));
     }
 
-    public void append(String label, float value) {
+    public void append(final String label, final float value) {
         append(label, String.valueOf(value));
     }
 
-    public void append(String label, long value) {
+    public void append(final String label, final long value) {
         append(label, String.valueOf(value));
     }
 
-    public void append(String label, String value) {
+    public void append(final String label, final String value) {
         if (mKeyValueSectionEntryEnabled) {
             mKeyValueSectionItems.add(new Pair<String, String>(label, value));
         } else {
@@ -77,7 +77,7 @@ public class StringBuilderHelper {
         }
     }
 
-    public void appendBold(String value) {
+    public void appendBold(final String value) {
         final SpannableString ss = new SpannableString(value);
         ss.setSpan(
                 new StyleSpan(Typeface.BOLD),
@@ -98,7 +98,7 @@ public class StringBuilderHelper {
         appendNewLine();
     }
 
-    public void appendWithValueAsNewLine(String label, String value) {
+    public void appendWithValueAsNewLine(final String label, final String value) {
         append(label, NEW_LINE + padRight("", 5) + value);
     }
 
@@ -123,11 +123,11 @@ public class StringBuilderHelper {
         return mPadding;
     }
 
-    public void setPadding(int padding) {
+    public void setPadding(final int padding) {
         mPadding = padding;
     }
 
-    public void setTextToView(TextView view) {
+    public void setTextToView(final TextView view) {
         view.setText(mStringBuilder);
     }
 

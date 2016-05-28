@@ -50,10 +50,10 @@ import uk.co.alt236.floatinginfo.service.FloatingInfoService;
 public class MainActivity extends BasePreferenceActivity {
     private SharedPreferences mPrefs;
 
-    private static void setupOpenSourceInfoPreference(final Activity activity, Preference preference) {
+    private static void setupOpenSourceInfoPreference(final Activity activity, final Preference preference) {
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 final FragmentManager fm = activity.getFragmentManager();
                 final FragmentTransaction ft = fm.beginTransaction();
                 final Fragment prev = fm.findFragmentByTag("dialog");
@@ -67,10 +67,10 @@ public class MainActivity extends BasePreferenceActivity {
         });
     }
 
-    private static void setupVersionPref(final Activity activity, Preference preference) {
+    private static void setupVersionPref(final Activity activity, final Preference preference) {
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 final FragmentManager fm = activity.getFragmentManager();
                 final FragmentTransaction ft = fm.beginTransaction();
                 final Fragment prev = fm.findFragmentByTag("dialog");
@@ -85,14 +85,14 @@ public class MainActivity extends BasePreferenceActivity {
     }
 
     @Override
-    public void onBuildHeaders(List<Header> target) {
+    public void onBuildHeaders(final List<Header> target) {
         if (!isSimplePreferences(this)) {
             loadHeadersFromResource(R.xml.pref_headers, target);
         }
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         final Switch mainSwitch = new Switch(this);
@@ -100,8 +100,8 @@ public class MainActivity extends BasePreferenceActivity {
         mainSwitch.setChecked(FloatingInfoService.isRunning());
         mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Intent intent = new Intent(MainActivity.this, FloatingInfoService.class);
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
+                final Intent intent = new Intent(MainActivity.this, FloatingInfoService.class);
                 if (b) {
                     if (!FloatingInfoService.isRunning()) {
                         startService(intent);
@@ -132,7 +132,7 @@ public class MainActivity extends BasePreferenceActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupSimplePreferencesScreen();
     }
@@ -183,7 +183,7 @@ public class MainActivity extends BasePreferenceActivity {
         }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(final Bundle savedInstanceState) {
             final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             final View content = inflater.inflate(R.layout.dialog_about, null, false);
@@ -192,7 +192,7 @@ public class MainActivity extends BasePreferenceActivity {
             try {
                 final String name = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
                 version.setText(getString(R.string.version) + " " + name);
-            } catch (PackageManager.NameNotFoundException e) {
+            } catch (final PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -202,7 +202,7 @@ public class MainActivity extends BasePreferenceActivity {
                     .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
                                     dialog.dismiss();
                                 }
                             }
@@ -213,7 +213,7 @@ public class MainActivity extends BasePreferenceActivity {
 
     public static class AppearancePreferenceFragment extends PreferenceFragment {
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.pref_appearance);
@@ -222,7 +222,7 @@ public class MainActivity extends BasePreferenceActivity {
 
     public static class TextColorPreferenceFragment extends PreferenceFragment {
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.pref_textcolor);
@@ -231,7 +231,7 @@ public class MainActivity extends BasePreferenceActivity {
 
     public static class InfoPreferenceFragment extends PreferenceFragment {
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.pref_info);
@@ -246,8 +246,8 @@ public class MainActivity extends BasePreferenceActivity {
         }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            WebView webView = new WebView(getActivity());
+        public Dialog onCreateDialog(final Bundle savedInstanceState) {
+            final WebView webView = new WebView(getActivity());
             webView.loadUrl("file:///android_asset/licenses.html");
 
             return new AlertDialog.Builder(getActivity())
@@ -256,7 +256,7 @@ public class MainActivity extends BasePreferenceActivity {
                     .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
                                     dialog.dismiss();
                                 }
                             }

@@ -30,16 +30,16 @@ public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessIn
 
     private static final String UNKNOWN_APP_NAME = "???";
 
-    private ActivityManager mActivityManager;
-    private PackageManager mPackageManager;
+    private final ActivityManager mActivityManager;
+    private final PackageManager mPackageManager;
 
-    public ProcessMonitorAsyncTask(Context context) {
+    public ProcessMonitorAsyncTask(final Context context) {
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         mPackageManager = context.getApplicationContext().getPackageManager();
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Void doInBackground(final Void... voids) {
         ForegroundProcessInfo p;
 
         while (!isCancelled()) {
@@ -49,21 +49,21 @@ public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessIn
 
             try {
                 Thread.sleep(Constants.PROC_MONITOR_SLEEP);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
             }
         }
 
         return null;
     }
 
-    private ForegroundProcessInfo getForegroundApp(ActivityManager am) {
+    private ForegroundProcessInfo getForegroundApp(final ActivityManager am) {
 
         final ActivityManager.RunningTaskInfo foregroundTaskInfo = am.getRunningTasks(1).get(0);
         final String pkg = foregroundTaskInfo.topActivity.getPackageName();
 
         final List<ActivityManager.RunningAppProcessInfo> appProcesses = am.getRunningAppProcesses();
 
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+        for (final ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 for (final String ap : appProcess.pkgList) {
                     if (ap.equals(pkg)) {
@@ -79,7 +79,7 @@ public class ProcessMonitorAsyncTask extends AsyncTask<Void, ForegroundProcessIn
         return new ForegroundProcessInfo(0, pkg, UNKNOWN_APP_NAME);
     }
 
-    private CharSequence getAppName(String packageName) {
+    private CharSequence getAppName(final String packageName) {
         ApplicationInfo ai;
 
         try {

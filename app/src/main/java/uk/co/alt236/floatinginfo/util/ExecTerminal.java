@@ -26,18 +26,18 @@ import java.io.InputStreamReader;
 public class ExecTerminal {
     final String TAG = this.getClass().getName();
 
-    public String exec(String cmd) {
+    public String exec(final String cmd) {
         Log.d(TAG, "^ Executing '" + cmd + "'");
         try {
-            Process process = Runtime.getRuntime().exec("sh");
-            DataInputStream is = new DataInputStream(process.getInputStream());
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            final Process process = Runtime.getRuntime().exec("sh");
+            final DataInputStream is = new DataInputStream(process.getInputStream());
+            final DataOutputStream os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
             os.writeBytes("exit\n");
             os.flush();
             os.close();
 
-            BufferedReader reader = new BufferedReader(
+            final BufferedReader reader = new BufferedReader(
                     new InputStreamReader(is));
             try {
                 String fullOutput = "";
@@ -46,37 +46,37 @@ public class ExecTerminal {
                     fullOutput = fullOutput + line + "\n";
                 }
                 return fullOutput;
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Log.e(TAG, "^ exec, IOException 1");
                 e.printStackTrace();
             }
 
             process.waitFor();
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Log.e(TAG, "^ exec, IOException 2");
             e.printStackTrace();
 
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             Log.e(TAG, "^ exec, InterruptedException");
             e.printStackTrace();
         }
         return "";
     }
 
-    public String execSu(String cmd) {
+    public String execSu(final String cmd) {
         Log.d(TAG, "^ Executing as SU '" + cmd + "'");
         try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataInputStream is = new DataInputStream(process.getInputStream());
-            DataOutputStream os = new DataOutputStream(process
+            final Process process = Runtime.getRuntime().exec("su");
+            final DataInputStream is = new DataInputStream(process.getInputStream());
+            final DataOutputStream os = new DataOutputStream(process
                     .getOutputStream());
             os.writeBytes(cmd + "\n");
             os.writeBytes("exit\n");
             os.flush();
             os.close();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
             try {
                 String fullOutput = "";
@@ -85,16 +85,16 @@ public class ExecTerminal {
                     fullOutput = fullOutput + line + "\n";
                 }
                 return fullOutput;
-            } catch (IOException e) {// It seems IOException is thrown when it reaches EOF.
+            } catch (final IOException e) {// It seems IOException is thrown when it reaches EOF.
                 e.printStackTrace();
                 Log.e(TAG, "^ execSU, IOException 1");
             }
             process.waitFor();
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             Log.e(TAG, "^ execSU, IOException 2");
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
             Log.e(TAG, "^ execSU, InterruptedException");
         }

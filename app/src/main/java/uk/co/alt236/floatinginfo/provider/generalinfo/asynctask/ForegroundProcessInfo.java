@@ -21,9 +21,9 @@ public class ForegroundProcessInfo {
     private final CharSequence mAppName;
 
     public ForegroundProcessInfo(
-            int pid,
-            String pkg,
-            CharSequence appName) {
+            final int pid,
+            final String pkg,
+            final CharSequence appName) {
 
         mPid = pid;
         mPackage = pkg;

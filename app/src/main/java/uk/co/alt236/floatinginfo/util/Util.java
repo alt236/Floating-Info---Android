@@ -20,11 +20,11 @@ import java.util.Locale;
 public class Util {
 
 
-    public static String getHumanReadableKiloByteCount(long kbytes, boolean si) {
+    public static String getHumanReadableKiloByteCount(final long kbytes, final boolean si) {
         return getHumanReadableByteCount(kbytes * 1024, si);
     }
 
-    public static String getHumanReadableByteCount(long bytes, boolean si) {
+    public static String getHumanReadableByteCount(final long bytes, final boolean si) {
         final int unit = si ? 1000 : 1024;
 
         if (bytes < unit) {

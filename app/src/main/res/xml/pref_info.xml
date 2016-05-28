@@ -3,7 +3,7 @@
 
     <PreferenceScreen
         android:key="@string/pref_info_open_source"
-        android:title="@string/open_source_licences"/>
+        android:title="@string/open_source_licences" />
     <PreferenceScreen
         android:key="@string/pref_version"
         android:title="@string/about" />

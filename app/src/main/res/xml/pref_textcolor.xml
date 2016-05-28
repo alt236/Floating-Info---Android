@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/uk.co.alt236.floatinginfo" >
+    xmlns:app="http://schemas.android.com/apk/res/uk.co.alt236.floatinginfo">
 
     <uk.co.alt236.floatinginfo.ui.SeekBarPreference
         android:defaultValue="@integer/default_text_red"

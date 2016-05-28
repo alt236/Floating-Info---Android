@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Alexandros Schillings
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,6 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 package uk.co.alt236.floatinginfo.provider.generalinfo;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,14 +26,6 @@ public class GeneralInfoReceiver extends BroadcastReceiver {
     public static final String ACTION_PAUSE = "uk.co.alt236.floatinginfo.ACTION_PAUSE";
     public static final String ACTION_CLEAR = "uk.co.alt236.floatinginfo.ACTION_CLEAR";
     public static final String ACTION_SHARE = "uk.co.alt236.floatinginfo.ACTION_SHARE";
-
-    public interface Callbacks {
-        public void onLogPause();
-        public void onLogResume();
-        public void onLogClear();
-        public void onLogShare();
-    }
-
     private Callbacks mCallbacks;
 
     public GeneralInfoReceiver(Callbacks callbacks) {
@@ -60,5 +53,15 @@ public class GeneralInfoReceiver extends BroadcastReceiver {
         } else if (ACTION_SHARE.equals(action)) {
             mCallbacks.onLogShare();
         }
+    }
+
+    public interface Callbacks {
+        public void onLogPause();
+
+        public void onLogResume();
+
+        public void onLogClear();
+
+        public void onLogShare();
     }
 }

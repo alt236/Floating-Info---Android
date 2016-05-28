@@ -1,8 +1,8 @@
 <resources>
 
     <integer name="default_text_opacity">128</integer>
-	<integer name="default_text_red">250</integer>
-	<integer name="default_text_green">250</integer>
-	<integer name="default_text_blue">250</integer>
+    <integer name="default_text_red">250</integer>
+    <integer name="default_text_green">250</integer>
+    <integer name="default_text_blue">250</integer>
 
 </resources>

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package uk.co.alt236.floatinginfo.activity;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.ListPreference;

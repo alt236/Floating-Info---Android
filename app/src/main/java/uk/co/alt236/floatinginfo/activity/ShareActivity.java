@@ -16,10 +16,11 @@
 
 package uk.co.alt236.floatinginfo.activity;
 
-import uk.co.alt236.floatinginfo.provider.generalinfo.GeneralInfoReceiver;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import uk.co.alt236.floatinginfo.provider.generalinfo.GeneralInfoReceiver;
 
 public class ShareActivity extends Activity {
     // this activity exists so we can launch the share chooser

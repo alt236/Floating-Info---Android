@@ -32,11 +32,11 @@ import java.util.List;
 
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.base.TabletAwarePreferenceActivity;
+import uk.co.alt236.floatinginfo.activity.permissions.PermissionWrapper;
 import uk.co.alt236.floatinginfo.service.FloatingInfoService;
 
 public class MainActivity extends TabletAwarePreferenceActivity {
-    private SharedPreferences mPrefs;
-
+    private PermissionWrapper mPermissionWrapper;
     @Override
     public void onBuildHeaders(final List<Header> target) {
         if (!isSimplePreferences(this)) {
@@ -50,15 +50,22 @@ public class MainActivity extends TabletAwarePreferenceActivity {
 
         setupActionbar();
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!mPrefs.getBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, false)) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, false)) {
             PreferenceManager.setDefaultValues(this, R.xml.pref_appearance, true);
 
-            final SharedPreferences.Editor edit = mPrefs.edit();
+            final SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, true);
             edit.apply();
         }
 
+        mPermissionWrapper = new PermissionWrapper(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPermissionWrapper.onResume();
     }
 
     private void setupActionbar() {

@@ -35,8 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.floatinginfo.activity.MainActivity;
-import uk.co.alt236.floatinginfo.activity.ShareActivity;
+import uk.co.alt236.floatinginfo.activity.main.MainActivity;
+import uk.co.alt236.floatinginfo.activity.share.ShareActivity;
 import uk.co.alt236.floatinginfo.overlay.OverlayManager;
 import uk.co.alt236.floatinginfo.provider.BaseProvider;
 import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorTask;

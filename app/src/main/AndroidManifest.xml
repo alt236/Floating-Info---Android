@@ -17,10 +17,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="uk.co.alt236.floatinginfo.activity.ShareActivity"
+            android:name=".activity.share.ShareActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name="uk.co.alt236.floatinginfo.activity.MainActivity"
+            android:name=".activity.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

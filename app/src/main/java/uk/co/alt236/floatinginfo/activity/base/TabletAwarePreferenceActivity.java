@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.alt236.floatinginfo.activity;
+package uk.co.alt236.floatinginfo.activity.base;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
-public abstract class BasePreferenceActivity extends PreferenceActivity {
+public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceActivity {
 
     /**
      * Determines whether to always show the simplified settings UI, where

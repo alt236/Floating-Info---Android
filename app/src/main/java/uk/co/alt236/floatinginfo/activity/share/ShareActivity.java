@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.activity;
+package uk.co.alt236.floatinginfo.activity.share;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -37,13 +37,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.activity.MainActivity;
 import uk.co.alt236.floatinginfo.activity.ShareActivity;
+import uk.co.alt236.floatinginfo.overlay.OverlayManager;
 import uk.co.alt236.floatinginfo.provider.BaseProvider;
-import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
-import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorAsyncTask;
+import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ProcessMonitorTask;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuUtilisationReader;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryInfoReader;
-import uk.co.alt236.floatinginfo.provider.generalinfo.ui.UiManager;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
 
@@ -57,8 +57,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private final MemoryInfoReader mMemoryInfoReader;
     private final NotificationManager mNotificationManager;
     private final SharedPreferences mPrefs;
-    private final UiManager mUiManager;
-    private ProcessMonitorAsyncTask mProcessMonitorTask;
+    private final OverlayManager mOverlayManager;
+    private ProcessMonitorTask mProcessMonitorTask;
     private final Handler mViewUpdateHandler = new Handler();
 
     public GeneralInfoProvider(final Service context) {
@@ -66,7 +66,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         mCpuUtilisationReader = new CpuUtilisationReader();
         mMemoryInfoReader = new MemoryInfoReader(getContext());
         mInfoStore = new InfoStore();
-        mUiManager = new UiManager(context, mInfoStore);
+        mOverlayManager = new OverlayManager(context, mInfoStore);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mPrefs.registerOnSharedPreferenceChangeListener(this);
@@ -83,7 +83,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
                 PixelFormat.TRANSLUCENT
         );
         final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        wm.addView(mUiManager.getView(), lp);
+        wm.addView(mOverlayManager.getView(), lp);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         if (action == null) {
             final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             return PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        } else if (action == GeneralInfoReceiver.ACTION_SHARE) {
+        } else if (GeneralInfoReceiver.ACTION_SHARE.equals(action)) {
             final Intent intent = new Intent(
                     getApplicationContext(),
                     ShareActivity.class);
@@ -134,7 +134,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     @Override
     public void onLogShare() {
         final StringBuilder sb = new StringBuilder();
-        sb.append(mUiManager.getSharePayload());
+        sb.append(mOverlayManager.getSharePayload());
 
         final Time now = new Time();
         now.setToNow();
@@ -152,17 +152,17 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (key.equals(getString(R.string.pref_bg_opacity))) {
-            mUiManager.setBackground();
+            mOverlayManager.updateBackground();
         } else if (key.equals(getString(R.string.pref_text_opacity))) {
-            mUiManager.setTextColor();
+            mOverlayManager.updateTextColor();
         } else if (key.equals(getString(R.string.pref_text_size))) {
-            mUiManager.setTextSize();
+            mOverlayManager.updateTextSize();
         } else if (key.equals(getString(R.string.pref_text_color_red))) {
-            mUiManager.setTextColor();
+            mOverlayManager.updateTextColor();
         } else if (key.equals(getString(R.string.pref_text_color_green))) {
-            mUiManager.setTextColor();
+            mOverlayManager.updateTextColor();
         } else if (key.equals(getString(R.string.pref_text_color_blue))) {
-            mUiManager.setTextColor();
+            mOverlayManager.updateTextColor();
         }
     }
 
@@ -171,9 +171,9 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void removeSystemWindow() {
-        if (mUiManager.getView() != null && mUiManager.getView().getParent() != null) {
+        if (mOverlayManager.getView() != null && mOverlayManager.getView().getParent() != null) {
             final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            wm.removeView(mUiManager.getView());
+            wm.removeView(mOverlayManager.getView());
         }
     }
 
@@ -221,16 +221,16 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void startProcessMonitor() {
-        mProcessMonitorTask = new ProcessMonitorAsyncTask(getContext()) {
+        mProcessMonitorTask = new ProcessMonitorTask(getContext()) {
             @Override
-            protected void onProgressUpdate(final ForegroundProcessInfo... values) {
+            protected void onProgressUpdate(final ForegroundAppData... values) {
                 if (!mIsLogPaused.get()) {
                     final boolean change; // = false;
 
                     if (values[0].getPid() != mForegroundAppPid.get()) {
                         change = true;
                         mForegroundAppPid.set(values[0].getPid());
-                        mUiManager.clearPeakUsage();
+                        mOverlayManager.clearPeakUsage();
                     } else {
                         change = false;
                     }
@@ -268,7 +268,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         mViewUpdateHandler.post(new Runnable() {
             @Override
             public void run() {
-                mUiManager.update();
+                mOverlayManager.update();
             }
         });
     }

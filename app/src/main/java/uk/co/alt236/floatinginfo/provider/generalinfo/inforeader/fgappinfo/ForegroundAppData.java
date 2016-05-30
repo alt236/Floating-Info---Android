@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package uk.co.alt236.floatinginfo.provider.generalinfo.asynctask;
+package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.fgappinfo;
 
-public class ForegroundProcessInfo {
+public class ForegroundAppData {
     private final int mPid;
     private final String mPackage;
     private final CharSequence mAppName;
 
-    public ForegroundProcessInfo(
+    public ForegroundAppData(
             final int pid,
             final String pkg,
             final CharSequence appName) {

@@ -27,8 +27,8 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
     private final Service mService;
 
 
-    public BaseProvider(final Service context) {
-        mService = context;
+    public BaseProvider(final Service service) {
+        mService = service;
     }
 
     public abstract void destroy();

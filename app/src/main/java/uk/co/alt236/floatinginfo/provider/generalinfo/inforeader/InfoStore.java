@@ -18,8 +18,8 @@ package uk.co.alt236.floatinginfo.provider.generalinfo.inforeader;
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.co.alt236.floatinginfo.provider.generalinfo.asynctask.ForegroundProcessInfo;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.cpu.CpuData;
+import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.provider.generalinfo.inforeader.memory.MemoryData;
 
 public class InfoStore {
@@ -37,8 +37,8 @@ public class InfoStore {
         return (CpuData) get(Key.CPU_INFO);
     }
 
-    public ForegroundProcessInfo getForegroundProcessInfo() {
-        return (ForegroundProcessInfo) get(Key.PROCESS_INFO);
+    public ForegroundAppData getForegroundProcessInfo() {
+        return (ForegroundAppData) get(Key.PROCESS_INFO);
     }
 
     public MemoryData getMemoryInfo() {
@@ -55,7 +55,7 @@ public class InfoStore {
         put(Key.CPU_INFO, value);
     }
 
-    public void set(final ForegroundProcessInfo value) {
+    public void set(final ForegroundAppData value) {
         put(Key.PROCESS_INFO, value);
     }
 

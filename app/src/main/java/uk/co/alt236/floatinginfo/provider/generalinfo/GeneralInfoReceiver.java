@@ -22,10 +22,10 @@ import android.content.IntentFilter;
 
 public class GeneralInfoReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_PLAY = "uk.co.alt236.floatinginfo.ACTION_PLAY";
-    public static final String ACTION_PAUSE = "uk.co.alt236.floatinginfo.ACTION_PAUSE";
-    public static final String ACTION_CLEAR = "uk.co.alt236.floatinginfo.ACTION_CLEAR";
-    public static final String ACTION_SHARE = "uk.co.alt236.floatinginfo.ACTION_SHARE";
+    public static final String ACTION_PLAY = GeneralInfoReceiver.class.getName() + ".ACTION_PLAY";
+    public static final String ACTION_PAUSE = GeneralInfoReceiver.class.getName() + ".ACTION_PAUSE";
+    public static final String ACTION_CLEAR = GeneralInfoReceiver.class.getName() + ".ACTION_CLEAR";
+    public static final String ACTION_SHARE = GeneralInfoReceiver.class.getName() + ".ACTION_SHARE";
     private final Callbacks mCallbacks;
 
     public GeneralInfoReceiver(final Callbacks callbacks) {

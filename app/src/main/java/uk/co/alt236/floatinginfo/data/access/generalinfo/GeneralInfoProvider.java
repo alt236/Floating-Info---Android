@@ -35,15 +35,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
-import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
-import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
 import uk.co.alt236.floatinginfo.data.access.BaseProvider;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.asynctask.ProcessMonitorTask;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.asynctask.MonitorTask;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
+import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
+import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
 
@@ -58,8 +59,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private final NotificationManager mNotificationManager;
     private final SharedPreferences mPrefs;
     private final OverlayManager mOverlayManager;
-    private ProcessMonitorTask mProcessMonitorTask;
     private final Handler mViewUpdateHandler = new Handler();
+    private MonitorTask mProcessMonitorTask;
 
     public GeneralInfoProvider(final Service context) {
         super(context);
@@ -221,15 +222,17 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void startProcessMonitor() {
-        mProcessMonitorTask = new ProcessMonitorTask(getContext()) {
+        mProcessMonitorTask = new MonitorTask(getContext()) {
             @Override
-            protected void onProgressUpdate(final ForegroundAppData... values) {
+            protected void onProgressUpdate(final MonitorTask.MonitorUpdate... values) {
                 if (!mIsLogPaused.get()) {
                     final boolean change; // = false;
+                    final ForegroundAppData appData = values[0].getForegroundAppData();
+                    final NetData netData = values[0].getNetData();
 
-                    if (values[0].getPid() != mForegroundAppPid.get()) {
+                    if (appData.getPid() != mForegroundAppPid.get()) {
                         change = true;
-                        mForegroundAppPid.set(values[0].getPid());
+                        mForegroundAppPid.set(appData.getPid());
                         mOverlayManager.clearPeakUsage();
                     } else {
                         change = false;
@@ -238,7 +241,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
                     mMemoryInfoReader.update(mForegroundAppPid.get());
                     mCpuUtilisationReader.update();
 
-                    mInfoStore.set(values[0]);
+                    mInfoStore.set(appData);
+                    mInfoStore.set(netData);
                     mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
                     mInfoStore.set(mMemoryInfoReader.getInfo());
 

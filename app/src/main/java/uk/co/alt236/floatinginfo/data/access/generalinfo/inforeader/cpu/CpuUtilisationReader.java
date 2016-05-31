@@ -99,7 +99,7 @@ public class CpuUtilisationReader {
         }
     }
 
-    public uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData getCpuInfo() {
+    public CpuData getCpuInfo() {
         final CpuData result = new CpuData(getTotalCpuUsage());
 
         for (int i = 0; i < mCpuInfoList.size(); i++) {

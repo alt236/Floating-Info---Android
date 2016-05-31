@@ -21,6 +21,7 @@ import java.util.Map;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
 
 public class InfoStore {
     public final Object mLock = new Object();
@@ -31,6 +32,10 @@ public class InfoStore {
         synchronized (mLock) {
             return mStore.get(key);
         }
+    }
+
+    public NetData getNetData() {
+        return (NetData) get(Key.NET_DATA);
     }
 
     public CpuData getCpuInfo() {
@@ -63,9 +68,14 @@ public class InfoStore {
         put(Key.MEMORY_INFO, value);
     }
 
+    public void set(final NetData value) {
+        put(Key.NET_DATA, value);
+    }
+
     private enum Key {
         PROCESS_INFO,
         CPU_INFO,
-        MEMORY_INFO
+        MEMORY_INFO,
+        NET_DATA
     }
 }

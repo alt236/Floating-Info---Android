@@ -20,22 +20,31 @@ import android.os.AsyncTask;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppDiscovery;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
 import uk.co.alt236.floatinginfo.util.Constants;
 
-public class ProcessMonitorTask extends AsyncTask<Void, ForegroundAppData, Void> {
+public class MonitorTask extends AsyncTask<Void, MonitorTask.MonitorUpdate, Void> {
 
     private final ForegroundAppDiscovery mForegroundAppDiscovery;
+    private final NetDataReader mNetDataReader;
 
-    public ProcessMonitorTask(final Context context) {
+    public MonitorTask(final Context context) {
         mForegroundAppDiscovery = new ForegroundAppDiscovery(context.getApplicationContext());
+        mNetDataReader = new NetDataReader(context.getApplicationContext());
     }
 
     @Override
     protected Void doInBackground(final Void... voids) {
-        ForegroundAppData p;
+        MonitorUpdate p;
 
         while (!isCancelled()) {
-            p = mForegroundAppDiscovery.getForegroundApp();
+            mNetDataReader.update();
+
+            final ForegroundAppData appData = mForegroundAppDiscovery.getForegroundApp();
+            final NetData netData = mNetDataReader.getNetData();
+
+            p = new MonitorUpdate(appData, netData);
 
             publishProgress(p);
 
@@ -47,5 +56,25 @@ public class ProcessMonitorTask extends AsyncTask<Void, ForegroundAppData, Void>
         }
 
         return null;
+    }
+
+
+    public static class MonitorUpdate {
+        private final ForegroundAppData mForegroundAppData;
+        private final NetData mNetData;
+
+        public MonitorUpdate(final ForegroundAppData foregroundAppData,
+                             final NetData netData) {
+            this.mForegroundAppData = foregroundAppData;
+            this.mNetData = netData;
+        }
+
+        public ForegroundAppData getForegroundAppData() {
+            return mForegroundAppData;
+        }
+
+        public NetData getNetData() {
+            return mNetData;
+        }
     }
 }

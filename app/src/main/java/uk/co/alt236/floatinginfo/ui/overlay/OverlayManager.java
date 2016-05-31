@@ -22,6 +22,7 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 public class OverlayManager {
@@ -31,6 +32,7 @@ public class OverlayManager {
     private final TextWriter<CpuData> mCpuTextWriter;
     private final TextWriter<ForegroundAppData> mFgProcessTextWriter;
     private final TextWriter<MemoryData> mMemoryTextWriter;
+    private final TextWriter<NetData> mNetDataTextWriter;
 
     public OverlayManager(final Context context, final InfoStore store) {
         mInfoStore = store;
@@ -39,6 +41,7 @@ public class OverlayManager {
         mCpuTextWriter = new CpuTextWriter();
         mMemoryTextWriter = new MemoryTextWriter();
         mFgProcessTextWriter = new FgProcessTextWriter();
+        mNetDataTextWriter = new NetDataTextWriter();
 
         updateBackground();
         updateTextSize();
@@ -57,6 +60,9 @@ public class OverlayManager {
         if (mInfoStore != null) {
             final ForegroundAppData procInfo = mInfoStore.getForegroundProcessInfo();
             mFgProcessTextWriter.writeText(procInfo, sb);
+
+            final NetData netData = mInfoStore.getNetData();
+            mNetDataTextWriter.writeText(netData, sb);
 
             final CpuData cpuInfo = mInfoStore.getCpuInfo();
             mCpuTextWriter.writeText(cpuInfo, sb);

@@ -2,15 +2,15 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:fragment="uk.co.alt236.floatinginfo.activity.main.AppearancePreferenceFragment"
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.AppearancePreferenceFragment"
         android:title="@string/appearance" />
 
     <header
-        android:fragment="uk.co.alt236.floatinginfo.activity.main.TextColorPreferenceFragment"
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.TextColorPreferenceFragment"
         android:title="@string/text_color" />
 
     <header
-        android:fragment="uk.co.alt236.floatinginfo.activity.main.InfoPreferenceFragment"
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.InfoPreferenceFragment"
         android:title="@string/information" />
 
 </preference-headers>

@@ -19,8 +19,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import uk.co.alt236.floatinginfo.provider.BaseProvider;
-import uk.co.alt236.floatinginfo.provider.generalinfo.GeneralInfoProvider;
+import uk.co.alt236.floatinginfo.data.access.BaseProvider;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.GeneralInfoProvider;
 
 public class FloatingInfoService extends Service {
 

@@ -1,22 +1,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/uk.co.alt236.floatinginfo">
 
-    <uk.co.alt236.floatinginfo.ui.SeekBarPreference
+    <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_red"
         android:key="@string/pref_text_color_red"
         android:title="@string/color_red"
         app:max="255" />
-    <uk.co.alt236.floatinginfo.ui.SeekBarPreference
+    <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_green"
         android:key="@string/pref_text_color_green"
         android:title="@string/color_green"
         app:max="255" />
-    <uk.co.alt236.floatinginfo.ui.SeekBarPreference
+    <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_blue"
         android:key="@string/pref_text_color_blue"
         android:title="@string/color_blue"
         app:max="255" />
-    <uk.co.alt236.floatinginfo.ui.SeekBarPreference
+    <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_opacity"
         android:key="@string/pref_text_opacity"
         android:title="@string/text_opacity"

@@ -11,10 +11,12 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
     public void writeText(final NetData input, final StringBuilderHelper sb) {
         if (input != null) {
             final String proxy = input.getProxy() == null ? "OFF" : input.getProxy();
+            final String ssid = input.getSsid() == null ? "n/a" : input.getSsid();
 
             sb.appendBold("Network Info");
             sb.startKeyValueSection();
             sb.append("Proxy", proxy);
+            sb.append("SSID", ssid);
             sb.endKeyValueSection();
             sb.appendNewLine();
         }

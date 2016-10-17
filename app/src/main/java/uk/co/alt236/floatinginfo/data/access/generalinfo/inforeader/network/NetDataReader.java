@@ -3,6 +3,8 @@ package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.ProxyInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 
 /**
@@ -12,15 +14,24 @@ public class NetDataReader {
 
     private final ConnectivityManager mConnectivityManager;
     private final Context mContext;
+    private final WifiManager mWifiManager;
     private NetData mNetData;
 
     public NetDataReader(final Context context) {
         mContext = context.getApplicationContext();
         mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         update();
     }
 
     public void update() {
+        final String proxyInfo = getProxyInfo();
+        final String ssid = getCurrentSsid();
+
+        mNetData = new NetData(proxyInfo, ssid);
+    }
+
+    private String getProxyInfo() {
         String proxyHost = null;
         String proxyPort = null;
 
@@ -52,11 +63,29 @@ public class NetDataReader {
             proxyAddress = null;
         }
 
-        mNetData = new NetData(proxyAddress);
+        return proxyAddress;
+
     }
 
 
     public NetData getNetData() {
         return mNetData;
+    }
+
+    public String getCurrentSsid() {
+        final String ssid;
+
+        if (mWifiManager == null) {
+            ssid = null;
+        } else {
+            final WifiInfo info = mWifiManager.getConnectionInfo();
+            if (info == null) {
+                ssid = null;
+            } else {
+                ssid = info.getSSID();
+            }
+        }
+
+        return ssid;
     }
 }

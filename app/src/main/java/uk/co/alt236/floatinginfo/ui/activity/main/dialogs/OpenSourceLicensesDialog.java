@@ -1,4 +1,4 @@
-package uk.co.alt236.floatinginfo.ui.activity.main;
+package uk.co.alt236.floatinginfo.ui.activity.main.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

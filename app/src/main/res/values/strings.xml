@@ -31,4 +31,33 @@
     <string name="text_size">Text Size</string>
     <string name="version">Version</string>
 
+    <string name="button_click_to_grant">Click to grant access</string>
+    <string name="message_access_needed">You must grant access to continue</string>
+
+    <string name="slide_usage_stats_title">Usage Stats</string>
+    <string name="slide_usage_stats_description">
+        Since Android Lollipop (API 21) the GET_TASKS permission has been deprecated and querying the Activity Manager returns limited information.
+        \nAs a result, in order to access the current foreground app information you must give access to this app to access the phone\'s usage.
+        \nThis is not the same as all the other Android runtime permissions.
+        \n
+        \nTo grant access, press the button below to open the corresponding Settings page.
+    </string>
+
+    <string name="slide_overlay_title">App Overlay</string>
+    <string name="slide_overlay_description">
+        Under specific circumstances (for example if this app was sideloaded instead of installed directly from Google Play) you need to explicitly grant the permission to allow this app to draw on top of other apps.
+        \nThis is not the same as all the other Android runtime permissions.
+        \n
+        \nTo grant access, press the button below to open the corresponding Settings page.
+    </string>
+
+    <string name="slide_android_title">Android OS Permissions</string>
+    <string name="slide_android_permissions">
+        You need to grant access to this app in order to access the information it needs to display.
+    </string>
+
+    <string name="message_onboarding_explanation">
+        This application that displays a number of stats concerning the current foreground process and the OS in general as a system overlay window.
+        \nTo do this, it needs access to a number of Android APIs. The next few screens will ask explain why this is, and ask you to grant the necessary permissions.
+    </string>
 </resources>

@@ -37,28 +37,28 @@ public class SeekBarPreference extends Preference
     private boolean mTrackingTouch;
 
     public SeekBarPreference(
-			final Context context, final AttributeSet attrs, final int defStyle) {
-		super(context, attrs, defStyle);
-		final TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.SeekBarPreference, defStyle, 0);
+            final Context context, final AttributeSet attrs, final int defStyle) {
+        super(context, attrs, defStyle);
+        final TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.SeekBarPreference, defStyle, 0);
         setMax(a.getInt(R.styleable.SeekBarPreference_max, mMax));
         a.recycle();
         setLayoutResource(R.layout.preference_widget_seekbar);
     }
 
-	public SeekBarPreference(final Context context, final AttributeSet attrs) {
-		this(context, attrs, 0);
+    public SeekBarPreference(final Context context, final AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-	public SeekBarPreference(final Context context) {
-		this(context, null);
+    public SeekBarPreference(final Context context) {
+        this(context, null);
     }
 
     @Override
-	protected void onBindView(final View view) {
-		super.onBindView(view);
-		final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
-		seekBar.setOnSeekBarChangeListener(this);
+    protected void onBindView(final View view) {
+        super.onBindView(view);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
+        seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(mMax);
         seekBar.setProgress(mProgress);
         seekBar.setEnabled(isEnabled());
@@ -70,19 +70,19 @@ public class SeekBarPreference extends Preference
     }
 
     @Override
-	protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
-		setProgress(restoreValue ? getPersistedInt(mProgress)
+    protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
+        setProgress(restoreValue ? getPersistedInt(mProgress)
                 : (Integer) defaultValue);
     }
 
     @Override
-	protected Object onGetDefaultValue(final TypedArray a, final int index) {
-		return a.getInt(index, 0);
+    protected Object onGetDefaultValue(final TypedArray a, final int index) {
+        return a.getInt(index, 0);
     }
 
     //@Override
-	public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
-		if (event.getAction() != KeyEvent.ACTION_UP) {
+    public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_UP) {
             if (keyCode == KeyEvent.KEYCODE_PLUS
                     || keyCode == KeyEvent.KEYCODE_EQUALS) {
                 setProgress(getProgress() + 1);
@@ -96,15 +96,15 @@ public class SeekBarPreference extends Preference
         return false;
     }
 
-	public void setMax(final int max) {
-		if (max != mMax) {
+    public void setMax(final int max) {
+        if (max != mMax) {
             mMax = max;
             notifyChanged();
         }
     }
 
-	private void setProgress(int progress, final boolean notifyChanged) {
-		if (progress > mMax) {
+    private void setProgress(int progress, final boolean notifyChanged) {
+        if (progress > mMax) {
             progress = mMax;
         }
         if (progress < 0) {
@@ -123,17 +123,17 @@ public class SeekBarPreference extends Preference
         return mProgress;
     }
 
-	public void setProgress(final int progress) {
-		setProgress(progress, true);
+    public void setProgress(final int progress) {
+        setProgress(progress, true);
     }
 
     /**
      * Persist the seekBar's progress value if callChangeListener
      * returns true, otherwise set the seekBar's progress to the stored value
      */
-	void syncProgress(final SeekBar seekBar) {
-		final int progress = seekBar.getProgress();
-		if (progress != mProgress) {
+    void syncProgress(final SeekBar seekBar) {
+        final int progress = seekBar.getProgress();
+        if (progress != mProgress) {
             if (callChangeListener(progress)) {
                 setProgress(progress, false);
             } else {
@@ -144,20 +144,20 @@ public class SeekBarPreference extends Preference
 
     @Override
     public void onProgressChanged(
-			final SeekBar seekBar, final int progress, final boolean fromUser) {
-		if (fromUser && !mTrackingTouch) {
+            final SeekBar seekBar, final int progress, final boolean fromUser) {
+        if (fromUser && !mTrackingTouch) {
             syncProgress(seekBar);
         }
     }
 
     @Override
-	public void onStartTrackingTouch(final SeekBar seekBar) {
-		mTrackingTouch = true;
+    public void onStartTrackingTouch(final SeekBar seekBar) {
+        mTrackingTouch = true;
     }
 
     @Override
-	public void onStopTrackingTouch(final SeekBar seekBar) {
-		mTrackingTouch = false;
+    public void onStopTrackingTouch(final SeekBar seekBar) {
+        mTrackingTouch = false;
         if (seekBar.getProgress() != mProgress) {
             syncProgress(seekBar);
         }
@@ -166,7 +166,7 @@ public class SeekBarPreference extends Preference
     @Override
     protected Parcelable onSaveInstanceState() {
         /*
-		 * Suppose a client uses this preference type without persisting. We
+         * Suppose a client uses this preference type without persisting. We
 		 * must save the instance state so it is able to, for example, survive
 		 * orientation changes.
 		 */
@@ -185,16 +185,16 @@ public class SeekBarPreference extends Preference
     }
 
     @Override
-	protected void onRestoreInstanceState(final Parcelable state) {
-		if (!state.getClass().equals(SavedState.class)) {
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;
         }
 
         // Restore the instance state
-		final SavedState myState = (SavedState) state;
-		super.onRestoreInstanceState(myState.getSuperState());
+        final SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
         mProgress = myState.progress;
         mMax = myState.max;
         notifyChanged();
@@ -211,33 +211,33 @@ public class SeekBarPreference extends Preference
         public static final Creator<SavedState> CREATOR =
                 new Creator<SavedState>() {
                     @Override
-					public SavedState createFromParcel(final Parcel in) {
-						return new SavedState(in);
+                    public SavedState createFromParcel(final Parcel in) {
+                        return new SavedState(in);
                     }
 
                     @Override
-					public SavedState[] newArray(final int size) {
-						return new SavedState[size];
+                    public SavedState[] newArray(final int size) {
+                        return new SavedState[size];
                     }
                 };
         int progress;
         int max;
 
-		public SavedState(final Parcel source) {
-			super(source);
+        public SavedState(final Parcel source) {
+            super(source);
 
             // Restore the click counter
             progress = source.readInt();
             max = source.readInt();
         }
 
-		public SavedState(final Parcelable superState) {
-			super(superState);
+        public SavedState(final Parcelable superState) {
+            super(superState);
         }
 
         @Override
-		public void writeToParcel(final Parcel dest, final int flags) {
-			super.writeToParcel(dest, flags);
+        public void writeToParcel(final Parcel dest, final int flags) {
+            super.writeToParcel(dest, flags);
 
             // Save the click counter
             dest.writeInt(progress);

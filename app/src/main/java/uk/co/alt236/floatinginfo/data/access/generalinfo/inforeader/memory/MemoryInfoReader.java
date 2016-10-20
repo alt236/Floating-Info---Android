@@ -20,8 +20,8 @@ import android.content.Context;
 import android.os.Debug.MemoryInfo;
 
 public class MemoryInfoReader {
-    private MemoryData mMemoryInfo;
     private final ActivityManager mActivityManager;
+    private MemoryData mMemoryInfo;
 
     public MemoryInfoReader(final Context context) {
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

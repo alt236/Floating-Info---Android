@@ -31,12 +31,13 @@ import android.widget.Switch;
 import java.util.List;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.floatinginfo.ui.activity.base.TabletAwarePreferenceActivity;
-import uk.co.alt236.floatinginfo.ui.activity.permissions.PermissionWrapper;
+import uk.co.alt236.floatinginfo.permissions.PermissionCheckerWrapper;
 import uk.co.alt236.floatinginfo.service.FloatingInfoService;
+import uk.co.alt236.floatinginfo.ui.activity.base.TabletAwarePreferenceActivity;
+import uk.co.alt236.floatinginfo.ui.activity.onboarding.OnBoardingActivity;
 
 public class MainActivity extends TabletAwarePreferenceActivity {
-    private PermissionWrapper mPermissionWrapper;
+
     @Override
     public void onBuildHeaders(final List<Header> target) {
         if (!isSimplePreferences(this)) {
@@ -49,7 +50,10 @@ public class MainActivity extends TabletAwarePreferenceActivity {
         super.onCreate(savedInstanceState);
 
         setupActionbar();
+        setDefaultPrefsValues();
+    }
 
+    private void setDefaultPrefsValues() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, false)) {
             PreferenceManager.setDefaultValues(this, R.xml.pref_appearance, true);
@@ -58,14 +62,17 @@ public class MainActivity extends TabletAwarePreferenceActivity {
             edit.putBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, true);
             edit.apply();
         }
-
-        mPermissionWrapper = new PermissionWrapper(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPermissionWrapper.onResume();
+
+        if (new PermissionCheckerWrapper(this).needToAsk()) {
+            final Intent intent = new Intent(this, OnBoardingActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     private void setupActionbar() {

@@ -5,11 +5,11 @@
     <style name="AppTheme" parent="@style/FloatingInfo.AppBaseTheme">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="FloatingInfo.Toolbar" parent="@style/FloatingInfo.AppBaseToolbar">

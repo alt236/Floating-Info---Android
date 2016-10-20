@@ -1,4 +1,4 @@
-package uk.co.alt236.floatinginfo.ui.activity.permissions;
+package uk.co.alt236.floatinginfo.ui.activity.main.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import uk.co.alt236.floatinginfo.BuildConfig;
 import uk.co.alt236.floatinginfo.R;
 
-public class PermissionsRequiredDialog extends DialogFragment {
+public class AboutDialog extends DialogFragment {
 
-    public PermissionsRequiredDialog() {
+    public AboutDialog() {
     }
 
     @Override
@@ -26,7 +26,7 @@ public class PermissionsRequiredDialog extends DialogFragment {
         final TextView version = (TextView) content.findViewById(R.id.version);
 
         final String name = BuildConfig.VERSION_NAME;
-        version.setText("NOPE");
+        version.setText(getString(R.string.version) + " " + name);
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)

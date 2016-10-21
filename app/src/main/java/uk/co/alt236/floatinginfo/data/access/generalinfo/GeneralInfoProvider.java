@@ -152,17 +152,17 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
-        if (key.equals(getString(R.string.pref_bg_opacity))) {
+        if (key.equals(getString(R.string.pref_key_bg_opacity))) {
             mOverlayManager.updateBackground();
-        } else if (key.equals(getString(R.string.pref_text_opacity))) {
+        } else if (key.equals(getString(R.string.pref_key_text_opacity))) {
             mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_text_size))) {
+        } else if (key.equals(getString(R.string.pref_key_text_size))) {
             mOverlayManager.updateTextSize();
-        } else if (key.equals(getString(R.string.pref_text_color_red))) {
+        } else if (key.equals(getString(R.string.pref_key_text_color_red))) {
             mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_text_color_green))) {
+        } else if (key.equals(getString(R.string.pref_key_text_color_green))) {
             mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_text_color_blue))) {
+        } else if (key.equals(getString(R.string.pref_key_text_color_blue))) {
             mOverlayManager.updateTextColor();
         }
     }

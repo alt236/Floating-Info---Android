@@ -3,23 +3,23 @@
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_red"
-        android:key="@string/pref_text_color_red"
-        android:title="@string/color_red"
+        android:key="@string/pref_key_text_color_red"
+        android:title="@string/prefs_title_color_red"
         app:max="255" />
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_green"
-        android:key="@string/pref_text_color_green"
-        android:title="@string/color_green"
+        android:key="@string/pref_key_text_color_green"
+        android:title="@string/prefs_title_color_green"
         app:max="255" />
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_blue"
-        android:key="@string/pref_text_color_blue"
-        android:title="@string/color_blue"
+        android:key="@string/pref_key_text_color_blue"
+        android:title="@string/prefs_title_color_blue"
         app:max="255" />
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_opacity"
-        android:key="@string/pref_text_opacity"
-        android:title="@string/text_opacity"
+        android:key="@string/pref_key_text_opacity"
+        android:title="@string/prefs_title_text_opacity"
         app:max="255" />
 
 </PreferenceScreen>

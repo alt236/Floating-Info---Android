@@ -31,7 +31,7 @@ import uk.co.alt236.floatinginfo.R;
     }
 
     public void updateBackground() {
-        final int v = mPrefs.getInt(mContext.getString(R.string.pref_bg_opacity), 0);
+        final int v = mPrefs.getInt(mContext.getString(R.string.pref_key_bg_opacity), 0);
         final int level = 0;
         if (v > 0) {
             final int a = (int) ((float) v / 100f * 255);
@@ -43,16 +43,16 @@ import uk.co.alt236.floatinginfo.R;
 
     public void updateTextColor() {
         final int alpha = mPrefs.getInt(
-                mContext.getString(R.string.pref_text_opacity),
+                mContext.getString(R.string.pref_key_text_opacity),
                 mContext.getResources().getInteger(R.integer.default_text_opacity));
         final int red = mPrefs.getInt(
-                mContext.getString(R.string.pref_text_color_red),
+                mContext.getString(R.string.pref_key_text_color_red),
                 mContext.getResources().getInteger(R.integer.default_text_red));
         final int green = mPrefs.getInt(
-                mContext.getString(R.string.pref_text_color_green),
+                mContext.getString(R.string.pref_key_text_color_green),
                 mContext.getResources().getInteger(R.integer.default_text_green));
         final int blue = mPrefs.getInt(
-                mContext.getString(R.string.pref_text_color_blue),
+                mContext.getString(R.string.pref_key_text_color_blue),
                 mContext.getResources().getInteger(R.integer.default_text_blue));
         mTextView.setTextColor(Color.argb(alpha, red, green, blue));
         mTextView.setShadowLayer(1.5f, -1, 1, Color.DKGRAY);
@@ -60,7 +60,7 @@ import uk.co.alt236.floatinginfo.R;
 
     public void updateTextSize() {
         final int sp = 6 + mPrefs.getInt(
-                mContext.getString(R.string.pref_text_size),
+                mContext.getString(R.string.pref_key_text_size),
                 0);
         mTextView.setTextSize(sp);
     }

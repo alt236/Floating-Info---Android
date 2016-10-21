@@ -23,20 +23,23 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.data.prefs.EnabledInfo;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 public class OverlayManager {
     private final InfoStore mInfoStore;
     private final TextOverlayController mTextOverlayController;
+    private final EnabledInfo mEnabledInfo;
 
     private final TextWriter<CpuData> mCpuTextWriter;
     private final TextWriter<ForegroundAppData> mFgProcessTextWriter;
     private final TextWriter<MemoryData> mMemoryTextWriter;
     private final TextWriter<NetData> mNetDataTextWriter;
 
-    public OverlayManager(final Context context, final InfoStore store) {
+    public OverlayManager(final Context context,
+                          final InfoStore store) {
         mInfoStore = store;
-
+        mEnabledInfo = new EnabledInfo(context);
         mTextOverlayController = new TextOverlayController(context);
         mCpuTextWriter = new CpuTextWriter();
         mMemoryTextWriter = new MemoryTextWriter();
@@ -61,14 +64,20 @@ public class OverlayManager {
             final ForegroundAppData procInfo = mInfoStore.getForegroundProcessInfo();
             mFgProcessTextWriter.writeText(procInfo, sb);
 
-            final NetData netData = mInfoStore.getNetData();
-            mNetDataTextWriter.writeText(netData, sb);
+            if (mEnabledInfo.isNetInfoEnabled()) {
+                final NetData netData = mInfoStore.getNetData();
+                mNetDataTextWriter.writeText(netData, sb);
+            }
 
-            final CpuData cpuInfo = mInfoStore.getCpuInfo();
-            mCpuTextWriter.writeText(cpuInfo, sb);
+            if (mEnabledInfo.isCpuInfoEnabled()) {
+                final CpuData cpuInfo = mInfoStore.getCpuInfo();
+                mCpuTextWriter.writeText(cpuInfo, sb);
+            }
 
-            final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
-            mMemoryTextWriter.writeText(memoryInfo, sb);
+            if (mEnabledInfo.isMemoryInfoEnabled()) {
+                final MemoryData memoryInfo = mInfoStore.getMemoryInfo();
+                mMemoryTextWriter.writeText(memoryInfo, sb);
+            }
         }
 
         return sb.toCharSequence();

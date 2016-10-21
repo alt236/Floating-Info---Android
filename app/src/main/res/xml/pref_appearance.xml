@@ -3,12 +3,12 @@
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="2"
-        android:key="@string/pref_text_size"
-        android:title="@string/text_size"
+        android:key="@string/pref_key_text_size"
+        android:title="@string/prefs_title_text_size"
         app:max="6" />
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="0"
-        android:key="@string/pref_bg_opacity"
-        android:title="@string/background_opacity"
+        android:key="@string/pref_key_bg_opacity"
+        android:title="@string/prefs_title_background_opacity"
         app:max="70" />
 </PreferenceScreen>

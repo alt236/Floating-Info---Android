@@ -133,25 +133,31 @@ public class MainActivity extends TabletAwarePreferenceActivity {
 
         // Add 'appearance' preferences.
         fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.appearance);
+        fakeHeader.setTitle(R.string.prefs_header_appearance);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_appearance);
 
         // Add 'text color' preferences.
         fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.text_color);
+        fakeHeader.setTitle(R.string.prefs_header_text_color);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_textcolor);
 
+        // Add 'enabled info' preferences.
+        fakeHeader = new PreferenceCategory(this);
+        fakeHeader.setTitle(R.string.prefs_header_info_to_display);
+        getPreferenceScreen().addPreference(fakeHeader);
+        addPreferencesFromResource(R.xml.pref_enabled_info);
+
         // Add 'info' preferences.
         fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.information);
+        fakeHeader.setTitle(R.string.prefs_header_information);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_info);
 
         // Add others
-        PrefsUtils.setupOpenSourceInfoPreference(this, findPreference(getString(R.string.pref_info_open_source)));
-        PrefsUtils.setupVersionPref(this, findPreference(getString(R.string.pref_version)));
+        PrefsUtils.setupOpenSourceInfoPreference(this, findPreference(getString(R.string.pref_key_info_open_source)));
+        PrefsUtils.setupVersionPref(this, findPreference(getString(R.string.pref_key_version)));
     }
 
 }

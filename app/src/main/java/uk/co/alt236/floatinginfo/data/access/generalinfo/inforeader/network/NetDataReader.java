@@ -1,6 +1,7 @@
 package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
 
 import android.content.Context;
+import android.net.wifi.WifiInfo;
 
 /**
  *
@@ -20,9 +21,9 @@ public class NetDataReader {
 
     public void update() {
         final String proxyInfo = mProxyInfo.getProxyUrl();
-        final String ssid = mNetworkInfo.getCurrentSsid();
+        final WifiInfo wifiInfo = mNetworkInfo.getCurrentWifiInfo();
         final android.net.NetworkInfo networkInfo = mNetworkInfo.getActiveNetInfo();
-        mNetData = new NetData(networkInfo, proxyInfo, ssid);
+        mNetData = new NetData(networkInfo, wifiInfo, proxyInfo);
     }
 
     public NetData getNetData() {

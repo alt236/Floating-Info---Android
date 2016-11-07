@@ -19,21 +19,16 @@ import android.support.annotation.Nullable;
     }
 
     @Nullable
-    public String getCurrentSsid() {
-        final String ssid;
+    public WifiInfo getCurrentWifiInfo() {
 
+        final WifiInfo retVal;
         if (mWifiManager == null) {
-            ssid = null;
+            retVal = null;
         } else {
-            final WifiInfo info = mWifiManager.getConnectionInfo();
-            if (info == null) {
-                ssid = null;
-            } else {
-                ssid = info.getSSID();
-            }
+            retVal = mWifiManager.getConnectionInfo();
         }
 
-        return ssid;
+        return retVal;
     }
 
     @Nullable

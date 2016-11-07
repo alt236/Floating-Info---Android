@@ -20,7 +20,7 @@ public class OverlayPrefs {
     public int getTextColor() {
         final int alpha = mPrefs.getInt(
                 mResources.getString(R.string.pref_key_text_alpha),
-                mResources.getInteger(R.integer.default_text_opacity));
+                mResources.getInteger(R.integer.default_text_alpha));
         final int red = mPrefs.getInt(
                 mResources.getString(R.string.pref_key_text_color_red),
                 mResources.getInteger(R.integer.default_text_red));

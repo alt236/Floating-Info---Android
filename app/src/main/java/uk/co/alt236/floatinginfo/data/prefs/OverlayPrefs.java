@@ -19,7 +19,7 @@ public class OverlayPrefs {
 
     public int getTextColor() {
         final int alpha = mPrefs.getInt(
-                mResources.getString(R.string.pref_key_text_opacity),
+                mResources.getString(R.string.pref_key_text_alpha),
                 mResources.getInteger(R.integer.default_text_opacity));
         final int red = mPrefs.getInt(
                 mResources.getString(R.string.pref_key_text_color_red),
@@ -49,10 +49,10 @@ public class OverlayPrefs {
         return retVal;
     }
 
-    public int getTextSize() {
-        return 6 + mPrefs.getInt(
-                mResources.getString(R.string.pref_key_text_size),
-                0);
+    public float getTextSize() {
+        final float baseValue = mResources.getDimension(R.dimen.text_size_base);
+        final float prefsValue = mPrefs.getInt(mResources.getString(R.string.pref_key_text_size), 0);
+        return baseValue + prefsValue;
     }
 
     public Alignment getAlignment() {

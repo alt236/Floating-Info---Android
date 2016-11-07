@@ -6,10 +6,6 @@
         android:title="@string/prefs_header_appearance"/>
 
     <header
-        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.TextColorPreferenceFragment"
-        android:title="@string/prefs_header_text_color"/>
-
-    <header
         android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.EnabledInfoPreferenceFragment"
         android:title="@string/prefs_header_info_to_display"/>
 

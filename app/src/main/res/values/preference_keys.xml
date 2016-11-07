@@ -7,7 +7,7 @@
     <string name="pref_key_text_color_blue" translatable="false">pref_text_color_blue</string>
     <string name="pref_key_text_color_green" translatable="false">pref_text_color_green</string>
     <string name="pref_key_text_color_red" translatable="false">pref_text_color_red</string>
-    <string name="pref_key_text_opacity" translatable="false">pref_text_opacity</string>
+    <string name="pref_key_text_alpha" translatable="false">pref_text_opacity</string>
     <string name="pref_key_text_size" translatable="false">pref_text_size</string>
     <string name="pref_key_version" translatable="false">pref_version</string>
     <string name="pref_key_show_net_info" translatable="false">pref_show_net_info</string>

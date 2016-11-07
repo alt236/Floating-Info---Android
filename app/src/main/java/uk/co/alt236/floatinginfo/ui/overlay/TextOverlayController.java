@@ -1,6 +1,7 @@
 package uk.co.alt236.floatinginfo.ui.overlay;
 
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -40,8 +41,8 @@ import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
     }
 
     public void updateTextSize() {
-        final int size = mPrefs.getTextSize();
-        mTextView.setTextSize(size);
+        final float size = mPrefs.getTextSize();
+        mTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
     public View getView() {

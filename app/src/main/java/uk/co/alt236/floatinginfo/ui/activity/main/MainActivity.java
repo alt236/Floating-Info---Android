@@ -57,6 +57,7 @@ public class MainActivity extends TabletAwarePreferenceActivity {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, false)) {
             PreferenceManager.setDefaultValues(this, R.xml.pref_appearance, true);
+            PreferenceManager.setDefaultValues(this, R.xml.pref_enabled_info, true);
 
             final SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean(PreferenceManager.KEY_HAS_SET_DEFAULT_VALUES, true);
@@ -129,19 +130,13 @@ public class MainActivity extends TabletAwarePreferenceActivity {
         addPreferencesFromResource(R.xml.pref_blank);
 
         // Add 'filters' preferences.
-        PreferenceCategory fakeHeader = new PreferenceCategory(this);
+        PreferenceCategory fakeHeader;
 
         // Add 'appearance' preferences.
         fakeHeader = new PreferenceCategory(this);
         fakeHeader.setTitle(R.string.prefs_header_appearance);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_appearance);
-
-        // Add 'text color' preferences.
-        fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.prefs_header_text_color);
-        getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(R.xml.pref_textcolor);
 
         // Add 'enabled info' preferences.
         fakeHeader = new PreferenceCategory(this);

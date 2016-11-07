@@ -1,6 +1,13 @@
 <resources>
 
-    <integer name="default_text_opacity">128</integer>
+    <dimen name="text_size_base">8sp</dimen>
+    <integer name="text_size_default_value">2</integer>
+    <integer name="text_size_max_value">20</integer>
+
+    <integer name="background_opacity_default">35</integer>
+    <integer name="background_opacity_max">75</integer>
+
+    <integer name="default_text_alpha">128</integer>
     <integer name="default_text_red">250</integer>
     <integer name="default_text_green">250</integer>
     <integer name="default_text_blue">250</integer>

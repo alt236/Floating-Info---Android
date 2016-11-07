@@ -29,12 +29,12 @@
     <string name="prefs_header_info_to_display">Info to Display</string>
 
     <!--- Prefs titles -->
-    <string name="prefs_title_color_blue">Blue</string>
-    <string name="prefs_title_color_green">Green</string>
-    <string name="prefs_title_color_red">Red</string>
+    <string name="prefs_title_text_alpha">Text Color - Alpha</string>
+    <string name="prefs_title_color_blue">Text Color - Blue</string>
+    <string name="prefs_title_color_green">Text Color - Green</string>
+    <string name="prefs_title_color_red">Text Color - Red</string>
     <string name="prefs_title_background_opacity">Background Opacity</string>
     <string name="prefs_title_screen_position">Overlay Position</string>
-    <string name="prefs_title_text_opacity">Text Opacity</string>
     <string name="prefs_title_text_size">Text Size</string>
     <string name="prefs_title_show_net_info">Show Net Info</string>
     <string name="prefs_title_show_cpu_info">Show CPU Info</string>

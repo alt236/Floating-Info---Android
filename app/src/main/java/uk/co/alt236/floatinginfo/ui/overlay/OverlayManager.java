@@ -16,6 +16,7 @@
 package uk.co.alt236.floatinginfo.ui.overlay;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
@@ -24,6 +25,7 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.Fo
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
 import uk.co.alt236.floatinginfo.data.prefs.EnabledInfo;
+import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 public class OverlayManager {
@@ -40,15 +42,20 @@ public class OverlayManager {
                           final InfoStore store) {
         mInfoStore = store;
         mEnabledInfo = new EnabledInfo(context);
-        mTextOverlayController = new TextOverlayController(context);
+
         mCpuTextWriter = new CpuTextWriter();
         mMemoryTextWriter = new MemoryTextWriter();
         mFgProcessTextWriter = new FgProcessTextWriter();
         mNetDataTextWriter = new NetDataTextWriter();
 
+        final OverlayPrefs prefs = new OverlayPrefs(context);
+        final LayoutInflater layoutInflater = LayoutInflater.from(context);
+        mTextOverlayController = new TextOverlayController(layoutInflater, prefs);
+
         updateBackground();
         updateTextSize();
         updateTextColor();
+        updateAlignment();
     }
 
     public void clearPeakUsage() {
@@ -80,7 +87,7 @@ public class OverlayManager {
             }
         }
 
-        return sb.toCharSequence();
+        return sb.toString().trim();
     }
 
     public CharSequence getSharePayload() {
@@ -97,6 +104,10 @@ public class OverlayManager {
 
     public void updateTextColor() {
         mTextOverlayController.updateTextColor();
+    }
+
+    public void updateAlignment() {
+        mTextOverlayController.updateAlignment();
     }
 
     public void updateTextSize() {

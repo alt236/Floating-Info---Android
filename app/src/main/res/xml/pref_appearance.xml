@@ -6,9 +6,18 @@
         android:key="@string/pref_key_text_size"
         android:title="@string/prefs_title_text_size"
         app:max="6" />
+
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="0"
         android:key="@string/pref_key_bg_opacity"
         android:title="@string/prefs_title_background_opacity"
         app:max="70" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/screen_position_text"
+        android:entryValues="@array/screen_position_values"
+        android:key="@string/pref_key_screen_position"
+        android:summary="%s"
+        android:title="@string/prefs_title_screen_position"/>
 </PreferenceScreen>

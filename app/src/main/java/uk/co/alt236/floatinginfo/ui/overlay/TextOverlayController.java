@@ -1,72 +1,102 @@
 package uk.co.alt236.floatinginfo.ui.overlay;
 
-
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import uk.co.alt236.floatinginfo.R;
+import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 
 /*package*/ class TextOverlayController {
 
-    private final SharedPreferences mPrefs;
-    private final Context mContext;
+    private final OverlayPrefs mPrefs;
     private final LayoutInflater mInflater;
+    private final View mView;
     private final TextView mTextView;
 
-    public TextOverlayController(final Context context) {
-        mContext = context;
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mTextView = (TextView) generateView();
+    public TextOverlayController(final LayoutInflater layoutInflater,
+                                 final OverlayPrefs overlayPrefs) {
+        mInflater = layoutInflater;
+        mPrefs = overlayPrefs;
+        mView = generateView();
+        mTextView = (TextView) mView.findViewById(R.id.text);
     }
-
 
     private View generateView() {
         return mInflater.inflate(R.layout.screen_overlay, null);
     }
 
     public void updateBackground() {
-        final int v = mPrefs.getInt(mContext.getString(R.string.pref_key_bg_opacity), 0);
-        final int level = 0;
-        if (v > 0) {
-            final int a = (int) ((float) v / 100f * 255);
-            mTextView.setBackgroundColor(Color.argb(a, level, level, level));
-        } else {
-            mTextView.setBackground(null);
-        }
+        final int color = mPrefs.getBackgroundColor();
+        mTextView.setBackgroundColor(color);
     }
 
     public void updateTextColor() {
-        final int alpha = mPrefs.getInt(
-                mContext.getString(R.string.pref_key_text_opacity),
-                mContext.getResources().getInteger(R.integer.default_text_opacity));
-        final int red = mPrefs.getInt(
-                mContext.getString(R.string.pref_key_text_color_red),
-                mContext.getResources().getInteger(R.integer.default_text_red));
-        final int green = mPrefs.getInt(
-                mContext.getString(R.string.pref_key_text_color_green),
-                mContext.getResources().getInteger(R.integer.default_text_green));
-        final int blue = mPrefs.getInt(
-                mContext.getString(R.string.pref_key_text_color_blue),
-                mContext.getResources().getInteger(R.integer.default_text_blue));
-        mTextView.setTextColor(Color.argb(alpha, red, green, blue));
+        final int color = mPrefs.getTextColor();
+        mTextView.setTextColor(color);
         mTextView.setShadowLayer(1.5f, -1, 1, Color.DKGRAY);
     }
 
     public void updateTextSize() {
-        final int sp = 6 + mPrefs.getInt(
-                mContext.getString(R.string.pref_key_text_size),
-                0);
-        mTextView.setTextSize(sp);
+        final int size = mPrefs.getTextSize();
+        mTextView.setTextSize(size);
     }
 
     public View getView() {
-        return mTextView;
+        return mView;
+    }
+
+
+    public void updateAlignment() {
+        final OverlayPrefs.Alignment alignment = mPrefs.getAlignment();
+
+        final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        switch (alignment) {
+            case TOP_LEFT:
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                break;
+            case TOP_CENTER:
+                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                break;
+            case TOP_RIGHT:
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                break;
+            case CENTER_LEFT:
+                lp.addRule(RelativeLayout.CENTER_VERTICAL);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                break;
+            case CENTER_CENTER:
+                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.addRule(RelativeLayout.CENTER_VERTICAL);
+                break;
+            case CENTER_RIGHT:
+                lp.addRule(RelativeLayout.CENTER_VERTICAL);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                break;
+            case BOTTOM_LEFT:
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                break;
+            case BOTTOM_CENTER:
+                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                break;
+            case BOTTOM_RIGHT:
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                break;
+            default:
+                throw new IllegalStateException("Unknown alignment: " + alignment);
+        }
+
+        mTextView.setLayoutParams(lp);
     }
 
     public void setText(final CharSequence charSequence) {

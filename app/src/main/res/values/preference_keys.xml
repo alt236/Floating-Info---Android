@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="pref_key_screen_position" translatable="false">pref_key_screen_position</string>
     <string name="pref_key_bg_opacity" translatable="false">pref_bg_opacity</string>
     <string name="pref_key_info_open_source" translatable="false">pref_info_open_source</string>
     <string name="pref_key_text_color_blue" translatable="false">pref_text_color_blue</string>

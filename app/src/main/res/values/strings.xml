@@ -33,6 +33,7 @@
     <string name="prefs_title_color_green">Green</string>
     <string name="prefs_title_color_red">Red</string>
     <string name="prefs_title_background_opacity">Background Opacity</string>
+    <string name="prefs_title_screen_position">Overlay Position</string>
     <string name="prefs_title_text_opacity">Text Opacity</string>
     <string name="prefs_title_text_size">Text Size</string>
     <string name="prefs_title_show_net_info">Show Net Info</string>
@@ -69,4 +70,16 @@
         This application that displays a number of stats concerning the current foreground process and the OS in general as a system overlay window.
         \nTo do this, it needs access to a number of Android APIs. The next few screens will ask explain why this is, and ask you to grant the necessary permissions.
     </string>
+
+    <string-array name="screen_position_text">
+        <item>Top Left</item>
+        <item>Top Centre</item>
+        <item>Top Right</item>
+        <item>Centre Left</item>
+        <item>Centre Top</item>
+        <item>Centre Right</item>
+        <item>Bottom Left</item>
+        <item>Bottom Centre</item>
+        <item>Bottom Right</item>
+    </string-array>
 </resources>

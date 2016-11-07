@@ -5,4 +5,15 @@
     <integer name="default_text_green">250</integer>
     <integer name="default_text_blue">250</integer>
 
+    <string-array name="screen_position_values">
+        <item>TOP_LEFT</item>
+        <item>TOP_CENTER</item>
+        <item>TOP_RIGHT</item>
+        <item>CENTER_LEFT</item>
+        <item>CENTER_CENTER</item>
+        <item>CENTER_RIGHT</item>
+        <item>BOTTOM_LEFT</item>
+        <item>BOTTOM_CENTER</item>
+        <item>BOTTOM_RIGHT</item>
+    </string-array>
 </resources>

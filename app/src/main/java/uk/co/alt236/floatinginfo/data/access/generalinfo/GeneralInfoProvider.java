@@ -164,6 +164,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
             mOverlayManager.updateTextColor();
         } else if (key.equals(getString(R.string.pref_key_text_color_blue))) {
             mOverlayManager.updateTextColor();
+        } else if (key.equals(getString(R.string.pref_key_screen_position))) {
+            mOverlayManager.updateAlignment();
         }
     }
 

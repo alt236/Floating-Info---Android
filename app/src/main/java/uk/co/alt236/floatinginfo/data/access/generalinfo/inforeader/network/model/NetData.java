@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
+package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model;
 
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
+
+import java.util.List;
 
 /**
  *
@@ -26,11 +28,16 @@ public class NetData {
     private final String mProxy;
     private final android.net.NetworkInfo mNetworkInfo;
     private final WifiInfo mWifiInfo;
+    private final List<Interface> mInterfaces;
 
-    public NetData(final NetworkInfo networkInfo, final WifiInfo wifiInfo, final String proxy) {
+    public NetData(final NetworkInfo networkInfo,
+                   final WifiInfo wifiInfo,
+                   final String proxy,
+                   final List<Interface> interfaces) {
         mProxy = proxy;
         mNetworkInfo = networkInfo;
         mWifiInfo = wifiInfo;
+        mInterfaces = interfaces;
     }
 
     public String getProxy() {
@@ -43,5 +50,9 @@ public class NetData {
 
     public android.net.NetworkInfo getNetworkInfo() {
         return mNetworkInfo;
+    }
+
+    public List<Interface> getInterfaces() {
+        return mInterfaces;
     }
 }

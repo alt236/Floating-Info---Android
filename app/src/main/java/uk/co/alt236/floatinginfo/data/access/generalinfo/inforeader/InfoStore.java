@@ -21,7 +21,7 @@ import java.util.Map;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 
 public class InfoStore {
     public final Object mLock = new Object();

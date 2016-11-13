@@ -22,13 +22,13 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
 
-/*package*/ class NetworkInfo {
+/*package*/ class NetworkInfoReader {
 
     private final ConnectivityManager mConnectivityManager;
     private final Context mContext;
     private final WifiManager mWifiManager;
 
-    public NetworkInfo(final Context context) {
+    public NetworkInfoReader(final Context context) {
         mContext = context.getApplicationContext();
         mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);

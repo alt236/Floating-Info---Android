@@ -20,8 +20,8 @@ import android.os.AsyncTask;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppDiscovery;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 import uk.co.alt236.floatinginfo.util.Constants;
 
 public class MonitorTask extends AsyncTask<Void, MonitorTask.MonitorUpdate, Void> {

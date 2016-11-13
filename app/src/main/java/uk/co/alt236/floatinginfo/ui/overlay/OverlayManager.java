@@ -19,11 +19,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.util.List;
+
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 import uk.co.alt236.floatinginfo.data.prefs.EnabledInfo;
 import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
@@ -37,6 +40,7 @@ public class OverlayManager {
     private final TextWriter<ForegroundAppData> mFgProcessTextWriter;
     private final TextWriter<MemoryData> mMemoryTextWriter;
     private final TextWriter<NetData> mNetDataTextWriter;
+    private final TextWriter<List<Interface>> mInterfaceWriter;
 
     public OverlayManager(final Context context,
                           final InfoStore store) {
@@ -47,6 +51,7 @@ public class OverlayManager {
         mMemoryTextWriter = new MemoryTextWriter();
         mFgProcessTextWriter = new FgProcessTextWriter();
         mNetDataTextWriter = new NetDataTextWriter();
+        mInterfaceWriter = new InterfaceWriter();
 
         final OverlayPrefs prefs = new OverlayPrefs(context);
         final LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -74,6 +79,7 @@ public class OverlayManager {
             if (mEnabledInfo.isNetInfoEnabled()) {
                 final NetData netData = mInfoStore.getNetData();
                 mNetDataTextWriter.writeText(netData, sb);
+                mInterfaceWriter.writeText(netData.getInterfaces(), sb);
             }
 
             if (mEnabledInfo.isCpuInfoEnabled()) {

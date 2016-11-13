@@ -19,27 +19,36 @@ package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 
+import java.util.List;
+
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
+
 /**
  *
  */
 public class NetDataReader {
-    private final ProxyInfo mProxyInfo;
-    private final NetworkInfo mNetworkInfo;
+    private final ProxyInfoReader mProxyInfoReader;
+    private final NetworkInfoReader mNetworkInfoReader;
+    private final InterfaceReader mInterfaceReader;
     private NetData mNetData;
 
     public NetDataReader(final Context context) {
         final Context appContext = context.getApplicationContext();
-        mProxyInfo = new ProxyInfo(appContext);
-        mNetworkInfo = new NetworkInfo(appContext);
+        mProxyInfoReader = new ProxyInfoReader(appContext);
+        mNetworkInfoReader = new NetworkInfoReader(appContext);
+        mInterfaceReader = new InterfaceReader();
 
         update();
     }
 
     public void update() {
-        final String proxyInfo = mProxyInfo.getProxyUrl();
-        final WifiInfo wifiInfo = mNetworkInfo.getCurrentWifiInfo();
-        final android.net.NetworkInfo networkInfo = mNetworkInfo.getActiveNetInfo();
-        mNetData = new NetData(networkInfo, wifiInfo, proxyInfo);
+        final String proxyInfo = mProxyInfoReader.getProxyUrl();
+        final WifiInfo wifiInfo = mNetworkInfoReader.getCurrentWifiInfo();
+        final android.net.NetworkInfo networkInfo = mNetworkInfoReader.getActiveNetInfo();
+        final List<Interface> interfaces = mInterfaceReader.getInterfaces();
+
+        mNetData = new NetData(networkInfo, wifiInfo, proxyInfo, interfaces);
     }
 
     public NetData getNetData() {

@@ -20,12 +20,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 
-/*package*/ class ProxyInfo {
+/*package*/ class ProxyInfoReader {
 
     private final ConnectivityManager mConnectivityManager;
     private final Context mContext;
 
-    public ProxyInfo(final Context context) {
+    public ProxyInfoReader(final Context context) {
         mContext = context.getApplicationContext();
         mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
     }

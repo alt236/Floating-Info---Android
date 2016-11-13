@@ -41,7 +41,7 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
 import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
 import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;

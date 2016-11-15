@@ -52,7 +52,7 @@ import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
 
     private static final int NOTIFICATION_ID = 1138;
-    private static final String TAG = "GeneralInfoProvider";
+    private static final String TAG = GeneralInfoProvider.class.getSimpleName();
     private final AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
     private final AtomicInteger mForegroundAppPid = new AtomicInteger();
     private final CpuUtilisationReader mCpuUtilisationReader;
@@ -76,10 +76,9 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         mInfoStore = new InfoStore();
         mOverlayManager = new OverlayManager(inflater, mInfoStore, overlayPrefs, enabledInfoPrefs);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mPrefs.registerOnSharedPreferenceChangeListener(this);
         mLogReceiver = new GeneralInfoReceiver(this);
-        registerReceiver(mLogReceiver, mLogReceiver.getIntentFilter());
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     private void createSystemWindow() {
@@ -92,15 +91,6 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         );
         final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         wm.addView(mOverlayManager.getView(), lp);
-    }
-
-    @Override
-    public void destroy() {
-        mPrefs.unregisterOnSharedPreferenceChangeListener(this);
-        unregisterReceiver(mLogReceiver);
-        stopProcessMonitor();
-        removeSystemWindow();
-        removeNotification();
     }
 
     private PendingIntent getNotificationIntent(final String action) {
@@ -224,10 +214,23 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 
     @Override
     public boolean start() {
+        Log.d(TAG, "Starting Monitor");
+        mPrefs.registerOnSharedPreferenceChangeListener(this);
+        registerReceiver(mLogReceiver, mLogReceiver.getIntentFilter());
         createSystemWindow();
         showNotification();
         startProcessMonitor();
         return true;
+    }
+
+    @Override
+    public void stop() {
+        Log.d(TAG, "Stopping Monitor");
+        mPrefs.unregisterOnSharedPreferenceChangeListener(this);
+        unregisterReceiver(mLogReceiver);
+        stopProcessMonitor();
+        removeSystemWindow();
+        removeNotification();
     }
 
     private void startProcessMonitor() {

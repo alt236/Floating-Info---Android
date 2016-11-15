@@ -26,6 +26,7 @@ public class FloatingInfoService extends Service {
 
     private static boolean sIsRunning = false;
     private BaseProvider mMonitor;
+    private ScreenStateListener mScreenStateListener;
 
     public static boolean isRunning() {
         return sIsRunning;
@@ -40,20 +41,44 @@ public class FloatingInfoService extends Service {
     public void onCreate() {
         super.onCreate();
         mMonitor = new GeneralInfoProvider(this);
+
+        final ScreenStateListener.OnScreenStateListener listener = new ScreenStateListener.OnScreenStateListener() {
+            @Override
+            public void onScreenOn() {
+                startMonitor();
+            }
+
+            @Override
+            public void onScreenOff() {
+                stopMonitor();
+            }
+        };
+
+        mScreenStateListener = new ScreenStateListener(this, listener);
+        mScreenStateListener.register();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mScreenStateListener.unregister();
+        stopMonitor();
         sIsRunning = false;
-        mMonitor.destroy();
     }
 
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         sIsRunning = true;
-        mMonitor.start();
+        startMonitor();
         return Service.START_STICKY;
     }
 
+
+    private void startMonitor() {
+        mMonitor.start();
+    }
+
+    private void stopMonitor() {
+        mMonitor.stop();
+    }
 }

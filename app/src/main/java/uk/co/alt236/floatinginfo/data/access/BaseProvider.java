@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.StringRes;
 
 public abstract class BaseProvider implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final Service mService;
@@ -31,7 +33,7 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
         mService = service;
     }
 
-    public abstract void destroy();
+    public abstract void stop();
 
     public Context getApplicationContext() {
         return mService.getApplicationContext();
@@ -41,11 +43,11 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
         return mService;
     }
 
-    public int getInteger(final int resId) {
+    public int getInteger(@IntegerRes final int resId) {
         return mService.getResources().getInteger(resId);
     }
 
-    public String getString(final int resId) {
+    public String getString(@StringRes final int resId) {
         return mService.getString(resId);
     }
 

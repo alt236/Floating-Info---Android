@@ -24,11 +24,11 @@ import android.support.annotation.StringRes;
 
 import uk.co.alt236.floatinginfo.R;
 
-public class EnabledInfo {
+public class EnabledInfoPrefs {
     private final SharedPreferences mSharedPreferences;
     private final Resources mResources;
 
-    public EnabledInfo(final Context context) {
+    public EnabledInfoPrefs(final Context context) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         mResources = context.getResources();
     }

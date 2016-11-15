@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.ui.overlay;
+package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
 import java.util.Collections;
 import java.util.Comparator;

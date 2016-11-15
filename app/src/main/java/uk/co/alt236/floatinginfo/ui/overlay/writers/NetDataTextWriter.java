@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.ui.overlay;
+package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

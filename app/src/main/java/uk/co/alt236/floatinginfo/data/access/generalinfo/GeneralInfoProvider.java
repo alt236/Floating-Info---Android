@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -42,6 +43,8 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtili
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
+import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
+import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
 import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
 import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
@@ -64,10 +67,14 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 
     public GeneralInfoProvider(final Service context) {
         super(context);
+        final EnabledInfoPrefs enabledInfoPrefs = new EnabledInfoPrefs(context);
+        final OverlayPrefs overlayPrefs = new OverlayPrefs(context);
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+
         mCpuUtilisationReader = new CpuUtilisationReader();
         mMemoryInfoReader = new MemoryInfoReader(getContext());
         mInfoStore = new InfoStore();
-        mOverlayManager = new OverlayManager(context, mInfoStore);
+        mOverlayManager = new OverlayManager(inflater, mInfoStore, overlayPrefs, enabledInfoPrefs);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mPrefs.registerOnSharedPreferenceChangeListener(this);

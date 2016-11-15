@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.ui.overlay;
+package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 /**
  *
  */
-/*package*/ interface TextWriter<T> {
+public interface TextWriter<T> {
     void writeText(final T input, final StringBuilderHelper stringBuilder);
 
     void clear();

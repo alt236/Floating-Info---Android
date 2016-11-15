@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.ui.overlay;
+package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
+import java.util.List;
+
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
-/**
- *
- */
-/*package*/ class FgProcessTextWriter implements TextWriter<ForegroundAppData> {
+/*package*/ class CpuTextWriter implements TextWriter<CpuData> {
     @Override
-    public void writeText(final ForegroundAppData input, final StringBuilderHelper sb) {
+    public void writeText(final CpuData input, final StringBuilderHelper sb) {
         if (input != null) {
-            sb.appendBold("Foreground Application Info");
+            sb.appendBold("Global CPU Utilisation");
             sb.startKeyValueSection();
-            sb.append("App Name", String.valueOf(input.getAppName()));
-            sb.append("Package", input.getPackage());
-            sb.append("PID", input.getPid());
+            sb.append("Total", String.valueOf(input.getOveralCpu()) + "%");
+            final List<Integer> list = input.getPerCpuUtilisation();
+
+            int count = 0;
+
+            for (final Integer value : list) {
+                sb.append("CPU" + count, String.valueOf(value) + "%");
+                count++;
+            }
             sb.endKeyValueSection();
             sb.appendNewLine();
         }

@@ -48,9 +48,14 @@ public class EnabledInfoPrefs {
         return getBoolean(R.string.pref_key_show_cpu_info, defValue);
     }
 
-    public boolean isMemoryInfoEnabled() {
+    public boolean isShowItemsWithZeroAllocationEnabled() {
         final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
         return getBoolean(R.string.pref_key_show_memory_info, defValue);
+    }
+
+    public boolean showZeroMemoryItems() {
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_zero_memory_items, defValue);
     }
 
     private boolean getBoolean(@StringRes final int resId, final boolean defVal) {

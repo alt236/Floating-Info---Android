@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
+import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 import uk.co.alt236.floatinginfo.util.Util;
 
@@ -28,9 +29,11 @@ import uk.co.alt236.floatinginfo.util.Util;
  */
 /*package*/ class MemoryTextWriter implements TextWriter<MemoryData> {
     private final PeakKeeper mPeakKeeper;
+    private final EnabledInfoPrefs mEnabledInfo;
 
-    public MemoryTextWriter() {
+    public MemoryTextWriter(final EnabledInfoPrefs enabledInfoPrefs) {
         mPeakKeeper = new PeakKeeper();
+        mEnabledInfo = enabledInfoPrefs;
     }
 
     @Override
@@ -136,7 +139,18 @@ import uk.co.alt236.floatinginfo.util.Util;
     }
 
     private void constructMemoryLine(final StringBuilderHelper sb, final String key, final int value) {
-        if (value >= 0) { // We assume negative values mean that something went
+        final boolean showZero = mEnabledInfo.showZeroMemoryItems();
+
+        final boolean showItem;
+        if (showZero) {
+            showItem = value >= 0;
+        } else if (value > 0) {
+            showItem = true;
+        } else {
+            showItem = mPeakKeeper.getValue(key) > 0;
+        }
+
+        if (showItem) { // We assume negative values mean that something went
             // wrong with reflection.
             String valueStr = Util.getHumanReadableKiloByteCount(value, true);
             mPeakKeeper.update(key, value);
@@ -167,7 +181,7 @@ import uk.co.alt236.floatinginfo.util.Util;
                 if (res == null) {
                     return 0;
                 } else {
-                    return res.intValue();
+                    return res;
                 }
             }
         }
@@ -180,7 +194,7 @@ import uk.co.alt236.floatinginfo.util.Util;
                 if (stored == null) {
                     tmp = -1;
                 } else {
-                    tmp = stored.intValue();
+                    tmp = stored;
                 }
 
                 if (value > tmp) {

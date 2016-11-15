@@ -38,7 +38,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
     public TextWriterWrapper(EnabledInfoPrefs enabledInfoPrefs) {
         mEnabledInfoPrefs = enabledInfoPrefs;
         mCpuTextWriter = new CpuTextWriter();
-        mMemoryTextWriter = new MemoryTextWriter();
+        mMemoryTextWriter = new MemoryTextWriter(enabledInfoPrefs);
         mFgProcessTextWriter = new FgProcessTextWriter();
         mNetDataTextWriter = new NetDataTextWriter();
         mInterfaceWriter = new InterfaceWriter();
@@ -65,7 +65,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
                 mCpuTextWriter.writeText(cpuInfo, sb);
             }
 
-            if (mEnabledInfoPrefs.isMemoryInfoEnabled()) {
+            if (mEnabledInfoPrefs.isShowItemsWithZeroAllocationEnabled()) {
                 final MemoryData memoryInfo = input.getMemoryInfo();
                 mMemoryTextWriter.writeText(memoryInfo, sb);
             }

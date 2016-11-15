@@ -34,15 +34,23 @@ public class EnabledInfo {
     }
 
     public boolean isNetInfoEnabled() {
-        return getBoolean(R.string.pref_key_show_net_info, false);
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_net_info, defValue);
+    }
+
+    public boolean isIpInfoEnabled() {
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_ip_info, defValue);
     }
 
     public boolean isCpuInfoEnabled() {
-        return getBoolean(R.string.pref_key_show_cpu_info, false);
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_cpu_info, defValue);
     }
 
     public boolean isMemoryInfoEnabled() {
-        return getBoolean(R.string.pref_key_show_memory_info, false);
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_memory_info, defValue);
     }
 
     private boolean getBoolean(@StringRes final int resId, final boolean defVal) {

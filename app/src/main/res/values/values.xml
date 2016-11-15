@@ -12,6 +12,8 @@
     <integer name="default_text_green">250</integer>
     <integer name="default_text_blue">250</integer>
 
+    <bool name="default_enabled_info_value">true</bool>
+
     <string-array name="screen_position_values">
         <item>TOP_LEFT</item>
         <item>TOP_CENTER</item>

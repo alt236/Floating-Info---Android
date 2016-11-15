@@ -1,17 +1,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_net_info"
         android:title="@string/prefs_title_show_net_info"/>
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="@bool/default_enabled_info_value"
+        android:dependency="@string/pref_key_show_net_info"
+        android:key="@string/pref_key_show_ip_info"
+        android:title="@string/prefs_title_show_ip_info"/>
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_cpu_info"
         android:title="@string/prefs_title_show_cpu_info"/>
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_memory_info"
         android:title="@string/prefs_title_show_memory_info"/>
 

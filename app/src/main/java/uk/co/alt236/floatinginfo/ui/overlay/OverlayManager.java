@@ -79,7 +79,10 @@ public class OverlayManager {
             if (mEnabledInfo.isNetInfoEnabled()) {
                 final NetData netData = mInfoStore.getNetData();
                 mNetDataTextWriter.writeText(netData, sb);
-                mInterfaceWriter.writeText(netData.getInterfaces(), sb);
+
+                if (mEnabledInfo.isIpInfoEnabled()) {
+                    mInterfaceWriter.writeText(netData.getInterfaces(), sb);
+                }
             }
 
             if (mEnabledInfo.isCpuInfoEnabled()) {

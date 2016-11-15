@@ -11,6 +11,7 @@
     <string name="pref_key_text_size" translatable="false">pref_text_size</string>
     <string name="pref_key_version" translatable="false">pref_version</string>
     <string name="pref_key_show_net_info" translatable="false">pref_show_net_info</string>
+    <string name="pref_key_show_ip_info" translatable="false">pref_show_ip_info</string>
     <string name="pref_key_show_cpu_info" translatable="false">pref_show_cpu_info</string>
     <string name="pref_key_show_memory_info" translatable="false">pref_show_memory_info</string>
 

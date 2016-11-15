@@ -21,11 +21,11 @@ import java.util.List;
 
 public class CpuData {
     private final List<Integer> mPerCpuUtilisation;
-    private final int mOveralCpu;
+    private final int mOverallCpu;
 
-    public CpuData(final int overalCpu) {
-        mPerCpuUtilisation = new ArrayList<Integer>();
-        mOveralCpu = overalCpu;
+    public CpuData(final int overallCpu) {
+        mPerCpuUtilisation = new ArrayList<>();
+        mOverallCpu = overallCpu;
     }
 
     public void addCpuUtil(final int value) {
@@ -36,7 +36,7 @@ public class CpuData {
         return Collections.unmodifiableList(mPerCpuUtilisation);
     }
 
-    public int getOveralCpu() {
-        return mOveralCpu;
+    public int getOverallCpu() {
+        return mOverallCpu;
     }
 }

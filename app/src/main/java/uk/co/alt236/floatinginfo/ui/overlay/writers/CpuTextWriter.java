@@ -27,7 +27,7 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
         if (input != null) {
             sb.appendBold("Global CPU Utilisation");
             sb.startKeyValueSection();
-            sb.append("Total", String.valueOf(input.getOveralCpu()) + "%");
+            sb.append("Total", String.valueOf(input.getOverallCpu()) + "%");
             final List<Integer> list = input.getPerCpuUtilisation();
 
             int count = 0;

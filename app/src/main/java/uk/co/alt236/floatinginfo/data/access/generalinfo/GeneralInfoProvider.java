@@ -15,17 +15,11 @@
  */
 package uk.co.alt236.floatinginfo.data.access.generalinfo;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.os.AsyncTask;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,33 +31,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.data.access.BaseProvider;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.asynctask.MonitorTask;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
-import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
-import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
 import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
-
-    private static final int NOTIFICATION_ID = 1138;
     private static final String TAG = GeneralInfoProvider.class.getSimpleName();
     private final AtomicBoolean mIsLogPaused = new AtomicBoolean(false);
     private final AtomicInteger mForegroundAppPid = new AtomicInteger();
-    private final CpuUtilisationReader mCpuUtilisationReader;
     private final GeneralInfoReceiver mLogReceiver;
     private final InfoStore mInfoStore;
-    private final MemoryInfoReader mMemoryInfoReader;
-    private final NotificationManager mNotificationManager;
-    private final SharedPreferences mPrefs;
+    private final PrefsChangeListener mPrefsChangeListener;
     private final OverlayManager mOverlayManager;
     private final Handler mViewUpdateHandler = new Handler();
-    private MonitorTask mProcessMonitorTask;
+    private final NotificationControl mNotificationControl;
+    private final MonitorTask mMonitorTask;
 
     public GeneralInfoProvider(final Service context) {
         super(context);
@@ -71,14 +55,12 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         final OverlayPrefs overlayPrefs = new OverlayPrefs(context);
         final LayoutInflater inflater = LayoutInflater.from(getContext());
 
-        mCpuUtilisationReader = new CpuUtilisationReader();
-        mMemoryInfoReader = new MemoryInfoReader(getContext());
+        mNotificationControl = new NotificationControl(context);
         mInfoStore = new InfoStore();
         mOverlayManager = new OverlayManager(inflater, mInfoStore, overlayPrefs, enabledInfoPrefs);
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mLogReceiver = new GeneralInfoReceiver(this);
-
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mPrefsChangeListener = new PrefsChangeListener(context, mOverlayManager);
+        mMonitorTask = new MonitorTask(context);
     }
 
     private void createSystemWindow() {
@@ -93,40 +75,21 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         wm.addView(mOverlayManager.getView(), lp);
     }
 
-    private PendingIntent getNotificationIntent(final String action) {
-        if (action == null) {
-            final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            return PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        } else if (GeneralInfoReceiver.ACTION_SHARE.equals(action)) {
-            final Intent intent = new Intent(
-                    getApplicationContext(),
-                    ShareActivity.class);
-            return PendingIntent.getActivity(
-                    getApplicationContext(),
-                    0,
-                    intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-        } else {
-            final Intent intent = new Intent(action);
-            return PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        }
-    }
-
     @Override
     public void onLogClear() {
-        updateDisplay(true);
+        updateDisplay();
     }
 
     @Override
     public void onLogPause() {
         mIsLogPaused.set(true);
-        showNotification();
+        mNotificationControl.show(mIsLogPaused.get());
     }
 
     @Override
     public void onLogResume() {
         mIsLogPaused.set(false);
-        showNotification();
+        mNotificationControl.show(mIsLogPaused.get());
     }
 
     @Override
@@ -147,27 +110,8 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         startActivity(shareIntent);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
-        if (key.equals(getString(R.string.pref_key_bg_opacity))) {
-            mOverlayManager.updateBackground();
-        } else if (key.equals(getString(R.string.pref_key_text_alpha))) {
-            mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_key_text_size))) {
-            mOverlayManager.updateTextSize();
-        } else if (key.equals(getString(R.string.pref_key_text_color_red))) {
-            mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_key_text_color_green))) {
-            mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_key_text_color_blue))) {
-            mOverlayManager.updateTextColor();
-        } else if (key.equals(getString(R.string.pref_key_screen_position))) {
-            mOverlayManager.updateAlignment();
-        }
-    }
-
     private void removeNotification() {
-        mNotificationManager.cancel(NOTIFICATION_ID);
+        mNotificationControl.dismiss();
     }
 
     private void removeSystemWindow() {
@@ -177,48 +121,13 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         }
     }
 
-    private void showNotification() {
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(getString(R.string.notification_big_text)))
-                .setSmallIcon(R.drawable.ic_stat_main)
-                .setOngoing(true)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_small_text))
-                .setContentIntent(getNotificationIntent(null));
-
-        if (mIsLogPaused.get()) {
-            mBuilder.addAction(
-                    R.drawable.ic_stat_play,
-                    getString(R.string.statusbar_play),
-                    getNotificationIntent(GeneralInfoReceiver.ACTION_PLAY));
-        } else {
-            mBuilder.addAction(
-                    R.drawable.ic_stat_pause,
-                    getString(R.string.statusbar_pause),
-                    getNotificationIntent(GeneralInfoReceiver.ACTION_PAUSE));
-        }
-
-//		mBuilder.addAction(
-//				R.drawable.ic_stat_clear,
-//				getString(R.string.statusbar_clear),
-//				getNotificationIntent(GeneralInfoReceiver.ACTION_CLEAR));
-
-        mBuilder.addAction(
-                R.drawable.ic_stat_share,
-                getString(R.string.statusbar_share),
-                getNotificationIntent(GeneralInfoReceiver.ACTION_SHARE));
-
-        startForeground(NOTIFICATION_ID, mBuilder.build());
-    }
-
     @Override
     public boolean start() {
         Log.d(TAG, "Starting Monitor");
-        mPrefs.registerOnSharedPreferenceChangeListener(this);
+        mPrefsChangeListener.register();
         registerReceiver(mLogReceiver, mLogReceiver.getIntentFilter());
         createSystemWindow();
-        showNotification();
+        mNotificationControl.show(mIsLogPaused.get());
         startProcessMonitor();
         return true;
     }
@@ -226,7 +135,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     @Override
     public void stop() {
         Log.d(TAG, "Stopping Monitor");
-        mPrefs.unregisterOnSharedPreferenceChangeListener(this);
+        mPrefsChangeListener.unRegister();
         unregisterReceiver(mLogReceiver);
         stopProcessMonitor();
         removeSystemWindow();
@@ -234,14 +143,13 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void startProcessMonitor() {
-        mProcessMonitorTask = new MonitorTask(getContext()) {
+        mMonitorTask.start(new MonitorTask.UpdateCallback() {
             @Override
-            protected void onProgressUpdate(final MonitorTask.MonitorUpdate... values) {
+            public void onUpdate(final MonitorTask.MonitorUpdate update) {
                 if (!mIsLogPaused.get()) {
-                    final boolean change; // = false;
-                    final ForegroundAppData appData = values[0].getForegroundAppData();
-                    final NetData netData = values[0].getNetData();
+                    final ForegroundAppData appData = update.getForegroundAppData();
 
+                    final boolean change; // = false;
                     if (appData.getPid() != mForegroundAppPid.get()) {
                         change = true;
                         mForegroundAppPid.set(appData.getPid());
@@ -250,36 +158,27 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
                         change = false;
                     }
 
-                    mMemoryInfoReader.update(mForegroundAppPid.get());
-                    mCpuUtilisationReader.update();
-
                     mInfoStore.set(appData);
-                    mInfoStore.set(netData);
-                    mInfoStore.set(mCpuUtilisationReader.getCpuInfo());
-                    mInfoStore.set(mMemoryInfoReader.getInfo());
+                    mInfoStore.set(update.getNetData());
+                    mInfoStore.set(update.getCpuData());
+                    mInfoStore.set(update.getMemoryData());
 
-                    updateDisplay(false);
+                    updateDisplay();
                     if (change) {
-                        showNotification();
+                        mNotificationControl.show(mIsLogPaused.get());
                     }
                 }
             }
-        };
-
-        mProcessMonitorTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
         Log.i(TAG, "process monitor task started");
     }
 
     private void stopProcessMonitor() {
-        if (mProcessMonitorTask != null) {
-            mProcessMonitorTask.cancel(true);
-        }
-        mProcessMonitorTask = null;
-
+        mMonitorTask.stop();
         Log.i(TAG, "process monitor task stopped");
     }
 
-    private void updateDisplay(final boolean clear) {
+    private void updateDisplay() {
 
         mViewUpdateHandler.post(new Runnable() {
             @Override

@@ -15,17 +15,15 @@
  */
 package uk.co.alt236.floatinginfo.data.access;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 
-public abstract class BaseProvider implements SharedPreferences.OnSharedPreferenceChangeListener {
+public abstract class BaseProvider {
     private final Service mService;
 
 
@@ -63,10 +61,6 @@ public abstract class BaseProvider implements SharedPreferences.OnSharedPreferen
 
     protected void startActivity(final Intent intent) {
         getContext().startActivity(intent);
-    }
-
-    protected void startForeground(final int id, final Notification notification) {
-        mService.startForeground(id, notification);
     }
 
     protected void unregisterReceiver(final BroadcastReceiver receiver) {

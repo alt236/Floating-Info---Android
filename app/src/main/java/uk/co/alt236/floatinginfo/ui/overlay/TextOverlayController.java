@@ -17,6 +17,7 @@
 package uk.co.alt236.floatinginfo.ui.overlay;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 
 /*package*/ class TextOverlayController {
+    private static final String TAG = TextOverlayController.class.getSimpleName();
 
     private final OverlayPrefs mPrefs;
     private final LayoutInflater mInflater;
@@ -47,17 +49,20 @@ import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 
     public void updateBackground() {
         final int color = mPrefs.getBackgroundColor();
+        Log.d(TAG, "Updating BgColor to : #" + Integer.toHexString(color));
         mTextView.setBackgroundColor(color);
     }
 
     public void updateTextColor() {
         final int color = mPrefs.getTextColor();
+        Log.d(TAG, "Updating TextColor to : #" + Integer.toHexString(color));
         mTextView.setTextColor(color);
         mTextView.setShadowLayer(1.5f, -1, 1, Color.DKGRAY);
     }
 
     public void updateTextSize() {
         final float size = mPrefs.getTextSize();
+        Log.d(TAG, "Updating TextSize to : " + size);
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
@@ -68,10 +73,10 @@ import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 
     public void updateAlignment() {
         final OverlayPrefs.Alignment alignment = mPrefs.getAlignment();
+        Log.d(TAG, "Updating View alignment to: " + alignment);
 
         final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
         switch (alignment) {
             case TOP_LEFT:
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);

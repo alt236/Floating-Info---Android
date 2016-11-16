@@ -82,7 +82,7 @@ public class OverlayPrefs {
     public enum Alignment {
         TOP_LEFT("TOP_LEFT"),
         TOP_CENTER("TOP_CENTER"),
-        TOP_RIGHT("TOP_CENTER"),
+        TOP_RIGHT("TOP_RIGHT"),
         CENTER_LEFT("CENTER_LEFT"),
         CENTER_CENTER("CENTER_CENTER"),
         CENTER_RIGHT("CENTER_RIGHT"),

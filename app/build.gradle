@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "uk.co.alt236.floatinginfo"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 25
     }
 
     buildTypes {
@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
     compile "eu.chainfire:libsuperuser:1.0.0.+"
     compile 'agency.tango.android:material-intro-screen:0.0.4'
 }

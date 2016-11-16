@@ -16,6 +16,8 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
@@ -23,7 +25,7 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 /*package*/ class CpuTextWriter implements TextWriter<CpuData> {
     @Override
-    public void writeText(final CpuData input, final StringBuilderHelper sb) {
+    public void writeText(final CpuData input, @NonNull final StringBuilderHelper sb) {
         if (input != null) {
             sb.appendBold("Global CPU Utilisation");
             sb.startKeyValueSection();

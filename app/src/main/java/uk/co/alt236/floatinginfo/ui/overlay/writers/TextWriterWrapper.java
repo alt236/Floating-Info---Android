@@ -55,7 +55,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
                 final NetData netData = input.getNetData();
                 mNetDataTextWriter.writeText(netData, sb);
 
-                if (mEnabledInfoPrefs.isIpInfoEnabled()) {
+                if (mEnabledInfoPrefs.isIpInfoEnabled() && netData != null) {
                     mInterfaceWriter.writeText(netData.getInterfaces(), sb);
                 }
             }
@@ -65,7 +65,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
                 mCpuTextWriter.writeText(cpuInfo, sb);
             }
 
-            if (mEnabledInfoPrefs.isShowItemsWithZeroAllocationEnabled()) {
+            if (mEnabledInfoPrefs.isMemoryInfoEnabled()) {
                 final MemoryData memoryInfo = input.getMemoryInfo();
                 mMemoryTextWriter.writeText(memoryInfo, sb);
             }

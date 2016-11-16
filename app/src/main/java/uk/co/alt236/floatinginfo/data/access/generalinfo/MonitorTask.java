@@ -28,18 +28,22 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.Memor
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
+import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.util.Constants;
 
 /*package*/ class MonitorTask {
     private final Context mContext;
+    private final EnabledInfoPrefs mEnabledInfoPrefs;
     private InnerTask mTask;
 
-    public MonitorTask(final Context context) {
+    public MonitorTask(final Context context,
+                       final EnabledInfoPrefs prefs) {
         mContext = context.getApplicationContext();
+        mEnabledInfoPrefs = prefs;
     }
 
     public void start(@NonNull final UpdateCallback callback) {
-        mTask = new InnerTask(mContext) {
+        mTask = new InnerTask(mContext, mEnabledInfoPrefs) {
             @Override
             protected void onProgressUpdate(final MonitorTask.MonitorUpdate... values) {
                 callback.onUpdate(values[0]);
@@ -66,8 +70,10 @@ import uk.co.alt236.floatinginfo.util.Constants;
         private final NetDataReader mNetDataReader;
         private final CpuUtilisationReader mCpuUtilisationReader;
         private final MemoryInfoReader mMemoryInfoReader;
+        private final EnabledInfoPrefs mEnabledInfoPrefs;
 
-        public InnerTask(final Context context) {
+        public InnerTask(final Context context, final EnabledInfoPrefs enabledInfoPrefs) {
+            mEnabledInfoPrefs = enabledInfoPrefs;
             mForegroundAppDiscovery = new ForegroundAppDiscovery(context);
             mNetDataReader = new NetDataReader(context);
             mMemoryInfoReader = new MemoryInfoReader(context);
@@ -78,27 +84,57 @@ import uk.co.alt236.floatinginfo.util.Constants;
         protected Void doInBackground(final Void... voids) {
 
             while (!isCancelled()) {
-                mNetDataReader.update();
-                mCpuUtilisationReader.update();
-
                 final ForegroundAppData appData = mForegroundAppDiscovery.getForegroundApp();
-                mMemoryInfoReader.update(appData.getPid());
-
                 publishProgress(
                         new MonitorUpdate(
                                 appData,
-                                mNetDataReader.getNetData(),
-                                mMemoryInfoReader.getInfo(),
-                                mCpuUtilisationReader.getCpuInfo()));
+                                getNetData(),
+                                getMemoryData(appData.getPid()),
+                                getCpuData()));
 
-                try {
-                    Thread.sleep(Constants.PROC_MONITOR_SLEEP);
-                } catch (final InterruptedException e) {
-                    // NOOP
+                if (!isCancelled()) {
+                    try {
+                        Thread.sleep(Constants.PROC_MONITOR_SLEEP);
+                    } catch (final InterruptedException e) {
+                        // NOOP
+                    }
                 }
             }
 
             return null;
+        }
+
+        private NetData getNetData() {
+            final NetData retVal;
+            if (mEnabledInfoPrefs.isNetInfoEnabled()) {
+                mNetDataReader.update();
+                retVal = mNetDataReader.getNetData();
+            } else {
+                retVal = null;
+            }
+            return retVal;
+        }
+
+        private MemoryData getMemoryData(final int pid) {
+            final MemoryData retVal;
+            if (mEnabledInfoPrefs.isMemoryInfoEnabled()) {
+                mMemoryInfoReader.update(pid);
+                retVal = mMemoryInfoReader.getInfo();
+            } else {
+                retVal = null;
+            }
+            return retVal;
+        }
+
+        private CpuData getCpuData() {
+            final CpuData retVal;
+            if (mEnabledInfoPrefs.isCpuInfoEnabled()) {
+                mCpuUtilisationReader.update();
+                retVal = mCpuUtilisationReader.getCpuInfo();
+            } else {
+                retVal = null;
+            }
+            return retVal;
         }
     }
 

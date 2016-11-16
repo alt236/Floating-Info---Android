@@ -16,6 +16,8 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.support.annotation.NonNull;
+
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
@@ -24,7 +26,7 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
  */
 /*package*/ class FgProcessTextWriter implements TextWriter<ForegroundAppData> {
     @Override
-    public void writeText(final ForegroundAppData input, final StringBuilderHelper sb) {
+    public void writeText(final ForegroundAppData input, @NonNull final StringBuilderHelper sb) {
         if (input != null) {
             sb.appendBold("Foreground Application Info");
             sb.startKeyValueSection();

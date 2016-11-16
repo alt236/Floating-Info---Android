@@ -16,6 +16,8 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.support.annotation.NonNull;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +29,7 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 /*package*/class InterfaceWriter implements TextWriter<List<Interface>> {
 
     @Override
-    public void writeText(final List<Interface> input, final StringBuilderHelper sb) {
+    public void writeText(final List<Interface> input, @NonNull final StringBuilderHelper sb) {
         if (isValid(input)) {
             sb.appendBold("Interfaces");
             sortInterfaces(input);

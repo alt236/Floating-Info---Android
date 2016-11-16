@@ -31,32 +31,20 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
     @Override
     public void writeText(final WifiInfo input, final StringBuilderHelper sb) {
-        final String ssid;
-        final String bssid;
-        final int linkSpeed;
-        final int rssi;
+        if (input != null) {
+            final String bssid = input.getBSSID();
+            final String ssid = input.getSSID();
+            final int linkSpeed = input.getLinkSpeed();
 
-        if (input == null) {
-            bssid = null;
-            ssid = null;
-            linkSpeed = 0;
-            rssi = 0;
-        } else {
-            bssid = input.getBSSID();
-            ssid = input.getSSID();
-            linkSpeed = input.getLinkSpeed();
-            rssi = input.getRssi();
-        }
+            sb.append("SSID", pretty(ssid));
+            sb.append("BSSID", pretty(bssid));
+            sb.append("RSSI", getRssi(input));
+            sb.append("Speed", String.format(Locale.US, NUMBER_WITH_UNIT, linkSpeed, WifiInfo.LINK_SPEED_UNITS));
 
-        sb.append("SSID", pretty(ssid));
-        sb.append("BSSID", pretty(bssid));
-        sb.append("RSSI", getRssi(input));
-        sb.append("Speed", String.format(Locale.US, NUMBER_WITH_UNIT, linkSpeed, WifiInfo.LINK_SPEED_UNITS));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                && input != null) {
-            final int freq = input.getFrequency();
-            sb.append("Freq", String.format(Locale.US, NUMBER_WITH_UNIT, freq, WifiInfo.FREQUENCY_UNITS));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                final int freq = input.getFrequency();
+                sb.append("Freq", String.format(Locale.US, NUMBER_WITH_UNIT, freq, WifiInfo.FREQUENCY_UNITS));
+            }
         }
     }
 

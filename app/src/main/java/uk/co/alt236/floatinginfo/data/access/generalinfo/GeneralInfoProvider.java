@@ -60,7 +60,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         mOverlayManager = new OverlayManager(inflater, mInfoStore, overlayPrefs, enabledInfoPrefs);
         mLogReceiver = new GeneralInfoReceiver(this);
         mPrefsChangeListener = new PrefsChangeListener(context, mOverlayManager);
-        mMonitorTask = new MonitorTask(context);
+        mMonitorTask = new MonitorTask(context, enabledInfoPrefs);
     }
 
     private void createSystemWindow() {

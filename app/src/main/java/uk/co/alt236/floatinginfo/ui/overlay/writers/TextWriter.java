@@ -16,13 +16,17 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
 /**
  *
  */
 public interface TextWriter<T> {
-    void writeText(final T input, final StringBuilderHelper stringBuilder);
+    void writeText(@Nullable final T input,
+                   @NonNull final StringBuilderHelper stringBuilder);
 
     void clear();
 }

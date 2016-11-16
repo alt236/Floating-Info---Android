@@ -16,6 +16,8 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +39,7 @@ import uk.co.alt236.floatinginfo.util.Util;
     }
 
     @Override
-    public void writeText(final MemoryData input, final StringBuilderHelper sb) {
+    public void writeText(final MemoryData input, @NonNull final StringBuilderHelper sb) {
         if (input != null) {
             sb.appendBold("Current Process Memory Utilisation");
             sb.startKeyValueSection();

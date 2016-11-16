@@ -15,6 +15,9 @@
  */
 package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,36 +27,28 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.Memor
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 
 public class InfoStore {
-    public final Object mLock = new Object();
+    private final Object mLock = new Object();
 
     private final Map<Key, Object> mStore = new HashMap<Key, Object>();
 
-    private Object get(final Key key) {
-        synchronized (mLock) {
-            return mStore.get(key);
-        }
-    }
-
+    @Nullable
     public NetData getNetData() {
         return (NetData) get(Key.NET_DATA);
     }
 
+    @Nullable
     public CpuData getCpuInfo() {
         return (CpuData) get(Key.CPU_INFO);
     }
 
+    @NonNull
     public ForegroundAppData getForegroundProcessInfo() {
         return (ForegroundAppData) get(Key.PROCESS_INFO);
     }
 
+    @Nullable
     public MemoryData getMemoryInfo() {
         return (MemoryData) get(Key.MEMORY_INFO);
-    }
-
-    private void put(final Key key, final Object value) {
-        synchronized (mLock) {
-            mStore.put(key, value);
-        }
     }
 
     public void set(final CpuData value) {
@@ -72,6 +67,17 @@ public class InfoStore {
         put(Key.NET_DATA, value);
     }
 
+    private Object get(final Key key) {
+        synchronized (mLock) {
+            return mStore.get(key);
+        }
+    }
+
+    private void put(final Key key, final Object value) {
+        synchronized (mLock) {
+            mStore.put(key, value);
+        }
+    }
     private enum Key {
         PROCESS_INFO,
         CPU_INFO,

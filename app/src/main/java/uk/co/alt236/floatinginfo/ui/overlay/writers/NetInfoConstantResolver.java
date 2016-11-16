@@ -29,7 +29,6 @@ import android.telephony.TelephonyManager;
     public String getNetworkType(@NonNull final NetworkInfo info) {
         final String retVal;
 
-
         switch (info.getType()) {
             case ConnectivityManager.TYPE_WIFI:
                 retVal = "WIFI";

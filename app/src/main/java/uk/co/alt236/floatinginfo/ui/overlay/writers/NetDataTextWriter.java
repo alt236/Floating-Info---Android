@@ -19,6 +19,7 @@ package uk.co.alt236.floatinginfo.ui.overlay.writers;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.Locale;
@@ -37,7 +38,7 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
     }
 
     @Override
-    public void writeText(final NetData input, final StringBuilderHelper sb) {
+    public void writeText(final NetData input, @NonNull final StringBuilderHelper sb) {
         if (input != null) {
 
             final NetworkInfo netInfo = input.getNetworkInfo();

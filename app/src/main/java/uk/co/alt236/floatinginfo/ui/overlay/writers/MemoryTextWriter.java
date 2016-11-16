@@ -16,6 +16,7 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import java.util.HashMap;
@@ -42,95 +43,104 @@ import uk.co.alt236.floatinginfo.util.Util;
     public void writeText(final MemoryData input, @NonNull final StringBuilderHelper sb) {
         if (input != null) {
             sb.appendBold("Current Process Memory Utilisation");
-            sb.startKeyValueSection();
-            constructMemoryLine(
-                    sb,
-                    "DalvikPrivateClean",
-                    input.getDalvikPrivateClean());
-            constructMemoryLine(
-                    sb,
-                    "DalvikPrivateDirty",
-                    input.getDalvikPrivateDirty());
-            constructMemoryLine(
-                    sb,
-                    "DalvikPss",
-                    input.getDalvikPss());
-            constructMemoryLine(
-                    sb,
-                    "DalvikSharedClean",
-                    input.getDalvikSharedClean());
-            constructMemoryLine(
-                    sb,
-                    "DalvikSharedDirty",
-                    input.getDalvikSharedDirty());
-            constructMemoryLine(
-                    sb,
-                    "DalvikSwappablePss",
-                    input.getDalvikSwappablePss());
-            constructMemoryLine(
-                    sb,
-                    "DalvikSwappedOut",
-                    input.getDalvikSwappedOut());
 
-            constructMemoryLine(
-                    sb,
-                    "NativePrivateClean",
-                    input.getNativePrivateClean());
-            constructMemoryLine(
-                    sb,
-                    "NativePrivateDirty",
-                    input.getNativePrivateDirty());
-            constructMemoryLine(
-                    sb,
-                    "NativePss",
-                    input.getNativePss());
-            constructMemoryLine(
-                    sb,
-                    "NativeSharedClean",
-                    input.getNativeSharedClean());
-            constructMemoryLine(
-                    sb,
-                    "NativeSharedDirty",
-                    input.getNativeSharedDirty());
-            constructMemoryLine(
-                    sb,
-                    "NativeSwappablePss",
-                    input.getNativeSwappablePss());
-            constructMemoryLine(
-                    sb,
-                    "NativeSwappedOut",
-                    input.getNativeSwappedOut());
+            if (input.getPid() < 0) {
+                sb.appendBold("E: Invalid PID");
 
-            constructMemoryLine(
-                    sb,
-                    "OtherPrivateClean",
-                    input.getOtherPrivateClean());
-            constructMemoryLine(
-                    sb,
-                    "OtherPrivateDirty",
-                    input.getOtherPrivateDirty());
-            constructMemoryLine(
-                    sb,
-                    "OtherPss",
-                    input.getOtherPss());
-            constructMemoryLine(
-                    sb,
-                    "OtherSharedClean",
-                    input.getOtherSharedClean());
-            constructMemoryLine(
-                    sb,
-                    "OtherSharedDirty",
-                    input.getOtherSharedDirty());
-            constructMemoryLine(
-                    sb,
-                    "OtherSwappablePss",
-                    input.getOtherSwappablePss());
-            constructMemoryLine(
-                    sb,
-                    "OtherSwappedOut",
-                    input.getOtherSwappedOut());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    sb.appendBold("E: Since Nougat apps can no longer get the PID of other apps");
+                }
+            } else {
+                sb.startKeyValueSection();
+                constructMemoryLine(
+                        sb,
+                        "DalvikPrivateClean",
+                        input.getDalvikPrivateClean());
+                constructMemoryLine(
+                        sb,
+                        "DalvikPrivateDirty",
+                        input.getDalvikPrivateDirty());
+                constructMemoryLine(
+                        sb,
+                        "DalvikPss",
+                        input.getDalvikPss());
+                constructMemoryLine(
+                        sb,
+                        "DalvikSharedClean",
+                        input.getDalvikSharedClean());
+                constructMemoryLine(
+                        sb,
+                        "DalvikSharedDirty",
+                        input.getDalvikSharedDirty());
+                constructMemoryLine(
+                        sb,
+                        "DalvikSwappablePss",
+                        input.getDalvikSwappablePss());
+                constructMemoryLine(
+                        sb,
+                        "DalvikSwappedOut",
+                        input.getDalvikSwappedOut());
 
-            sb.endKeyValueSection();
+                constructMemoryLine(
+                        sb,
+                        "NativePrivateClean",
+                        input.getNativePrivateClean());
+                constructMemoryLine(
+                        sb,
+                        "NativePrivateDirty",
+                        input.getNativePrivateDirty());
+                constructMemoryLine(
+                        sb,
+                        "NativePss",
+                        input.getNativePss());
+                constructMemoryLine(
+                        sb,
+                        "NativeSharedClean",
+                        input.getNativeSharedClean());
+                constructMemoryLine(
+                        sb,
+                        "NativeSharedDirty",
+                        input.getNativeSharedDirty());
+                constructMemoryLine(
+                        sb,
+                        "NativeSwappablePss",
+                        input.getNativeSwappablePss());
+                constructMemoryLine(
+                        sb,
+                        "NativeSwappedOut",
+                        input.getNativeSwappedOut());
+
+                constructMemoryLine(
+                        sb,
+                        "OtherPrivateClean",
+                        input.getOtherPrivateClean());
+                constructMemoryLine(
+                        sb,
+                        "OtherPrivateDirty",
+                        input.getOtherPrivateDirty());
+                constructMemoryLine(
+                        sb,
+                        "OtherPss",
+                        input.getOtherPss());
+                constructMemoryLine(
+                        sb,
+                        "OtherSharedClean",
+                        input.getOtherSharedClean());
+                constructMemoryLine(
+                        sb,
+                        "OtherSharedDirty",
+                        input.getOtherSharedDirty());
+                constructMemoryLine(
+                        sb,
+                        "OtherSwappablePss",
+                        input.getOtherSwappablePss());
+                constructMemoryLine(
+                        sb,
+                        "OtherSwappedOut",
+                        input.getOtherSwappedOut());
+
+                sb.endKeyValueSection();
+            }
             sb.appendNewLine();
         }
     }

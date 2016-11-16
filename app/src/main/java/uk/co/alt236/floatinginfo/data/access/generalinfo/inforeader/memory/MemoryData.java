@@ -84,8 +84,10 @@ public class MemoryData {
     /** The dirty pages used by anyting else that have been swapped out. */
     /** @hide We may want to expose this, eventually. */
     private final int otherSwappedOut;
+    private final int pid;
 
-    public MemoryData(final MemoryInfo mi) {
+    public MemoryData(final int pid, final MemoryInfo mi) {
+        this.pid = pid;
         dalvikPrivateClean = getIntReflectively(mi, "dalvikPrivateClean");
         dalvikPrivateDirty = mi.dalvikPrivateDirty;
         dalvikPss = mi.dalvikPss;
@@ -109,6 +111,37 @@ public class MemoryData {
         otherSharedDirty = mi.otherSharedDirty;
         otherSwappablePss = getIntReflectively(mi, "otherSwappablePss");
         otherSwappedOut = getIntReflectively(mi, "otherSwappedOut");
+    }
+
+    private MemoryData(final int pid) {
+        this.pid = pid;
+        dalvikPrivateClean = 0;
+        dalvikPrivateDirty = 0;
+        dalvikPss = 0;
+        dalvikSharedClean = 0;
+        dalvikSharedDirty = 0;
+        dalvikSwappablePss = 0;
+        dalvikSwappedOut = 0;
+
+        nativePrivateClean = 0;
+        nativePrivateDirty = 0;
+        nativePss = 0;
+        nativeSharedClean = 0;
+        nativeSharedDirty = 0;
+        nativeSwappablePss = 0;
+        nativeSwappedOut = 0;
+
+        otherPrivateClean = 0;
+        otherPrivateDirty = 0;
+        otherPss = 0;
+        otherSharedClean = 0;
+        otherSharedDirty = 0;
+        otherSwappablePss = 0;
+        otherSwappedOut = 0;
+    }
+
+    public int getPid() {
+        return pid;
     }
 
     public int getDalvikPrivateClean() {
@@ -137,6 +170,10 @@ public class MemoryData {
 
     public int getDalvikSwappedOut() {
         return dalvikSwappedOut;
+    }
+
+    public static MemoryData getBlank(final int pid) {
+        return new MemoryData(pid);
     }
 
     private static int getIntReflectively(final MemoryInfo mi, final String name) {

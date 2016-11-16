@@ -29,10 +29,12 @@ public class MemoryInfoReader {
 
 
     public void update(final int pid) {
-        final MemoryInfo mi = mActivityManager.getProcessMemoryInfo(new int[]{pid})[0];
-
-        mMemoryInfo = new MemoryData(mi);
-
+        if (pid > 0) {
+            final MemoryInfo mi = mActivityManager.getProcessMemoryInfo(new int[]{pid})[0];
+            mMemoryInfo = new MemoryData(pid, mi);
+        } else {
+            mMemoryInfo = MemoryData.getBlank(pid);
+        }
     }
 
     public MemoryData getInfo() {

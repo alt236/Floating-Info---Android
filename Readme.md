@@ -16,10 +16,12 @@ Floating Info is an Android application that displays the following in a system 
 </a>
 
 ## Screenshots
-![screenshot1](assets/screenshots/image1.png)
-![screenshot2](assets/screenshots/image2.png)
-![screenshot3](assets/screenshots/image3.png)
-![screenshot4](assets/screenshots/image4.png)
+Click to see in full size:
+
+<img src="assets/screenshots/image1.png" height="213" width="120">
+<img src="assets/screenshots/image2.png" height="213" width="120">
+<img src="assets/screenshots/image3.png" height="213" width="120">
+<img src="assets/screenshots/image4.png" height="120" width="213">
 
 ## Changelog
 * 1.0: First public release

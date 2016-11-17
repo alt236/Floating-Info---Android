@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.AppearancePreferenceFragment"
+        android:title="@string/prefs_header_appearance"/>
+
+    <header
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.EnabledInfoPreferenceFragment"
+        android:title="@string/prefs_header_info_to_display"/>
+
+    <header
+        android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.InfoPreferenceFragment"
+        android:title="@string/prefs_header_information"/>
+
+</preference-headers>

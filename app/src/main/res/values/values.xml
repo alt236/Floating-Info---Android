@@ -1,0 +1,28 @@
+<resources>
+
+    <dimen name="text_size_base">8sp</dimen>
+    <integer name="text_size_default_value">2</integer>
+    <integer name="text_size_max_value">20</integer>
+
+    <integer name="background_opacity_default">35</integer>
+    <integer name="background_opacity_max">75</integer>
+
+    <integer name="default_text_alpha">128</integer>
+    <integer name="default_text_red">250</integer>
+    <integer name="default_text_green">250</integer>
+    <integer name="default_text_blue">250</integer>
+
+    <bool name="default_enabled_info_value">true</bool>
+
+    <string-array name="screen_position_values">
+        <item>TOP_LEFT</item>
+        <item>TOP_CENTER</item>
+        <item>TOP_RIGHT</item>
+        <item>CENTER_LEFT</item>
+        <item>CENTER_CENTER</item>
+        <item>CENTER_RIGHT</item>
+        <item>BOTTOM_LEFT</item>
+        <item>BOTTOM_CENTER</item>
+        <item>BOTTOM_RIGHT</item>
+    </string-array>
+</resources>

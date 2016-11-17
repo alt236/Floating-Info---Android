@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_key_screen_position" translatable="false">pref_key_screen_position</string>
+    <string name="pref_key_bg_opacity" translatable="false">pref_bg_opacity</string>
+    <string name="pref_key_info_open_source" translatable="false">pref_info_open_source</string>
+    <string name="pref_key_text_color_blue" translatable="false">pref_text_color_blue</string>
+    <string name="pref_key_text_color_green" translatable="false">pref_text_color_green</string>
+    <string name="pref_key_text_color_red" translatable="false">pref_text_color_red</string>
+    <string name="pref_key_text_alpha" translatable="false">pref_text_opacity</string>
+    <string name="pref_key_text_size" translatable="false">pref_text_size</string>
+    <string name="pref_key_version" translatable="false">pref_version</string>
+    <string name="pref_key_show_net_info" translatable="false">pref_show_net_info</string>
+    <string name="pref_key_show_ip_info" translatable="false">pref_show_ip_info</string>
+    <string name="pref_key_show_cpu_info" translatable="false">pref_show_cpu_info</string>
+    <string name="pref_key_show_memory_info" translatable="false">pref_show_memory_info</string>
+    <string name="pref_key_show_zero_memory_items" translatable="false">pref_key_show_zero_memory_items</string>
+
+</resources>

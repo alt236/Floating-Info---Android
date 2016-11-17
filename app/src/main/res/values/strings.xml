@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about">About</string>
+    <string name="app_name">Floating Info</string>
+    <string name="share_subject">Floating Info Output</string>
+    <string name="ok">OK</string>
+
+    <!-- Dialogs -->
+    <string name="by_author">by Alexandros Schillings</string>
+    <string name="copyright">&#169; Alexandros Schillings</string>
+    <string name="open_source_licences">Open Source Licences</string>
+    <string name="repo_url">https://github.com/alt236/Floating-Info---Android</string>
+    <string name="version">Version</string>
+
+    <!--- Notification -->
+    <string name="notification_big_text">Tap to open the settings window</string>
+    <string name="notification_small_text">Tap to open the settings window</string>
+    <string name="notification_title">Floating Info service is active</string>
+    <string name="statusbar_clear">Clear</string>
+    <string name="statusbar_pause">Pause</string>
+    <string name="statusbar_play">Play</string>
+    <string name="statusbar_share">Share</string>
+
+    <!--- Prefs headers -->
+    <string name="prefs_header_text_color">Text Color</string>
+    <string name="prefs_header_information">Application Info</string>
+    <string name="prefs_header_appearance">Appearance</string>
+    <string name="prefs_header_info_to_display">Info to Display</string>
+
+    <!--- Prefs titles -->
+    <string name="prefs_title_text_alpha">Text Color - Alpha</string>
+    <string name="prefs_title_color_blue">Text Color - Blue</string>
+    <string name="prefs_title_color_green">Text Color - Green</string>
+    <string name="prefs_title_color_red">Text Color - Red</string>
+    <string name="prefs_title_background_opacity">Background Opacity</string>
+    <string name="prefs_title_screen_position">Overlay Position</string>
+    <string name="prefs_title_text_size">Text Size</string>
+    <string name="prefs_title_show_net_info">Show Net Info</string>
+    <string name="prefs_title_show_ip_info">Show IP Addresses</string>
+    <string name="prefs_title_show_cpu_info">Show CPU Info</string>
+    <string name="prefs_title_show_memory_info">Show Memory Info</string>
+    <string name="prefs_title_show_zero_memory_items">Show Items With no Allocation</string>
+
+    <!--- Permission Stuff -->
+    <string name="button_click_to_grant">Click to grant access</string>
+    <string name="message_access_needed">You must grant access to continue</string>
+
+    <string name="slide_usage_stats_title">Usage Stats</string>
+    <string name="slide_usage_stats_description">
+        Since Android Lollipop (API 21) the GET_TASKS permission has been deprecated and querying the Activity Manager returns limited information.
+        \nAs a result, in order to access the current foreground app information you must give access to this app to access the phone\'s usage.
+        \nThis is not the same as all the other Android runtime permissions.
+        \n
+        \nTo grant access, press the button below to open the corresponding Settings page.
+    </string>
+
+    <string name="slide_overlay_title">App Overlay</string>
+    <string name="slide_overlay_description">
+        Under specific circumstances (for example if this app was sideloaded instead of installed directly from Google Play) you need to explicitly grant the permission to allow this app to draw on top of other apps.
+        \nThis is not the same as all the other Android runtime permissions.
+        \n
+        \nTo grant access, press the button below to open the corresponding Settings page.
+    </string>
+
+    <string name="slide_android_title">Android OS Permissions</string>
+    <string name="slide_android_permissions">
+        You need to grant access to this app in order to access the information it needs to display.
+    </string>
+
+    <string name="message_onboarding_explanation">
+        This application that displays a number of stats concerning the current foreground process and the OS in general as a system overlay window.
+        \nTo do this, it needs access to a number of Android APIs. The next few screens will ask explain why this is, and ask you to grant the necessary permissions.
+    </string>
+
+    <string-array name="screen_position_text">
+        <item>Top Left</item>
+        <item>Top Centre</item>
+        <item>Top Right</item>
+        <item>Centre Left</item>
+        <item>Centre</item>
+        <item>Centre Right</item>
+        <item>Bottom Left</item>
+        <item>Bottom Centre</item>
+        <item>Bottom Right</item>
+    </string-array>
+</resources>

@@ -6,6 +6,9 @@ android {
 
     defaultConfig {
         applicationId "uk.co.alt236.floatinginfo"
+        versionCode 2
+        versionName "2.0"
+
         minSdkVersion 16
         targetSdkVersion 25
     }

@@ -23,7 +23,7 @@ Floating Info is an Android application that displays the following in a system 
 
 ## Changelog
 * 1.0: First public release
-* 2.0: Conversion to Android Studio, Lollipop support, network info, onbording
+* 2.0: Conversion to Android Studio, Lollipop support, network info, onboarding
 
 # <a name="notes"></a> Notes and Caveats
 * The application will show the memory allocation of the currently foregrounded process which it gets by getting the Process Id of the currently foregrounded activity. This means that if an application has spawned multiple processes, this application will only show the memory utilisation of the main process.

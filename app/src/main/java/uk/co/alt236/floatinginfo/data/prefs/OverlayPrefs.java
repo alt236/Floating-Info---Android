@@ -51,7 +51,9 @@ public class OverlayPrefs {
     }
 
     public int getBackgroundColor() {
-        final int v = mPrefs.getInt(mResources.getString(R.string.pref_key_bg_opacity), 0);
+        final int v = mPrefs.getInt(
+                mResources.getString(R.string.pref_key_bg_opacity),
+                mResources.getInteger(R.integer.background_opacity_default));
         final int level = 0;
 
         final int retVal;

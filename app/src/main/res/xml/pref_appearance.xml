@@ -10,10 +10,10 @@
         android:title="@string/prefs_title_screen_position"/>
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
-        android:defaultValue="@integer/text_size_default_value"
+        android:defaultValue="@integer/background_opacity_default"
         android:key="@string/pref_key_bg_opacity"
         android:title="@string/prefs_title_background_opacity"
-        app:max="@integer/text_size_max_value"/>
+        app:max="@integer/background_opacity_max"/>
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/text_size_default_value"

@@ -102,9 +102,11 @@ public class CpuUtilisationReader {
     public CpuData getCpuInfo() {
         final CpuData result = new CpuData(getTotalCpuUsage());
 
-        for (int i = 0; i < mCpuInfoList.size(); i++) {
-            final CpuInfo info = mCpuInfoList.get(i);
-            result.addCpuUtil(info.getUsage());
+        if (mCpuInfoList != null) {
+            for (int i = 0; i < mCpuInfoList.size(); i++) {
+                final CpuInfo info = mCpuInfoList.get(i);
+                result.addCpuUtil(info.getUsage());
+            }
         }
 
         return result;

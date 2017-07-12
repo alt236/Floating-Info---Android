@@ -162,6 +162,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
                     mInfoStore.set(update.getNetData());
                     mInfoStore.set(update.getCpuData());
                     mInfoStore.set(update.getMemoryData());
+                    mInfoStore.set(update.getGeneralData());
 
                     updateDisplay();
                     if (change) {

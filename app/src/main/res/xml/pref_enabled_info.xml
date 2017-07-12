@@ -2,6 +2,11 @@
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
+        android:key="@string/pref_key_show_locale_info"
+        android:title="@string/prefs_title_show_locale_info"/>
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_net_info"
         android:title="@string/prefs_title_show_net_info"/>
 

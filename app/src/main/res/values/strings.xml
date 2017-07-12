@@ -36,6 +36,7 @@
     <string name="prefs_title_background_opacity">Background Opacity</string>
     <string name="prefs_title_screen_position">Overlay Position</string>
     <string name="prefs_title_text_size">Text Size</string>
+    <string name="prefs_title_show_locale_info">Show Locale Info</string>
     <string name="prefs_title_show_net_info">Show Net Info</string>
     <string name="prefs_title_show_ip_info">Show IP Addresses</string>
     <string name="prefs_title_show_cpu_info">Show CPU Info</string>

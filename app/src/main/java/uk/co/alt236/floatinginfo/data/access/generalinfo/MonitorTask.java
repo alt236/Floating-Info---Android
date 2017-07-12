@@ -24,6 +24,8 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppDiscovery;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleInfoReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
@@ -68,6 +70,7 @@ import uk.co.alt236.floatinginfo.util.Constants;
 
         private final ForegroundAppDiscovery mForegroundAppDiscovery;
         private final NetDataReader mNetDataReader;
+        private final LocaleInfoReader mLocaleInfoReader;
         private final CpuUtilisationReader mCpuUtilisationReader;
         private final MemoryInfoReader mMemoryInfoReader;
         private final EnabledInfoPrefs mEnabledInfoPrefs;
@@ -78,6 +81,7 @@ import uk.co.alt236.floatinginfo.util.Constants;
             mNetDataReader = new NetDataReader(context);
             mMemoryInfoReader = new MemoryInfoReader(context);
             mCpuUtilisationReader = new CpuUtilisationReader();
+            mLocaleInfoReader = new LocaleInfoReader(context);
         }
 
         @Override
@@ -90,7 +94,8 @@ import uk.co.alt236.floatinginfo.util.Constants;
                                 appData,
                                 getNetData(),
                                 getMemoryData(appData.getPid()),
-                                getCpuData()));
+                                getCpuData(),
+                                getLocaleData()));
 
                 if (!isCancelled()) {
                     try {
@@ -136,6 +141,17 @@ import uk.co.alt236.floatinginfo.util.Constants;
             }
             return retVal;
         }
+
+        private LocaleData getLocaleData() {
+            final LocaleData retVal;
+            if (mEnabledInfoPrefs.isLocaleInfoEnabled()) {
+                mLocaleInfoReader.update();
+                retVal = mLocaleInfoReader.getData();
+            } else {
+                retVal = null;
+            }
+            return retVal;
+        }
     }
 
     public static class MonitorUpdate {
@@ -143,16 +159,19 @@ import uk.co.alt236.floatinginfo.util.Constants;
         private final NetData mNetData;
         private final MemoryData mMemoryData;
         private final CpuData mCpuData;
+        private final LocaleData mLocaleData;
 
         public MonitorUpdate(final ForegroundAppData appData,
                              final NetData netData,
                              final MemoryData info,
-                             final CpuData cpuInfo) {
+                             final CpuData cpuInfo,
+                             final LocaleData localeData) {
 
             mForegroundAppData = appData;
             mNetData = netData;
             mMemoryData = info;
             mCpuData = cpuInfo;
+            mLocaleData = localeData;
         }
 
         public ForegroundAppData getForegroundAppData() {
@@ -169,6 +188,10 @@ import uk.co.alt236.floatinginfo.util.Constants;
 
         public CpuData getCpuData() {
             return mCpuData;
+        }
+
+        public LocaleData getGeneralData() {
+            return mLocaleData;
         }
     }
 }

@@ -48,6 +48,11 @@ public class EnabledInfoPrefs {
         return getBoolean(R.string.pref_key_show_cpu_info, defValue);
     }
 
+    public boolean isLocaleInfoEnabled() {
+        final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
+        return getBoolean(R.string.pref_key_show_locale_info, defValue);
+    }
+
     public boolean isMemoryInfoEnabled() {
         final boolean defValue = mResources.getBoolean(R.bool.default_enabled_info_value);
         return getBoolean(R.string.pref_key_show_memory_info, defValue);

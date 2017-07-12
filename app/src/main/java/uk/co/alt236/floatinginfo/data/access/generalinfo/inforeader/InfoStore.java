@@ -23,6 +23,7 @@ import java.util.Map;
 
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 
@@ -34,6 +35,11 @@ public class InfoStore {
     @Nullable
     public NetData getNetData() {
         return (NetData) get(Key.NET_DATA);
+    }
+
+    @Nullable
+    public LocaleData getLocaleData() {
+        return (LocaleData) get(Key.GENERAL);
     }
 
     @Nullable
@@ -53,6 +59,10 @@ public class InfoStore {
 
     public void set(final CpuData value) {
         put(Key.CPU_INFO, value);
+    }
+
+    public void set(final LocaleData value) {
+        put(Key.GENERAL, value);
     }
 
     public void set(final ForegroundAppData value) {
@@ -78,10 +88,12 @@ public class InfoStore {
             mStore.put(key, value);
         }
     }
+
     private enum Key {
         PROCESS_INFO,
         CPU_INFO,
         MEMORY_INFO,
-        NET_DATA
+        NET_DATA,
+        GENERAL
     }
 }

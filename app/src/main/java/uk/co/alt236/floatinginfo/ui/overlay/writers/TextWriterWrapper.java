@@ -21,6 +21,7 @@ import java.util.List;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
@@ -32,6 +33,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
     private final TextWriter<ForegroundAppData> mFgProcessTextWriter;
     private final TextWriter<MemoryData> mMemoryTextWriter;
     private final TextWriter<NetData> mNetDataTextWriter;
+    private final TextWriter<LocaleData> mLocaleDataWriter;
     private final TextWriter<List<Interface>> mInterfaceWriter;
     private final EnabledInfoPrefs mEnabledInfoPrefs;
 
@@ -42,6 +44,7 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
         mFgProcessTextWriter = new FgProcessTextWriter();
         mNetDataTextWriter = new NetDataTextWriter();
         mInterfaceWriter = new InterfaceWriter();
+        mLocaleDataWriter = new LocaleDataTextWriter();
     }
 
     @Override
@@ -50,6 +53,11 @@ public final class TextWriterWrapper implements TextWriter<InfoStore> {
         if (input != null) {
             final ForegroundAppData procInfo = input.getForegroundProcessInfo();
             mFgProcessTextWriter.writeText(procInfo, sb);
+
+            if (mEnabledInfoPrefs.isLocaleInfoEnabled()) {
+                final LocaleData data = input.getLocaleData();
+                mLocaleDataWriter.writeText(data, sb);
+            }
 
             if (mEnabledInfoPrefs.isNetInfoEnabled()) {
                 final NetData netData = input.getNetData();

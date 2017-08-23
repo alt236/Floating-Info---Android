@@ -23,6 +23,8 @@ import android.preference.PreferenceManager;
 
 public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceActivity {
 
+    private final ValidFragments validFragments = new ValidFragments();
+
     /**
      * Determines whether to always show the simplified settings UI, where
      * settings are presented in a single list. When false, settings are shown
@@ -68,8 +70,7 @@ public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceA
      */
     protected static void bindPreferenceSummaryToValue(final Preference preference) {
         // Set the listener to watch for value changes.
-        preference
-                .setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
         // Trigger the listener immediately with the preference's
         // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(
@@ -101,7 +102,7 @@ public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceA
 
     @Override
     protected boolean isValidFragment(final String fragmentName) {
-        return true;
+        return validFragments.isValidFragment(fragmentName);
     }
 
 }

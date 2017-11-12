@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "uk.co.alt236.floatinginfo"
-        versionCode 2
-        versionName "2.0"
+        versionCode 21
+        versionName "2.1"
 
         minSdkVersion 16
         targetSdkVersion 26

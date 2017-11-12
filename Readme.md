@@ -5,10 +5,16 @@ Fun fact: Since Android Nougat apps cannot get the PID of other apps. This makes
 
 Floating Info is an Android application that displays the following in a system overlay window:
 
-* The application name, package name and process id (except on Nougat+) of the application which is currently in the device's foreground
+* The application name, package name and process id of the application which is currently in the device's foreground
 * The Global CPU utilisation with a per-core breakdown - This is not foreground application specific.
 * Memory usage breakdown for the currently foregrounded process - except on Nougat+ (read the [notes](#notes) for the caveats).
-* Netork information like connection type, proxy status and IP address(es). Both IPv4 and IPv6
+* Network information like connection type, proxy status and IP addresses. Both IPv4 and IPv6
+
+## Limitations
+Since Nougat it is not possible to get the process id of an app different than the one making the request.
+As a result it no longer possible to get the memory utilisation of other applications.
+
+SE Linux can interfere with getting CPU information as files in the /proc/ folder may not be globally readable.
 
 <a href="https://play.google.com/store/apps/details?id=uk.co.alt236.floatinginfo">
   <img alt="Android app on Google Play"
@@ -26,6 +32,7 @@ Click to see in full size:
 ## Changelog
 * 1.0: First public release
 * 2.0: Conversion to Android Studio, Lollipop support, network info, onboarding
+* 2.1: Added Locale info, Oreo support
 
 # <a name="notes"></a> Notes and Caveats
 * The application will show the memory allocation of the currently foregrounded process which it gets by getting the Process Id of the currently foregrounded activity. This means that if an application has spawned multiple processes, this application will only show the memory utilisation of the main process.
@@ -43,7 +50,7 @@ Based on [GhostLog](https://github.com/jgilfelt/GhostLog) by [Jeff Gilfelt](http
 The icon was adapted from [this](http://www.clker.com/clipart-duck-silhouette.html) one.
 
 ## License
-    Copyright (C) 2016 Alexandros Schillings
+    Copyright (C) 2017 Alexandros Schillings
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

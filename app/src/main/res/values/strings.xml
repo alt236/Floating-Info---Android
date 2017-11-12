@@ -73,6 +73,8 @@
         This application that displays a number of stats concerning the current foreground process and the OS in general as a system overlay window.
         \nTo do this, it needs access to a number of Android APIs. The next few screens will ask explain why this is, and ask you to grant the necessary permissions.
     </string>
+    <string name="notification_channel_name">Floating Info control</string>
+    <string name="notification_channel_description">Allows the user to control the running of Floating Info without opening the app.</string>
 
     <string-array name="screen_position_text">
         <item>Top Left</item>

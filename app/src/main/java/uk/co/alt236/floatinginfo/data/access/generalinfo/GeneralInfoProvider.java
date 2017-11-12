@@ -34,6 +34,7 @@ import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
+import uk.co.alt236.floatinginfo.notifications.NotificationControl;
 import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
@@ -174,7 +175,6 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void updateDisplay() {
-
         mViewUpdateHandler.post(new Runnable() {
             @Override
             public void run() {

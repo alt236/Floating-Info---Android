@@ -1,8 +1,6 @@
 Floating Info
 =========
 
-Fun fact: Since Android Nougat apps cannot get the PID of other apps. This makes displaying the Memory info for apps other than Floating Info itself impossible. All other functionality will still work.
-
 Floating Info is an Android application that displays the following in a system overlay window:
 
 * The application name, package name and process id of the application which is currently in the device's foreground

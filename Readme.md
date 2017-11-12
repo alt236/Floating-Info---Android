@@ -5,8 +5,9 @@ Floating Info is an Android application that displays the following in a system 
 
 * The application name, package name and process id of the application which is currently in the device's foreground
 * The Global CPU utilisation with a per-core breakdown - This is not foreground application specific.
-* Memory usage breakdown for the currently foregrounded process - except on Nougat+ (read the [notes](#notes) for the caveats).
+* Memory usage breakdown for the currently foregrounded process (read the [notes](#notes) for the caveats).
 * Network information like connection type, proxy status and IP addresses. Both IPv4 and IPv6
+* Device Locale Information
 
 ## Limitations
 Since Nougat it is not possible to get the process id of an app different than the one making the request.

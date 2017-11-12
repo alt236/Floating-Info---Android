@@ -4,7 +4,7 @@ ext.libSupportVersion = "26.0.0";
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "uk.co.alt236.floatinginfo"

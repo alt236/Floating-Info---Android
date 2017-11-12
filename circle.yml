@@ -1,0 +1,17 @@
+dependencies:
+  pre:
+      # Android SDK Platform 26
+      - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-26" ]; then echo y | android update sdk --no-ui --all --filter "android-26"; fi
+      - if [ ! -d "/usr/local/android-sdk-linux/build-tools/26.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"; fi
+
+  cache_directories:
+    - /usr/local/android-sdk-linux/platforms/android-26
+    - /usr/local/android-sdk-linux/build-tools/26.0.2
+    - /usr/local/android-sdk-linux/extras/android/m2repository
+test:
+  override:
+    - (echo "Running JUnit tests!")
+    - ./gradlew test -PdisablePreDex
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;

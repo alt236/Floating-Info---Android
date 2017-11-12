@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Alexandros Schillings
+ * Copyright 2017 Alexandros Schillings
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,51 +14,83 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo;
+package uk.co.alt236.floatinginfo.notifications;
 
+import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import uk.co.alt236.floatinginfo.R;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.GeneralInfoReceiver;
 import uk.co.alt236.floatinginfo.ui.activity.main.MainActivity;
 import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
 
-/*package*/ class NotificationControl {
+public class NotificationControl {
     private static final int NOTIFICATION_ID = 1138;
-    private final NotificationManager mNotificationManager;
+    private final NotificationManagerCompat mNotificationManagerCompat;
+    private final NotificationChannelFactory.NotificationChannelWrapper mChannelWrapper;
     private final Service mContext;
 
     public NotificationControl(final Service service) {
-        mNotificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+        Log.d(getClass().getSimpleName(), "new");
+        final NotificationManager notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManagerCompat = NotificationManagerCompat.from(service);
+        mChannelWrapper = new NotificationChannelFactory().create(service);
+        mChannelWrapper.register(notificationManager);
         mContext = service;
     }
 
     public void dismiss() {
-        mNotificationManager.cancel(NOTIFICATION_ID);
+        Log.d(getClass().getSimpleName(), "dismiss");
+        mNotificationManagerCompat.cancel(NOTIFICATION_ID);
     }
 
     public void show(boolean loggingPaused) {
-        final NotificationCompat.Builder mBuilder = new NotificationCompat
-                .Builder(mContext)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(mContext.getString(R.string.notification_big_text)))
+        final Notification notification = createNotification(loggingPaused);
+
+        if (isServiceRunningInForeground(mContext.getClass())) {
+            Log.d(getClass().getSimpleName(), "Updating!");
+            mNotificationManagerCompat.notify(NOTIFICATION_ID, notification);
+        } else {
+            Log.d(getClass().getSimpleName(), "Showing notification!");
+            // This DOES NOT start the service. It only shows the notification.
+            // Thse service should have already been started
+            mContext.startForeground(NOTIFICATION_ID, notification);
+        }
+    }
+
+    private Notification createNotification(boolean loggingPaused) {
+        final NotificationCompat.Style style = new NotificationCompat.BigTextStyle()
+                .bigText(mContext.getString(R.string.notification_big_text));
+
+        final NotificationCompat.Builder builder = new NotificationCompat
+                .Builder(mContext, mChannelWrapper.getChannelName())
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setStyle(style)
                 .setSmallIcon(R.drawable.ic_stat_main)
-                .setOngoing(true)
                 .setContentTitle(mContext.getString(R.string.notification_title))
                 .setContentText(mContext.getString(R.string.notification_small_text))
-                .setContentIntent(getNotificationIntent(null));
+                .setContentIntent(getNotificationIntent(null))
+                .setOnlyAlertOnce(true)
+                .setLocalOnly(true)
+                .setSound(null)
+                .setVibrate(null)
+                .setOngoing(true);
 
         if (loggingPaused) {
-            mBuilder.addAction(
+            builder.addAction(
                     R.drawable.ic_stat_play,
                     mContext.getString(R.string.statusbar_play),
                     getNotificationIntent(GeneralInfoReceiver.ACTION_PLAY));
         } else {
-            mBuilder.addAction(
+            builder.addAction(
                     R.drawable.ic_stat_pause,
                     mContext.getString(R.string.statusbar_pause),
                     getNotificationIntent(GeneralInfoReceiver.ACTION_PAUSE));
@@ -69,13 +101,14 @@ import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
 //				getString(R.string.statusbar_clear),
 //				getNotificationIntent(GeneralInfoReceiver.ACTION_CLEAR));
 
-        mBuilder.addAction(
+        builder.addAction(
                 R.drawable.ic_stat_share,
                 mContext.getString(R.string.statusbar_share),
                 getNotificationIntent(GeneralInfoReceiver.ACTION_SHARE));
 
-        mContext.startForeground(NOTIFICATION_ID, mBuilder.build());
+        return builder.build();
     }
+
 
     private PendingIntent getNotificationIntent(final String action) {
         if (action == null) {
@@ -94,5 +127,17 @@ import uk.co.alt236.floatinginfo.ui.activity.share.ShareActivity;
             final Intent intent = new Intent(action);
             return PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         }
+    }
+
+    private boolean isServiceRunningInForeground(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                if (service.foreground) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

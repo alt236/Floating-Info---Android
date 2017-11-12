@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 /*package*/ class ScreenStateListener {
 
@@ -61,6 +62,7 @@ import android.content.IntentFilter;
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(ScreenStateListener.class.getSimpleName(), "Screen state changed: " + intent);
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 mListener.onScreenOff();
             } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {

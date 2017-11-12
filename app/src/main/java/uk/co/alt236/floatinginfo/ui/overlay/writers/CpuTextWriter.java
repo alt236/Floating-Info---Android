@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import uk.co.alt236.floatinginfo.BuildConfig;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 
@@ -29,14 +30,18 @@ import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
         if (input != null) {
             sb.appendBold("Global CPU Utilisation");
             sb.startKeyValueSection();
-            sb.append("Total", String.valueOf(input.getOverallCpu()) + "%");
-            final List<Integer> list = input.getPerCpuUtilisation();
+            if (input.hasError()) {
+                sb.append("Error", "Failed to open " + BuildConfig.STAT_FILE);
+            } else {
+                sb.append("Total", String.valueOf(input.getOverallCpu()) + "%");
+                final List<Integer> list = input.getPerCpuUtilisation();
 
-            int count = 0;
+                int count = 0;
 
-            for (final Integer value : list) {
-                sb.append("CPU" + count, String.valueOf(value) + "%");
-                count++;
+                for (final Integer value : list) {
+                    sb.append("CPU" + count, String.valueOf(value) + "%");
+                    count++;
+                }
             }
             sb.endKeyValueSection();
             sb.appendNewLine();

@@ -13,6 +13,8 @@ android {
 
         minSdkVersion 16
         targetSdkVersion 26
+
+        buildConfigField "String", "STAT_FILE", "\"/proc/stat\""
     }
 
     buildTypes {

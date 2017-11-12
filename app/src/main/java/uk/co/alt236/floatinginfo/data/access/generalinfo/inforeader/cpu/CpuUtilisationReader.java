@@ -21,34 +21,44 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import uk.co.alt236.floatinginfo.BuildConfig;
 
 // Taken http://stackoverflow.com/questions/7593829/how-to-get-the-processor-number-on-android
 public class CpuUtilisationReader {
     private static final String TAG = "CpuUtilisationReader";
+    private static final String STAT_FILE = BuildConfig.STAT_FILE;
+
     private RandomAccessFile statFile;
     private CpuInfo mCpuInfoTotal;
     private ArrayList<CpuInfo> mCpuInfoList;
+    private AtomicBoolean mFileOpenedOk = new AtomicBoolean();
 
     public CpuUtilisationReader() {
         update();
     }
 
     private void closeFile() throws IOException {
-        if (statFile != null)
+        if (statFile != null) {
             statFile.close();
+        }
     }
 
     private void createCpuInfo(final int cpuId, final String[] parts) {
         if (cpuId == -1) {
-            if (mCpuInfoTotal == null)
+            if (mCpuInfoTotal == null) {
                 mCpuInfoTotal = new CpuInfo();
+            }
             mCpuInfoTotal.update(parts);
         } else {
-            if (mCpuInfoList == null)
-                mCpuInfoList = new ArrayList<CpuInfo>();
-            if (cpuId < mCpuInfoList.size())
+            if (mCpuInfoList == null) {
+                mCpuInfoList = new ArrayList<>();
+            }
+
+            if (cpuId < mCpuInfoList.size()) {
                 mCpuInfoList.get(cpuId).update(parts);
-            else {
+            } else {
                 final CpuInfo info = new CpuInfo();
                 info.update(parts);
                 mCpuInfoList.add(info);
@@ -56,8 +66,9 @@ public class CpuUtilisationReader {
         }
     }
 
-    private void createFile() throws FileNotFoundException {
-        statFile = new RandomAccessFile("/proc/stat", "r");
+    private void openFile() throws FileNotFoundException {
+        statFile = new RandomAccessFile(STAT_FILE, "r");
+        mFileOpenedOk.set(true);
     }
 
     public int getCpuUsage(final int cpuId) {
@@ -79,10 +90,11 @@ public class CpuUtilisationReader {
         return usage;
     }
 
-    public int getTotalCpuUsage() {
+    private int getTotalCpuUsage() {
         int usage = 0;
-        if (mCpuInfoTotal != null)
+        if (mCpuInfoTotal != null) {
             usage = mCpuInfoTotal.getUsage();
+        }
         return usage;
     }
 
@@ -100,16 +112,22 @@ public class CpuUtilisationReader {
     }
 
     public CpuData getCpuInfo() {
-        final CpuData result = new CpuData(getTotalCpuUsage());
+        final CpuData retVal;
 
-        if (mCpuInfoList != null) {
-            for (int i = 0; i < mCpuInfoList.size(); i++) {
-                final CpuInfo info = mCpuInfoList.get(i);
-                result.addCpuUtil(info.getUsage());
+        if (mFileOpenedOk.get()) {
+            retVal = new CpuData(getTotalCpuUsage());
+
+            if (mCpuInfoList != null) {
+                for (int i = 0; i < mCpuInfoList.size(); i++) {
+                    final CpuInfo info = mCpuInfoList.get(i);
+                    retVal.addUtilisation(info.getUsage());
+                }
             }
+        } else {
+            retVal = new CpuData(true);
         }
 
-        return result;
+        return retVal;
     }
 
     private void parseFile() {
@@ -124,89 +142,49 @@ public class CpuUtilisationReader {
                     cpuId++;
                 } while (cpuLine != null);
             } catch (final IOException e) {
-                Log.e(TAG, "Ops: " + e);
+                Log.e(TAG, "Error parsing file: " + e);
             }
         }
     }
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
-        if (mCpuInfoTotal != null) {
-            buf.append("Cpu Total : ");
-            buf.append(mCpuInfoTotal.getUsage());
-            buf.append("%");
-        }
-        if (mCpuInfoList != null) {
-            for (int i = 0; i < mCpuInfoList.size(); i++) {
-                final CpuInfo info = mCpuInfoList.get(i);
-                buf.append(" Cpu Core(");
-                buf.append(i);
-                buf.append(") : ");
-                buf.append(info.getUsage());
-                buf.append("%");
-                info.getUsage();
+        final StringBuilder sb = new StringBuilder();
+        if (mFileOpenedOk.get()) {
+            if (mCpuInfoTotal != null) {
+                sb.append("Cpu Total : ");
+                sb.append(mCpuInfoTotal.getUsage());
+                sb.append("%");
             }
+            if (mCpuInfoList != null) {
+                for (int i = 0; i < mCpuInfoList.size(); i++) {
+                    final CpuInfo info = mCpuInfoList.get(i);
+                    sb.append(" Cpu Core(");
+                    sb.append(i);
+                    sb.append(") : ");
+                    sb.append(info.getUsage());
+                    sb.append("%");
+                    info.getUsage();
+                }
+            }
+        } else {
+            sb.append("Error: Failed to open " + STAT_FILE);
         }
-        return buf.toString();
+        return sb.toString();
     }
 
     public void update() {
         try {
-            createFile();
+            openFile();
             parseFile();
             closeFile();
         } catch (final FileNotFoundException e) {
+            mFileOpenedOk.set(false);
             statFile = null;
-            Log.e(TAG, "cannot open /proc/stat: " + e);
+            Log.e(TAG, "cannot open " + STAT_FILE + ":" + e);
         } catch (final IOException e) {
-            Log.e(TAG, "cannot close /proc/stat: " + e);
+            Log.e(TAG, "cannot close " + STAT_FILE + ":" + e);
         }
     }
 
-    private class CpuInfo {
-        private int mUsage;
-        private long mLastTotal;
-        private long mLastIdle;
-
-        public CpuInfo() {
-            mUsage = 0;
-            mLastTotal = 0;
-            mLastIdle = 0;
-        }
-
-        private int getUsage() {
-            return mUsage;
-        }
-
-        public void update(final String[] parts) {
-            // the columns are:
-            //
-            // 0 "cpu": the string "cpu" that identifies the line
-            // 1 user: normal processes executing in user mode
-            // 2 nice: niced processes executing in user mode
-            // 3 system: processes executing in kernel mode
-            // 4 idle: twiddling thumbs
-            // 5 iowait: waiting for I/O to complete
-            // 6 irq: servicing interrupts
-            // 7 softirq: servicing softirqs
-            //
-            final long idle = Long.parseLong(parts[4], 10);
-            long total = 0;
-            boolean head = true;
-            for (final String part : parts) {
-                if (head) {
-                    head = false;
-                    continue;
-                }
-                total += Long.parseLong(part, 10);
-            }
-            final long diffIdle = idle - mLastIdle;
-            final long diffTotal = total - mLastTotal;
-            mUsage = (int) ((float) (diffTotal - diffIdle) / diffTotal * 100);
-            mLastTotal = total;
-            mLastIdle = idle;
-            //Log.i(TAG, "CPU total=" + total + "; idle=" + idle + "; usage=" + mUsage);
-        }
-    }
 }

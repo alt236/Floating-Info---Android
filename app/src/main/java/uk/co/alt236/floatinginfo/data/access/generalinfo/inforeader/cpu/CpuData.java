@@ -22,13 +22,23 @@ import java.util.List;
 public class CpuData {
     private final List<Integer> mPerCpuUtilisation;
     private final int mOverallCpu;
+    private final boolean mHasError;
 
-    public CpuData(final int overallCpu) {
-        mPerCpuUtilisation = new ArrayList<>();
-        mOverallCpu = overallCpu;
+    /*package*/ CpuData(final boolean error) {
+        this(-1, true);
     }
 
-    public void addCpuUtil(final int value) {
+    /*package*/ CpuData(final int overallCpu) {
+        this(overallCpu, false);
+    }
+
+    private CpuData(final int overallCpu, final boolean error) {
+        mPerCpuUtilisation = new ArrayList<>();
+        mOverallCpu = overallCpu;
+        mHasError = error;
+    }
+
+    /*package*/ void addUtilisation(final int value) {
         mPerCpuUtilisation.add(value);
     }
 
@@ -38,5 +48,9 @@ public class CpuData {
 
     public int getOverallCpu() {
         return mOverallCpu;
+    }
+
+    public boolean hasError() {
+        return mHasError;
     }
 }

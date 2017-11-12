@@ -18,7 +18,6 @@ package uk.co.alt236.floatinginfo.data.access.generalinfo;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
@@ -48,9 +47,10 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private final Handler mViewUpdateHandler = new Handler();
     private final NotificationControl mNotificationControl;
     private final MonitorTask mMonitorTask;
-
+    private final SystemWindowLayoutParamsFactory mLayoutParamsFactory;
     public GeneralInfoProvider(final Service context) {
         super(context);
+        mLayoutParamsFactory = new SystemWindowLayoutParamsFactory();
         final EnabledInfoPrefs enabledInfoPrefs = new EnabledInfoPrefs(context);
         final OverlayPrefs overlayPrefs = new OverlayPrefs(context);
         final LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -64,13 +64,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void createSystemWindow() {
-        final WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                0,
-                PixelFormat.TRANSLUCENT
-        );
+        final ViewGroup.LayoutParams lp = mLayoutParamsFactory.getParams();
         final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         wm.addView(mOverlayManager.getView(), lp);
     }

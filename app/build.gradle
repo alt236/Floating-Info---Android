@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 
+ext.libSupportVersion = "26.0.0";
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 26
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         applicationId "uk.co.alt236.floatinginfo"
@@ -10,7 +12,7 @@ android {
         versionName "2.0"
 
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
     }
 
     buildTypes {
@@ -22,7 +24,10 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile "eu.chainfire:libsuperuser:1.0.0.+"
+    compile "com.android.support:appcompat-v7:${libSupportVersion}"
+    compile "com.android.support:design:${libSupportVersion}"
     compile 'agency.tango.android:material-intro-screen:0.0.4'
+
+    //noinspection GradleDynamicVersion
+    compile "eu.chainfire:libsuperuser:1.0.0.+"
 }

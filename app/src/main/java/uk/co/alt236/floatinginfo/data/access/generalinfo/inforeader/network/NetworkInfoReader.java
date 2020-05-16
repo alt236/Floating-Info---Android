@@ -20,7 +20,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /*package*/ class NetworkInfoReader {
 

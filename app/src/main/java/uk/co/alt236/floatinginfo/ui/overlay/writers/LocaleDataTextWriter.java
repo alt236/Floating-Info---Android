@@ -16,11 +16,10 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
-import android.support.annotation.NonNull;
-
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 

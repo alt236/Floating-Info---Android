@@ -17,13 +17,13 @@
 package uk.co.alt236.floatinginfo.ui.activity.onboarding;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.List;
 
 import agency.tango.materialintroscreen.MaterialIntroActivity;
 import agency.tango.materialintroscreen.SlideFragment;
+import androidx.annotation.Nullable;
 import uk.co.alt236.floatinginfo.ui.activity.onboarding.pagefactory.PageFactory;
 
 public class OnBoardingActivity extends MaterialIntroActivity {

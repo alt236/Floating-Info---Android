@@ -20,8 +20,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.StringRes;
+
+import androidx.annotation.IntegerRes;
+import androidx.annotation.StringRes;
 
 public abstract class BaseProvider {
     private final Service mService;

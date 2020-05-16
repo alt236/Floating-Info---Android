@@ -16,11 +16,11 @@
 
 package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class LocaleData {
 

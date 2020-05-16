@@ -17,11 +17,11 @@
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;

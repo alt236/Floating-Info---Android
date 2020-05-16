@@ -19,11 +19,11 @@ package uk.co.alt236.floatinginfo.ui.overlay.writers;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 

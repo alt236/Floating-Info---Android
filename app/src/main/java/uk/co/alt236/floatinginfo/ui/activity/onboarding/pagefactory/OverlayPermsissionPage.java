@@ -16,7 +16,7 @@
 
 package uk.co.alt236.floatinginfo.ui.activity.onboarding.pagefactory;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import io.github.dreierf.materialintroscreen.SlideFragment;
 import uk.co.alt236.floatinginfo.BuildConfig;
@@ -39,29 +40,24 @@ public class OverlayPermsissionPage extends SlideFragment {
 
     private PermissionChecker mLogic;
 
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mLogic = new OverlayPermissionChecker(activity);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mLogic = new OverlayPermissionChecker(context);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_onboard_slide, container, false);
-        final TextView title = (TextView) view.findViewById(R.id.txt_title_slide);
-        final TextView text = (TextView) view.findViewById(R.id.txt_description_slide);
-        final Button button = (Button) view.findViewById(R.id.button);
+        final TextView title = view.findViewById(R.id.txt_title_slide);
+        final TextView text = view.findViewById(R.id.txt_description_slide);
+        final Button button = view.findViewById(R.id.button);
 
         title.setText(R.string.slide_overlay_title);
         text.setText(R.string.slide_overlay_description);
 
         button.setText(R.string.button_click_to_grant);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                ask();
-            }
-        });
+        button.setOnClickListener(v -> ask());
 
         return view;
     }

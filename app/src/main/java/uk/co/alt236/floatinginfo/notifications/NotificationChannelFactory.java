@@ -57,7 +57,7 @@ import uk.co.alt236.floatinginfo.R;
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O;
     }
 
-    public class NotificationChannelWrapper {
+    public static class NotificationChannelWrapper {
         private final NotificationChannel mChannel;
         private final String mChannelName;
 

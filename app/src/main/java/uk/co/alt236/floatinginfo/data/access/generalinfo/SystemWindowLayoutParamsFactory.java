@@ -42,7 +42,6 @@ import android.view.WindowManager;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             retVal = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else {
-            //noinspection deprecation
             retVal = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
         }
         return retVal;

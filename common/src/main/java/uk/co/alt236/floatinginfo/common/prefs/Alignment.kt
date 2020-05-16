@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package uk.co.alt236.floatinginfo.common.prefs
 
-package uk.co.alt236.floatinginfo.common.prefs;
-
-public enum Alignment {
+enum class Alignment(private val key: String) {
     TOP_LEFT("TOP_LEFT"),
     TOP_CENTER("TOP_CENTER"),
     TOP_RIGHT("TOP_RIGHT"),
@@ -27,21 +26,18 @@ public enum Alignment {
     BOTTOM_CENTER("BOTTOM_CENTER"),
     BOTTOM_RIGHT("BOTTOM_RIGHT");
 
-    private final String key;
-
-    Alignment(final String key) {
-        this.key = key;
-    }
-
-    public static Alignment fromString(final String value) {
-        Alignment retVal = null;
-
-        for (final Alignment alignment : Alignment.values()) {
-            if (alignment.key.equalsIgnoreCase(value)) {
-                retVal = alignment;
-                break;
+    companion object {
+        @JvmStatic
+        fun fromString(value: String?): Alignment? {
+            var retVal: Alignment? = null
+            for (alignment in values()) {
+                if (alignment.key.equals(value, ignoreCase = true)) {
+                    retVal = alignment
+                    break
+                }
             }
+            return retVal
         }
-        return retVal;
     }
+
 }

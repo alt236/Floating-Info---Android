@@ -44,20 +44,6 @@ import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
         mUsageStatsManager = getUsageStatsManager(context);
     }
 
-    @SuppressWarnings("WrongConstant")
-    private static UsageStatsManager getUsageStatsManager(final Context context) {
-        final UsageStatsManager manager;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            // intentionally using string value as Context.USAGE_STATS_SERVICE was
-            // strangely only added in API 22 (LOLLIPOP_MR1)
-            manager = (UsageStatsManager) context.getSystemService("usagestats");
-        } else {
-            manager = null;
-        }
-
-        return manager;
-    }
-
     @Override
     public ForegroundAppData getForegroundApp() {
         final ForegroundAppData appInfo;
@@ -87,5 +73,19 @@ import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
         }
 
         return appInfo;
+    }
+
+    @SuppressWarnings("WrongConstant")
+    private static UsageStatsManager getUsageStatsManager(final Context context) {
+        final UsageStatsManager manager;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // intentionally using string value as Context.USAGE_STATS_SERVICE was
+            // strangely only added in API 22 (LOLLIPOP_MR1)
+            manager = (UsageStatsManager) context.getSystemService("usagestats");
+        } else {
+            manager = null;
+        }
+
+        return manager;
     }
 }

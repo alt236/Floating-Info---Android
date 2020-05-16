@@ -19,7 +19,6 @@ package uk.co.alt236.floatinginfo.ui.activity.main.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.webkit.WebView;
 
@@ -40,14 +39,7 @@ public class OpenSourceLicensesDialog extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.open_source_licences)
                 .setView(webView)
-                .setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
-                )
+                .setPositiveButton(R.string.ok, (dialog, whichButton) -> dialog.dismiss())
                 .create();
     }
 }

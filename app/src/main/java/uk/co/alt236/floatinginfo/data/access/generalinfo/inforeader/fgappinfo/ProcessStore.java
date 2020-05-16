@@ -29,14 +29,6 @@ import eu.chainfire.libsuperuser.Shell;
     private final Map<Integer, String> mPidToName = new HashMap<>();
     private final Map<String, Integer> mNameToPid = new HashMap<>();
 
-    private static int extractPid(final String[] line) {
-        return Integer.valueOf(line[1]);
-    }
-
-    private static String extractProcessName(final String[] line) {
-        return line[line.length - 1].split(":")[0];
-    }
-
     public void update() {
         mPidToName.clear();
         mNameToPid.clear();
@@ -70,5 +62,13 @@ import eu.chainfire.libsuperuser.Shell;
 
     public String getNameFromPid(final int pid) {
         return mPidToName.get(pid);
+    }
+
+    private static int extractPid(final String[] line) {
+        return Integer.parseInt(line[1]);
+    }
+
+    private static String extractProcessName(final String[] line) {
+        return line[line.length - 1].split(":")[0];
     }
 }

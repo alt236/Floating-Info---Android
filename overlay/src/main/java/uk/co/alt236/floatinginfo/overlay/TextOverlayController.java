@@ -40,7 +40,7 @@ import uk.co.alt236.floatinginfo.common.prefs.OverlayPrefs;
         mInflater = layoutInflater;
         mPrefs = overlayPrefs;
         mView = generateView();
-        mTextView = (TextView) mView.findViewById(R.id.text);
+        mTextView = mView.findViewById(R.id.text);
     }
 
     private View generateView() {

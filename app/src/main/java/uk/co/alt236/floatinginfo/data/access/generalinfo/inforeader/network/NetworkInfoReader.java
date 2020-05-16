@@ -37,7 +37,6 @@ import androidx.annotation.Nullable;
 
     @Nullable
     public WifiInfo getCurrentWifiInfo() {
-
         final WifiInfo retVal;
         if (mWifiManager == null) {
             retVal = null;

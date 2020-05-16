@@ -3,32 +3,32 @@
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_locale_info"
-        android:title="@string/prefs_title_show_locale_info"/>
+        android:title="@string/prefs_title_show_locale_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_net_info"
-        android:title="@string/prefs_title_show_net_info"/>
+        android:title="@string/prefs_title_show_net_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:dependency="@string/pref_key_show_net_info"
         android:key="@string/pref_key_show_ip_info"
-        android:title="@string/prefs_title_show_ip_info"/>
+        android:title="@string/prefs_title_show_ip_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_cpu_info"
-        android:title="@string/prefs_title_show_cpu_info"/>
+        android:title="@string/prefs_title_show_cpu_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:key="@string/pref_key_show_memory_info"
-        android:title="@string/prefs_title_show_memory_info"/>
+        android:title="@string/prefs_title_show_memory_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
         android:dependency="@string/pref_key_show_memory_info"
         android:key="@string/pref_key_show_zero_memory_items"
-        android:title="@string/prefs_title_show_zero_memory_items"/>
+        android:title="@string/prefs_title_show_zero_memory_items" />
 </PreferenceScreen>

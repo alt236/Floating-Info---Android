@@ -20,7 +20,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +38,7 @@ public class AboutDialog extends DialogFragment {
         final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final View content = inflater.inflate(R.layout.dialog_about, null, false);
-        final TextView version = (TextView) content.findViewById(R.id.version);
+        final TextView version = content.findViewById(R.id.version);
 
         final String name = BuildConfig.VERSION_NAME;
         version.setText(getString(R.string.version) + " " + name);
@@ -47,14 +46,7 @@ public class AboutDialog extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
                 .setView(content)
-                .setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
-                )
+                .setPositiveButton(R.string.ok, (dialog, whichButton) -> dialog.dismiss())
                 .create();
     }
 }

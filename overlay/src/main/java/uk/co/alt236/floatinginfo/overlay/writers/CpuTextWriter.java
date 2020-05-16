@@ -28,7 +28,7 @@ import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper;
         if (input != null) {
             sb.appendBold("Global CPU Utilisation");
             sb.startKeyValueSection();
-            if (input.hasError()) {
+            if (input.getHasError()) {
                 sb.append("Error", "Failed to open " + input.getStatFile());
             } else {
                 sb.append("Total", input.getOverallCpu() + "%");

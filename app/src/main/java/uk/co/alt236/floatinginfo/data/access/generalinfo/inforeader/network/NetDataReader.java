@@ -21,8 +21,8 @@ import android.net.wifi.WifiInfo;
 
 import java.util.List;
 
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
+import uk.co.alt236.floatinginfo.common.data.model.net.Interface;
+import uk.co.alt236.floatinginfo.common.data.model.net.NetData;
 
 /**
  *

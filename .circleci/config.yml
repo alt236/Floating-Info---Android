@@ -69,7 +69,7 @@ references:
   run_unit_tests: &run_unit_tests
     run:
       name: Running unit tests
-      command: ./gradlew testDebug monitors:testDebug
+      command: ./gradlew testDebug overlay:testDebug common:testDebug
 
   produce_code_coverage: &produce_code_coverage
     run:
@@ -196,11 +196,14 @@ jobs:
           root: *workspace
           paths:
             - app/build/
-            - monitors/build/
+            - overlay/build/
+            - common/build/
       - upload_test_results_and_artifacts:
           module_name: "app"
       - upload_test_results_and_artifacts:
-          module_name: "monitors"
+          module_name: "overlay"
+      - upload_test_results_and_artifacts:
+          module_name: "common"
       - upload_apks_to_ci:
           module_name: "app"
       - deploy_to_google_play:

@@ -20,17 +20,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
+import uk.co.alt236.floatinginfo.common.data.model.CpuData;
+import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
+import uk.co.alt236.floatinginfo.common.data.model.LocaleData;
+import uk.co.alt236.floatinginfo.common.data.model.MemoryData;
+import uk.co.alt236.floatinginfo.common.data.model.net.NetData;
+import uk.co.alt236.floatinginfo.common.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppDiscovery;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleInfoReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.NetData;
-import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.util.Constants;
 
 /*package*/ class MonitorTask {

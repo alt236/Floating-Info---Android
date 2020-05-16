@@ -21,6 +21,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
+
 /*package*/ class FgAppDiscoveryLegacy extends FgAppDiscovery {
 
     private final ActivityManager mActivityManager;

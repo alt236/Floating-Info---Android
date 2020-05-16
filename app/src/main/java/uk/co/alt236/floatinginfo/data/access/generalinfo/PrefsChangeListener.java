@@ -21,7 +21,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import uk.co.alt236.floatinginfo.R;
-import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
+import uk.co.alt236.floatinginfo.overlay.OverlayManager;
 
 /*package*/ class PrefsChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final OverlayManager mOverlayManager;

@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.alt236.floatinginfo.common.data.model.LocaleData;
+
 public class LocaleInfoReader {
     private final Context context;
     private LocaleData data;

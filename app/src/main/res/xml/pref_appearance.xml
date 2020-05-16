@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/uk.co.alt236.floatinginfo">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
         android:defaultValue="BOTTOM_RIGHT"
@@ -19,7 +19,7 @@
         android:defaultValue="@integer/text_size_default_value"
         android:key="@string/pref_key_text_size"
         android:title="@string/prefs_title_text_size"
-        app:max="@integer/text_size_max_value"/>
+        android:max="@integer/text_size_max_value" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_alpha"

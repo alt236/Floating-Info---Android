@@ -21,9 +21,9 @@ import android.util.Log;
 
 import java.util.List;
 
-import agency.tango.materialintroscreen.MaterialIntroActivity;
-import agency.tango.materialintroscreen.SlideFragment;
 import androidx.annotation.Nullable;
+import io.github.dreierf.materialintroscreen.MaterialIntroActivity;
+import io.github.dreierf.materialintroscreen.SlideFragment;
 import uk.co.alt236.floatinginfo.ui.activity.onboarding.pagefactory.PageFactory;
 
 public class OnBoardingActivity extends MaterialIntroActivity {

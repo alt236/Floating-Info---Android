@@ -34,6 +34,7 @@ import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
 import uk.co.alt236.floatinginfo.common.prefs.EnabledInfoPrefs;
 import uk.co.alt236.floatinginfo.common.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.data.access.BaseProvider;
+import uk.co.alt236.floatinginfo.data.access.generalinfo.monitortask.ProcessMonitor;
 import uk.co.alt236.floatinginfo.notifications.NotificationControl;
 import uk.co.alt236.floatinginfo.overlay.OverlayManager;
 
@@ -47,21 +48,22 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     private final OverlayManager mOverlayManager;
     private final Handler mViewUpdateHandler = new Handler();
     private final NotificationControl mNotificationControl;
-    private final MonitorTask mMonitorTask;
+    private final ProcessMonitor mProcessMonitor;
     private final SystemWindowLayoutParamsFactory mLayoutParamsFactory;
+
     public GeneralInfoProvider(final Service context) {
         super(context);
-        mLayoutParamsFactory = new SystemWindowLayoutParamsFactory();
         final EnabledInfoPrefs enabledInfoPrefs = new EnabledInfoPrefs(context);
         final OverlayPrefs overlayPrefs = new OverlayPrefs(context);
         final LayoutInflater inflater = LayoutInflater.from(getContext());
 
+        mLayoutParamsFactory = new SystemWindowLayoutParamsFactory();
         mNotificationControl = new NotificationControl(context);
         mInfoStore = new InfoStore();
         mOverlayManager = new OverlayManager(inflater, mInfoStore, overlayPrefs, enabledInfoPrefs);
         mLogReceiver = new GeneralInfoReceiver(this);
         mPrefsChangeListener = new PrefsChangeListener(context, mOverlayManager);
-        mMonitorTask = new MonitorTask(context, enabledInfoPrefs);
+        mProcessMonitor = new ProcessMonitor(context, enabledInfoPrefs);
     }
 
     private void createSystemWindow() {
@@ -89,9 +91,6 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 
     @Override
     public void onLogShare() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(mOverlayManager.getSharePayload());
-
         final Time now = new Time();
         now.setToNow();
 
@@ -99,7 +98,7 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
 
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, String.valueOf(mOverlayManager.getSharePayload()));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject) + " " + ts);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(shareIntent);
@@ -138,31 +137,29 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void startProcessMonitor() {
-        mMonitorTask.start(new MonitorTask.UpdateCallback() {
-            @Override
-            public void onUpdate(final MonitorTask.MonitorUpdate update) {
-                if (!mIsLogPaused.get()) {
-                    final ForegroundAppData appData = update.getForegroundAppData();
+        mProcessMonitor.start(update -> {
+            if (!mIsLogPaused.get()) {
+                final ForegroundAppData appData = update.getForegroundAppData();
 
-                    final boolean change; // = false;
-                    if (appData.getPid() != mForegroundAppPid.get()) {
-                        change = true;
-                        mForegroundAppPid.set(appData.getPid());
-                        mOverlayManager.clearPeakUsage();
-                    } else {
-                        change = false;
-                    }
+                final boolean change; // = false;
+                if (appData.getPid() != mForegroundAppPid.get()) {
+                    change = true;
+                    mForegroundAppPid.set(appData.getPid());
+                    mOverlayManager.clearPeakUsage();
+                } else {
+                    change = false;
+                }
 
-                    mInfoStore.set(appData);
-                    mInfoStore.set(update.getNetData());
-                    mInfoStore.set(update.getCpuData());
-                    mInfoStore.set(update.getMemoryData());
-                    mInfoStore.set(update.getGeneralData());
+                mInfoStore.set(appData);
+                mInfoStore.set(update.getNetData());
+                mInfoStore.set(update.getCpuData());
+                mInfoStore.set(update.getMemoryData());
+                mInfoStore.set(update.getGeneralData());
 
-                    updateDisplay();
-                    if (change) {
-                        mNotificationControl.show(mIsLogPaused.get());
-                    }
+                updateDisplay();
+
+                if (change) {
+                    mNotificationControl.show(mIsLogPaused.get());
                 }
             }
         });
@@ -170,16 +167,11 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
     }
 
     private void stopProcessMonitor() {
-        mMonitorTask.stop();
+        mProcessMonitor.stop();
         Log.i(TAG, "process monitor task stopped");
     }
 
     private void updateDisplay() {
-        mViewUpdateHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mOverlayManager.update();
-            }
-        });
+        mViewUpdateHandler.post(mOverlayManager::update);
     }
 }

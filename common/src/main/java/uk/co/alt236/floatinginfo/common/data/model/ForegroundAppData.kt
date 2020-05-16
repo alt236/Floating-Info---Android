@@ -13,25 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package uk.co.alt236.floatinginfo.common.data.model
 
-package uk.co.alt236.floatinginfo.common.data.model.net;
-
-import java.util.List;
-
-public class Interface {
-    private final String mName;
-    private final List<IpAddress> mAddresses;
-
-    public Interface(final String name, final List<IpAddress> ipAddresses) {
-        mName = name;
-        mAddresses = ipAddresses;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public List<IpAddress> getAddresses() {
-        return mAddresses;
-    }
-}
+data class ForegroundAppData(
+        val pid: Int,
+        val packageName: String,
+        val appName: CharSequence)

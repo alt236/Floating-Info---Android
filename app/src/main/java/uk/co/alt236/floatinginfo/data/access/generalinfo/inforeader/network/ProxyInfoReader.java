@@ -21,13 +21,11 @@ import android.net.ConnectivityManager;
 
 
 /*package*/ class ProxyInfoReader {
-
     private final ConnectivityManager mConnectivityManager;
-    private final Context mContext;
 
     public ProxyInfoReader(final Context context) {
-        mContext = context.getApplicationContext();
-        mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final Context appContext = context.getApplicationContext();
+        mConnectivityManager = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     public String getProxyUrl() {
@@ -43,14 +41,10 @@ import android.net.ConnectivityManager;
                         proxyPort = String.valueOf(proxyInfo.getPort());
                     }
                 }
-            } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            } else {
                 proxyHost = System.getProperty("http.proxyHost");
                 proxyPort = System.getProperty("http.proxyPort");
-            } else {
-                proxyHost = android.net.Proxy.getHost(mContext);
-                proxyPort = String.valueOf(android.net.Proxy.getPort(mContext));
             }
-
         } catch (final Exception ex) {
             proxyHost = null;
             proxyPort = null;

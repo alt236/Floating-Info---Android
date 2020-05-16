@@ -30,7 +30,7 @@ import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper;
             sb.appendBold("Foreground Application Info");
             sb.startKeyValueSection();
             sb.append("App Name", String.valueOf(input.getAppName()));
-            sb.append("Package", input.getPackage());
+            sb.append("Package", input.getPackageName());
             sb.append("PID", input.getPid());
             sb.endKeyValueSection();
             sb.appendNewLine();

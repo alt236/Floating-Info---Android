@@ -40,12 +40,12 @@ public class ExecTerminal {
             final BufferedReader reader = new BufferedReader(
                     new InputStreamReader(is));
             try {
-                String fullOutput = "";
+                StringBuilder fullOutput = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    fullOutput = fullOutput + line + "\n";
+                    fullOutput.append(line).append("\n");
                 }
-                return fullOutput;
+                return fullOutput.toString();
             } catch (final IOException e) {
                 Log.e(TAG, "^ exec, IOException 1");
                 e.printStackTrace();

@@ -22,13 +22,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MemoryData {
-    private final static Set<String> sReflectionErrorKeys = new HashSet<String>();
+    private final static Set<String> sReflectionErrorKeys = new HashSet<>();
 
     /** The private clean pages used by dalvik heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int dalvikPrivateClean;
 
-    /** The private dirty pages used by dalvik heap. */
+    /**
+     * The private dirty pages used by dalvik heap.
+     */
     private final int dalvikPrivateDirty;
     /**
      * The proportional set size for dalvik heap. (Doesn't include other Dalvik
@@ -36,53 +40,89 @@ public class MemoryData {
      */
     private final int dalvikPss;
     /** The shared clean pages used by dalvik heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int dalvikSharedClean;
-    /** The shared dirty pages used by dalvik heap. */
+    /**
+     * The shared dirty pages used by dalvik heap.
+     */
     private final int dalvikSharedDirty;
     /** The proportional set size that is swappable for dalvik heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int dalvikSwappablePss;
     /** The dirty dalvik pages that have been swapped out. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int dalvikSwappedOut;
 
     /** The private clean pages used by the native heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int nativePrivateClean;
-    /** The private dirty pages used by the native heap. */
+    /**
+     * The private dirty pages used by the native heap.
+     */
     private final int nativePrivateDirty;
-    /** The proportional set size for the native heap. */
+    /**
+     * The proportional set size for the native heap.
+     */
     private final int nativePss;
     /** The shared clean pages used by the native heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int nativeSharedClean;
-    /** The shared dirty pages used by the native heap. */
+    /**
+     * The shared dirty pages used by the native heap.
+     */
     private final int nativeSharedDirty;
     /** The proportional set size that is swappable for the native heap. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int nativeSwappablePss;
     /** The dirty native pages that have been swapped out. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int nativeSwappedOut;
 
     /** The private clean pages used by everything else. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int otherPrivateClean;
-    /** The private dirty pages used by everything else. */
+    /**
+     * The private dirty pages used by everything else.
+     */
     private final int otherPrivateDirty;
-    /** The proportional set size for everything else. */
+    /**
+     * The proportional set size for everything else.
+     */
     private final int otherPss;
     /** The shared clean pages used by everything else. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int otherSharedClean;
-    /** The shared dirty pages used by everything else. */
+    /**
+     * The shared dirty pages used by everything else.
+     */
     private final int otherSharedDirty;
     /** The proportional set size that is swappable for everything else. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int otherSwappablePss;
     /** The dirty pages used by anyting else that have been swapped out. */
-    /** @hide We may want to expose this, eventually. */
+    /**
+     * @hide We may want to expose this, eventually.
+     */
     private final int otherSwappedOut;
     private final int pid;
 
@@ -170,36 +210,6 @@ public class MemoryData {
 
     public int getDalvikSwappedOut() {
         return dalvikSwappedOut;
-    }
-
-    public static MemoryData getBlank(final int pid) {
-        return new MemoryData(pid);
-    }
-
-    private static int getIntReflectively(final MemoryInfo mi, final String name) {
-        if (!sReflectionErrorKeys.contains(name)) {
-            if (mi != null) {
-                final Class<?> clazz = mi.getClass();
-                final Field field;
-                try {
-                    field = clazz.getField(name);
-                    return field.getInt(mi);
-                } catch (final NoSuchFieldException e) {
-                    sReflectionErrorKeys.add(name);
-                    e.printStackTrace();
-                } catch (final IllegalAccessException e) {
-                    sReflectionErrorKeys.add(name);
-                    e.printStackTrace();
-                } catch (final IllegalArgumentException e) {
-                    sReflectionErrorKeys.add(name);
-                    e.printStackTrace();
-                } catch (final NullPointerException e) {
-                    sReflectionErrorKeys.add(name);
-                    e.printStackTrace();
-                }
-            }
-        }
-        return -1;
     }
 
     public int getNativePrivateClean() {
@@ -314,6 +324,36 @@ public class MemoryData {
         return dalvikPrivateClean + dalvikPrivateDirty
                 + nativePrivateClean + nativePrivateDirty
                 + otherPrivateClean + otherPrivateDirty;
+    }
+
+    public static MemoryData getBlank(final int pid) {
+        return new MemoryData(pid);
+    }
+
+    private static int getIntReflectively(final MemoryInfo mi, final String name) {
+        if (!sReflectionErrorKeys.contains(name)) {
+            if (mi != null) {
+                final Class<?> clazz = mi.getClass();
+                final Field field;
+                try {
+                    field = clazz.getField(name);
+                    return field.getInt(mi);
+                } catch (final NoSuchFieldException e) {
+                    sReflectionErrorKeys.add(name);
+                    e.printStackTrace();
+                } catch (final IllegalAccessException e) {
+                    sReflectionErrorKeys.add(name);
+                    e.printStackTrace();
+                } catch (final IllegalArgumentException e) {
+                    sReflectionErrorKeys.add(name);
+                    e.printStackTrace();
+                } catch (final NullPointerException e) {
+                    sReflectionErrorKeys.add(name);
+                    e.printStackTrace();
+                }
+            }
+        }
+        return -1;
     }
 
 }

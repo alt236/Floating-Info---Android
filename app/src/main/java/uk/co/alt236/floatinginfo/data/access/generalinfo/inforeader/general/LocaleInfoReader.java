@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.common.data.model.LocaleData;
 
 public class LocaleInfoReader {
@@ -55,6 +56,7 @@ public class LocaleInfoReader {
                 getLocaleList());
     }
 
+    @NonNull
     private List<Locale> getLocaleList() {
         final List<Locale> retVal = new ArrayList<>();
 

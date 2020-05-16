@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import uk.co.alt236.floatinginfo.BuildConfig;
@@ -34,7 +35,7 @@ public class CpuUtilisationReader {
     private RandomAccessFile statFile;
     private CpuInfo mCpuInfoTotal;
     private ArrayList<CpuInfo> mCpuInfoList;
-    private AtomicBoolean mFileOpenedOk = new AtomicBoolean();
+    private final AtomicBoolean mFileOpenedOk = new AtomicBoolean();
 
     public CpuUtilisationReader() {
         update();
@@ -104,7 +105,7 @@ public class CpuUtilisationReader {
             final String[] parts = cpuLine.split("[ ]+");
             final String cpuLabel = "cpu";
 
-            if (parts[0].indexOf(cpuLabel) != -1) {
+            if (parts[0].contains(cpuLabel)) {
                 createCpuInfo(cpuId, parts);
             }
         } else {
@@ -116,14 +117,16 @@ public class CpuUtilisationReader {
         final CpuData retVal;
 
         if (mFileOpenedOk.get()) {
-            retVal = new CpuData(STAT_FILE, getTotalCpuUsage());
+            final List<Integer> cpuUtilisation = new ArrayList<>();
 
             if (mCpuInfoList != null) {
                 for (int i = 0; i < mCpuInfoList.size(); i++) {
                     final CpuInfo info = mCpuInfoList.get(i);
-                    retVal.addUtilisation(info.getUsage());
+                    cpuUtilisation.add(info.getUsage());
                 }
             }
+
+            retVal = new CpuData(STAT_FILE, getTotalCpuUsage(), cpuUtilisation);
         } else {
             retVal = new CpuData(STAT_FILE, true);
         }
@@ -135,7 +138,7 @@ public class CpuUtilisationReader {
         if (statFile != null) {
             try {
                 statFile.seek(0);
-                String cpuLine = "";
+                String cpuLine;
                 int cpuId = -1;
                 do {
                     cpuLine = statFile.readLine();

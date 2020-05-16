@@ -28,10 +28,6 @@ public class FloatingInfoService extends Service {
     private BaseProvider mMonitor;
     private ScreenStateListener mScreenStateListener;
 
-    public static boolean isRunning() {
-        return sIsRunning;
-    }
-
     @Override
     public IBinder onBind(final Intent intent) {
         throw new UnsupportedOperationException("Not implemented");
@@ -73,12 +69,15 @@ public class FloatingInfoService extends Service {
         return Service.START_STICKY;
     }
 
-
     private void startMonitor() {
         mMonitor.start();
     }
 
     private void stopMonitor() {
         mMonitor.stop();
+    }
+
+    public static boolean isRunning() {
+        return sIsRunning;
     }
 }

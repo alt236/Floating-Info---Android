@@ -29,7 +29,6 @@ public class MemoryInfoReader {
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     }
 
-
     public void update(final int pid) {
         if (pid > 0) {
             final MemoryInfo mi = mActivityManager.getProcessMemoryInfo(new int[]{pid})[0];

@@ -23,8 +23,6 @@ import android.preference.PreferenceManager;
 
 public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceActivity {
 
-    private final ValidFragments validFragments = new ValidFragments();
-
     /**
      * Determines whether to always show the simplified settings UI, where
      * settings are presented in a single list. When false, settings are shown
@@ -32,32 +30,34 @@ public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceA
      * shown on tablets.
      */
     protected static final boolean ALWAYS_SIMPLE_PREFS = false;
-
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-    protected static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(final Preference preference, final Object value) {
-            final String stringValue = value.toString();
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                final ListPreference listPreference = (ListPreference) preference;
-                final int index = listPreference.findIndexOfValue(stringValue);
-                // Set the summary to reflect the new value.
-                preference
-                        .setSummary(index >= 0 ? listPreference.getEntries()[index]
-                                : null);
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
+    protected static final Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+        final String stringValue = value.toString();
+        if (preference instanceof ListPreference) {
+            // For list preferences, look up the correct display value in
+            // the preference's 'entries' list.
+            final ListPreference listPreference = (ListPreference) preference;
+            final int index = listPreference.findIndexOfValue(stringValue);
+            // Set the summary to reflect the new value.
+            preference
+                    .setSummary(index >= 0 ? listPreference.getEntries()[index]
+                            : null);
+        } else {
+            // For all other preferences, set the summary to the value's
+            // simple string representation.
+            preference.setSummary(stringValue);
         }
+        return true;
     };
+    private final ValidFragments validFragments = new ValidFragments();
+
+    @Override
+    protected boolean isValidFragment(final String fragmentName) {
+        return validFragments.isValidFragment(fragmentName);
+    }
 
     /**
      * Binds a preference's summary to its value. More specifically, when the
@@ -98,11 +98,6 @@ public abstract class TabletAwarePreferenceActivity extends AppCompatPreferenceA
      */
     protected static boolean isSimplePreferences(final Context context) {
         return ALWAYS_SIMPLE_PREFS || !isXLargeTablet(context);
-    }
-
-    @Override
-    protected boolean isValidFragment(final String fragmentName) {
-        return validFragments.isValidFragment(fragmentName);
     }
 
 }

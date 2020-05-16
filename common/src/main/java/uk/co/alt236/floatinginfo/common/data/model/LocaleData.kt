@@ -13,31 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package uk.co.alt236.floatinginfo.common.data.model
 
-package uk.co.alt236.floatinginfo.common.data.model.net;
+import java.util.*
 
-public class IpAddress {
-    private final int version;
-    private final String address;
-
-    public IpAddress(final int version, final String address) {
-        this.version = version;
-        this.address = address;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    @Override
-    public String toString() {
-        return "IpAddress{" +
-                "version=" + version +
-                ", address='" + address + '\'' +
-                '}';
-    }
-}
+data class LocaleData(val defaultLocale: Locale, val contextLocales: List<Locale>)

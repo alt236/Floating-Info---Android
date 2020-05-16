@@ -17,7 +17,6 @@
 package uk.co.alt236.floatinginfo.overlay.writers;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -53,23 +52,15 @@ import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper;
     }
 
     private void sortInterfaces(final List<Interface> input) {
-        Collections.sort(input, new Comparator<Interface>() {
-            @Override
-            public int compare(final Interface lhs, final Interface rhs) {
-                return lhs.getName().compareToIgnoreCase(rhs.getName());
-            }
-        });
+        Collections.sort(input, (lhs, rhs) -> lhs.getName().compareToIgnoreCase(rhs.getName()));
     }
 
     private void sortAddresses(final List<IpAddress> input) {
-        Collections.sort(input, new Comparator<IpAddress>() {
-            @Override
-            public int compare(final IpAddress lhs, final IpAddress rhs) {
-                final int lhsv = lhs.getVersion();
-                final int rhsv = rhs.getVersion();
+        Collections.sort(input, (lhs, rhs) -> {
+            final int lhsv = lhs.getVersion();
+            final int rhsv = rhs.getVersion();
 
-                return lhsv < rhsv ? -1 : (lhsv == rhsv ? 0 : 1);
-            }
+            return Integer.compare(lhsv, rhsv);
         });
     }
 

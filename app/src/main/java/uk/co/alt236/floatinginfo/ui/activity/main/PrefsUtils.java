@@ -35,22 +35,16 @@ import uk.co.alt236.floatinginfo.ui.activity.main.dialogs.OpenSourceLicensesDial
     }
 
     public static void setupOpenSourceInfoPreference(final Activity activity, final Preference preference) {
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(final Preference preference) {
-                replace(activity.getFragmentManager(), new OpenSourceLicensesDialog());
-                return true;
-            }
+        preference.setOnPreferenceClickListener(preference1 -> {
+            replace(activity.getFragmentManager(), new OpenSourceLicensesDialog());
+            return true;
         });
     }
 
     public static void setupVersionPref(final Activity activity, final Preference preference) {
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(final Preference preference) {
-                replace(activity.getFragmentManager(), new AboutDialog());
-                return true;
-            }
+        preference.setOnPreferenceClickListener(preference1 -> {
+            replace(activity.getFragmentManager(), new AboutDialog());
+            return true;
         });
     }
 

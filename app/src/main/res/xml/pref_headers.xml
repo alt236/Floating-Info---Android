@@ -3,14 +3,14 @@
 
     <header
         android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.AppearancePreferenceFragment"
-        android:title="@string/prefs_header_appearance"/>
+        android:title="@string/prefs_header_appearance" />
 
     <header
         android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.EnabledInfoPreferenceFragment"
-        android:title="@string/prefs_header_info_to_display"/>
+        android:title="@string/prefs_header_info_to_display" />
 
     <header
         android:fragment="uk.co.alt236.floatinginfo.ui.activity.main.InfoPreferenceFragment"
-        android:title="@string/prefs_header_information"/>
+        android:title="@string/prefs_header_information" />
 
 </preference-headers>

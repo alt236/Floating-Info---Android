@@ -57,7 +57,7 @@ public class SeekBarPreference extends Preference
     @Override
     protected void onBindView(final View view) {
         super.onBindView(view);
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
+        final SeekBar seekBar = view.findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(mMax);
         seekBar.setProgress(mProgress);
@@ -167,9 +167,9 @@ public class SeekBarPreference extends Preference
     protected Parcelable onSaveInstanceState() {
         /*
          * Suppose a client uses this preference type without persisting. We
-		 * must save the instance state so it is able to, for example, survive
-		 * orientation changes.
-		 */
+         * must save the instance state so it is able to, for example, survive
+         * orientation changes.
+         */
 
         final Parcelable superState = super.onSaveInstanceState();
         if (isPersistent()) {

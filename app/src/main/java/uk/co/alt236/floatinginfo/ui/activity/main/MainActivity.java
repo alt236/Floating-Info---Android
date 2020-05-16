@@ -23,7 +23,6 @@ import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.util.List;
@@ -85,17 +84,14 @@ public class MainActivity extends TabletAwarePreferenceActivity {
         final Switch mainSwitch = new Switch(this);
 
         mainSwitch.setChecked(FloatingInfoService.isRunning());
-        mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
-                final Intent intent = new Intent(MainActivity.this, FloatingInfoService.class);
-                if (b) {
-                    if (!FloatingInfoService.isRunning()) {
-                        startService(intent);
-                    }
-                } else {
-                    stopService(intent);
+        mainSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            final Intent intent = new Intent(MainActivity.this, FloatingInfoService.class);
+            if (b) {
+                if (!FloatingInfoService.isRunning()) {
+                    startService(intent);
                 }
+            } else {
+                stopService(intent);
             }
         });
 

@@ -101,6 +101,6 @@ import uk.co.alt236.floatinginfo.common.data.model.net.IpAddress;
 
     @NonNull
     private <T> List<T> safeList(@Nullable final Enumeration<T> enumeration) {
-        return enumeration == null ? new ArrayList<T>() : Collections.list(enumeration);
+        return enumeration == null ? new ArrayList<>() : Collections.list(enumeration);
     }
 }

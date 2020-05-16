@@ -7,41 +7,41 @@
         android:entryValues="@array/screen_position_values"
         android:key="@string/pref_key_screen_position"
         android:summary="%s"
-        android:title="@string/prefs_title_screen_position"/>
+        android:title="@string/prefs_title_screen_position" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/background_opacity_default"
         android:key="@string/pref_key_bg_opacity"
         android:title="@string/prefs_title_background_opacity"
-        app:max="@integer/background_opacity_max"/>
+        app:max="@integer/background_opacity_max" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/text_size_default_value"
         android:key="@string/pref_key_text_size"
-        android:title="@string/prefs_title_text_size"
-        android:max="@integer/text_size_max_value" />
+        android:max="@integer/text_size_max_value"
+        android:title="@string/prefs_title_text_size" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_alpha"
         android:key="@string/pref_key_text_alpha"
         android:title="@string/prefs_title_text_alpha"
-        app:max="255"/>
+        app:max="255" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_red"
         android:key="@string/pref_key_text_color_red"
         android:title="@string/prefs_title_color_red"
-        app:max="255"/>
+        app:max="255" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_green"
         android:key="@string/pref_key_text_color_green"
         android:title="@string/prefs_title_color_green"
-        app:max="255"/>
+        app:max="255" />
 
     <uk.co.alt236.floatinginfo.ui.views.SeekBarPreference
         android:defaultValue="@integer/default_text_blue"
         android:key="@string/pref_key_text_color_blue"
         android:title="@string/prefs_title_color_blue"
-        app:max="255"/>
+        app:max="255" />
 </PreferenceScreen>

@@ -179,7 +179,7 @@ import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper;
     private static class PeakKeeper {
 
         private final Object mLock = new Object();
-        private final Map<String, Integer> mStore = new HashMap<String, Integer>();
+        private final Map<String, Integer> mStore = new HashMap<>();
 
         public void clear() {
             synchronized (mLock) {

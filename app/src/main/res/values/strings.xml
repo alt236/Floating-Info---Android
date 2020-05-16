@@ -2,7 +2,6 @@
 <resources>
 
     <string name="about">About</string>
-    <string name="app_name">Floating Info</string>
     <string name="share_subject">Floating Info Output</string>
     <string name="ok">OK</string>
 

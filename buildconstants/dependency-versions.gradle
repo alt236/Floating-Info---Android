@@ -1,0 +1,20 @@
+ext {
+    // support lib versions
+    support_lib_version = "28.0.0"
+
+    // androidx libraries
+    androidx_appcompat_version = "1.1.0"
+    androidx_annotation_version = "1.1.0"
+
+    // testing
+    mockito_version = "3.3.3"
+    junit_version = "4.12"
+
+    // code quality
+    jacoco_version = "0.8.5"
+
+    // Other
+    dexter_version = "6.1.2"
+    material_intro_screen_version = "0.0.5"
+    libsuperuser_version = "1.0.0.201704021214"
+}

@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'com.github.triplet.play' version '2.5.0'
 }
 
@@ -67,6 +69,9 @@ dependencies {
     implementation project(":overlay")
     implementation project(":common")
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core:$androidx_core_version"
+    implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
@@ -95,4 +100,7 @@ play {
     } else {
         enabled = false
     }
+}
+repositories {
+    mavenCentral()
 }

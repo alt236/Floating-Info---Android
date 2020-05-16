@@ -1,4 +1,9 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
 apply from: "${project.rootDir}/buildsystem/android-defaults.gradle"
 
 android {
@@ -28,8 +33,14 @@ android {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core:$androidx_core_version"
+    implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
+}
+repositories {
+    mavenCentral()
 }

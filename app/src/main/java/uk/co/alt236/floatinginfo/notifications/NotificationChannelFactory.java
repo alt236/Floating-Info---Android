@@ -19,8 +19,8 @@ package uk.co.alt236.floatinginfo.notifications;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.R;
 
 /*package*/ class NotificationChannelFactory {

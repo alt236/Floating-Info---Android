@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import agency.tango.materialintroscreen.SlideFragment;
+import androidx.annotation.Nullable;
 import uk.co.alt236.floatinginfo.BuildConfig;
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.permissions.OverlayPermissionChecker;

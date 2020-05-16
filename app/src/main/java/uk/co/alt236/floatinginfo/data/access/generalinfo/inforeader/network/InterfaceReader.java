@@ -16,8 +16,6 @@
 
 package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.net.Inet4Address;
@@ -30,6 +28,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.IpAddress;
 

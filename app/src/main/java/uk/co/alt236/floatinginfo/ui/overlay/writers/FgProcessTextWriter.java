@@ -16,8 +16,7 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;
 

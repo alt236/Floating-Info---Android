@@ -20,8 +20,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.support.annotation.StringRes;
 
+import androidx.annotation.StringRes;
 import uk.co.alt236.floatinginfo.R;
 
 public class EnabledInfoPrefs {

@@ -15,12 +15,11 @@
  */
 package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleData;

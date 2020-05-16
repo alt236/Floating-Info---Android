@@ -20,8 +20,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -30,6 +28,8 @@ import android.widget.Switch;
 
 import java.util.List;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.permissions.PermissionCheckerWrapper;
 import uk.co.alt236.floatinginfo.service.FloatingInfoService;

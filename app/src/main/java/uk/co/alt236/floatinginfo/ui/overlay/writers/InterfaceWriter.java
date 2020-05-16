@@ -16,12 +16,11 @@
 
 package uk.co.alt236.floatinginfo.ui.overlay.writers;
 
-import android.support.annotation.NonNull;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
 import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.IpAddress;
 import uk.co.alt236.floatinginfo.util.StringBuilderHelper;

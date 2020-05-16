@@ -29,13 +29,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.co.alt236.floatinginfo.R;
+import uk.co.alt236.floatinginfo.common.data.InfoStore;
+import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
+import uk.co.alt236.floatinginfo.common.prefs.EnabledInfoPrefs;
+import uk.co.alt236.floatinginfo.common.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.data.access.BaseProvider;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.InfoStore;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppData;
-import uk.co.alt236.floatinginfo.data.prefs.EnabledInfoPrefs;
-import uk.co.alt236.floatinginfo.data.prefs.OverlayPrefs;
 import uk.co.alt236.floatinginfo.notifications.NotificationControl;
-import uk.co.alt236.floatinginfo.ui.overlay.OverlayManager;
+import uk.co.alt236.floatinginfo.overlay.OverlayManager;
 
 public class GeneralInfoProvider extends BaseProvider implements GeneralInfoReceiver.Callbacks {
     private static final String TAG = GeneralInfoProvider.class.getSimpleName();

@@ -19,6 +19,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Debug.MemoryInfo;
 
+import uk.co.alt236.floatinginfo.common.data.model.MemoryData;
+
 public class MemoryInfoReader {
     private final ActivityManager mActivityManager;
     private MemoryData mMemoryInfo;

@@ -18,6 +18,8 @@ package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo;
 
 import android.content.Context;
 
+import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
+
 public class ForegroundAppDiscovery {
 
     private final FgAppDiscovery mAppDiscovery;

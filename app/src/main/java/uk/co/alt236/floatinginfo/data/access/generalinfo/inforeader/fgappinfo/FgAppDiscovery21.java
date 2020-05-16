@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData;
+
 /**
  *
  */

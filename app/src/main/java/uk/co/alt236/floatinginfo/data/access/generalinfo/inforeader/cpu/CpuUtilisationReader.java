@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import uk.co.alt236.floatinginfo.BuildConfig;
+import uk.co.alt236.floatinginfo.common.data.model.CpuData;
 
 // Taken http://stackoverflow.com/questions/7593829/how-to-get-the-processor-number-on-android
 public class CpuUtilisationReader {
@@ -115,7 +116,7 @@ public class CpuUtilisationReader {
         final CpuData retVal;
 
         if (mFileOpenedOk.get()) {
-            retVal = new CpuData(getTotalCpuUsage());
+            retVal = new CpuData(STAT_FILE, getTotalCpuUsage());
 
             if (mCpuInfoList != null) {
                 for (int i = 0; i < mCpuInfoList.size(); i++) {
@@ -124,7 +125,7 @@ public class CpuUtilisationReader {
                 }
             }
         } else {
-            retVal = new CpuData(true);
+            retVal = new CpuData(STAT_FILE, true);
         }
 
         return retVal;

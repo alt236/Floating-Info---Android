@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+apply from: "${project.rootDir}/buildsystem/android-defaults.gradle"
+
+android {
+    final int buildNumber = getBuildNumber()
+    final int versionMajor = 1
+    final int versionMinor = 0
+    final int versionPatch = buildNumber
+    final int androidVersionCode = buildNumber
+
+    final String semanticVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    defaultConfig {
+        versionCode androidVersionCode
+        versionName semanticVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation "androidx.annotation:annotation:$androidx_annotation_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+}

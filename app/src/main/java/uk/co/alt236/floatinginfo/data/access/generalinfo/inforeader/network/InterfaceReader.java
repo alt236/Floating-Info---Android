@@ -30,8 +30,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.Interface;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.model.IpAddress;
+import uk.co.alt236.floatinginfo.common.data.model.net.Interface;
+import uk.co.alt236.floatinginfo.common.data.model.net.IpAddress;
 
 /*package*/ class InterfaceReader {
 

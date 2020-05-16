@@ -21,8 +21,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import agency.tango.materialintroscreen.SlideFragment;
-import agency.tango.materialintroscreen.SlideFragmentBuilder;
+import io.github.dreierf.materialintroscreen.SlideFragment;
+import io.github.dreierf.materialintroscreen.SlideFragmentBuilder;
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.permissions.AndroidPermissionChecker;
 import uk.co.alt236.floatinginfo.permissions.OverlayPermissionChecker;

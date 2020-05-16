@@ -15,6 +15,6 @@ ext {
 
     // Other
     dexter_version = "6.1.2"
-    material_intro_screen_version = "0.0.5"
+    material_intro_screen_version = "0.0.6"
     libsuperuser_version = "1.0.0.201704021214"
 }

@@ -28,8 +28,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import agency.tango.materialintroscreen.SlideFragment;
 import androidx.annotation.Nullable;
+import io.github.dreierf.materialintroscreen.SlideFragment;
 import uk.co.alt236.floatinginfo.BuildConfig;
 import uk.co.alt236.floatinginfo.R;
 import uk.co.alt236.floatinginfo.permissions.OverlayPermissionChecker;

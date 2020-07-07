@@ -18,6 +18,8 @@ android {
     defaultConfig {
         versionCode androidVersionCode
         versionName semanticVersion
+
+        buildConfigField "String", "STAT_FILE", "\"/proc/stat\""
     }
 
     buildTypes {
@@ -31,16 +33,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
 dependencies {
+    implementation project(":common")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core:$androidx_core_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
+    implementation "eu.chainfire:libsuperuser:$libsuperuser_version"
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
-}
-repositories {
-    mavenCentral()
+
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network;
+package uk.co.alt236.floatinginfo.inforeader.network;
 
 import android.text.TextUtils;
 

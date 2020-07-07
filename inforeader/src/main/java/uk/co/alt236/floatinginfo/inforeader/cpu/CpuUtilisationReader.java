@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu;
+package uk.co.alt236.floatinginfo.inforeader.cpu;
 
 import android.util.Log;
 
@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import uk.co.alt236.floatinginfo.BuildConfig;
 import uk.co.alt236.floatinginfo.common.data.model.CpuData;
+import uk.co.alt236.floatinginfo.inforeader.BuildConfig;
 
 // Taken http://stackoverflow.com/questions/7593829/how-to-get-the-processor-number-on-android
 public class CpuUtilisationReader {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo;
+package uk.co.alt236.floatinginfo.inforeader.fgappinfo;
 
 import android.annotation.TargetApi;
 import android.app.usage.UsageStats;

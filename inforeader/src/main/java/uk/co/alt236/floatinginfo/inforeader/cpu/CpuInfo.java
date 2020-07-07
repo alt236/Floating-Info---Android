@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu;
+package uk.co.alt236.floatinginfo.inforeader.cpu;
 
 class CpuInfo {
     private int mUsage;

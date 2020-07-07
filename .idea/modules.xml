@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="floating-info/app" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="floating-info/common" />
       <module fileurl="file://$PROJECT_DIR$/floating-info.iml" filepath="$PROJECT_DIR$/floating-info.iml" group="floating-info" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/inforeader/inforeader.iml" filepath="$PROJECT_DIR$/.idea/modules/inforeader/inforeader.iml" group="floating-info/inforeader" />
       <module fileurl="file://$PROJECT_DIR$/overlay/overlay.iml" filepath="$PROJECT_DIR$/overlay/overlay.iml" group="floating-info/overlay" />
     </modules>
   </component>

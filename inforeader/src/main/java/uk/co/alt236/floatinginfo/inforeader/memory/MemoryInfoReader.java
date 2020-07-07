@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory;
+package uk.co.alt236.floatinginfo.inforeader.memory;
 
 import android.app.ActivityManager;
 import android.content.Context;

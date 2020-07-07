@@ -27,11 +27,11 @@ import uk.co.alt236.floatinginfo.common.data.model.LocaleData;
 import uk.co.alt236.floatinginfo.common.data.model.MemoryData;
 import uk.co.alt236.floatinginfo.common.data.model.net.NetData;
 import uk.co.alt236.floatinginfo.common.prefs.EnabledInfoPrefs;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.cpu.CpuUtilisationReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo.ForegroundAppDiscovery;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.general.LocaleInfoReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.memory.MemoryInfoReader;
-import uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.network.NetDataReader;
+import uk.co.alt236.floatinginfo.inforeader.cpu.CpuUtilisationReader;
+import uk.co.alt236.floatinginfo.inforeader.fgappinfo.ForegroundAppDiscovery;
+import uk.co.alt236.floatinginfo.inforeader.general.LocaleInfoReader;
+import uk.co.alt236.floatinginfo.inforeader.memory.MemoryInfoReader;
+import uk.co.alt236.floatinginfo.inforeader.network.NetDataReader;
 import uk.co.alt236.floatinginfo.util.Constants;
 
 class InnerTask extends AsyncTask<Void, Update, Void> {

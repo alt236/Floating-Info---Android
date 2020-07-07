@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.co.alt236.floatinginfo.data.access.generalinfo.inforeader.fgappinfo;
+package uk.co.alt236.floatinginfo.inforeader.fgappinfo;
 
 import java.util.HashMap;
 import java.util.List;

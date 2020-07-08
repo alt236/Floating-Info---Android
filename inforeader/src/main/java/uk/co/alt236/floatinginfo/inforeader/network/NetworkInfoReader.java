@@ -16,6 +16,7 @@
 
 package uk.co.alt236.floatinginfo.inforeader.network;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
@@ -26,11 +27,11 @@ import androidx.annotation.Nullable;
 /*package*/ class NetworkInfoReader {
 
     private final ConnectivityManager mConnectivityManager;
-    private final Context mContext;
+    private final Application mContext;
     private final WifiManager mWifiManager;
 
     public NetworkInfoReader(final Context context) {
-        mContext = context.getApplicationContext();
+        mContext = (Application) context.getApplicationContext();
         mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
     }

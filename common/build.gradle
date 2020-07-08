@@ -40,6 +40,9 @@ dependencies {
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
+
+    androidTestImplementation "androidx.test:core:$andoridx_test_runner_version"
+    androidTestImplementation "androidx.test:runner:$andoridx_test_runner_version"
 }
 repositories {
     mavenCentral()

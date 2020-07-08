@@ -198,12 +198,15 @@ jobs:
             - app/build/
             - overlay/build/
             - common/build/
+            - inforeader/build/
       - upload_test_results_and_artifacts:
           module_name: "app"
       - upload_test_results_and_artifacts:
           module_name: "overlay"
       - upload_test_results_and_artifacts:
           module_name: "common"
+      - upload_test_results_and_artifacts:
+          module_name: "inforeader"
       - upload_apks_to_ci:
           module_name: "app"
       - deploy_to_google_play:
@@ -213,4 +216,5 @@ workflows:
   version: 2.1
   build-and-deploy:
     jobs:
-      - local_test
+      - local_test:
+          context: personal-android-play

@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package uk.co.alt236.floatinginfo.overlay.writers
 
-package uk.co.alt236.floatinginfo.overlay.writers;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper;
+import uk.co.alt236.floatinginfo.common.string.StringBuilderHelper
 
 /**
  *
  */
-public interface TextWriter<T> {
-    void writeText(@Nullable final T input,
-                   @NonNull final StringBuilderHelper stringBuilder);
+interface TextWriter<T> {
+    fun writeText(input: T?,
+                  sb: StringBuilderHelper)
 
-    void clear();
+    fun clear()
 }

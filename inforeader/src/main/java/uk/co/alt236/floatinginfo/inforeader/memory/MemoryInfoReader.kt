@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.alt236.floatinginfo.inforeader.fgappinfo
+package uk.co.alt236.floatinginfo.inforeader.memory
 
+import android.app.ActivityManager
 import android.content.Context
-import android.os.Build
+import uk.co.alt236.floatinginfo.common.data.model.MemoryData
 
-class ForegroundAppDiscovery(context: Context) {
-    private var appDiscovery: FgAppDiscovery
+class MemoryInfoReader(context: Context) {
+    private val mActivityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    var info: MemoryData? = null
+        private set
 
-    init {
-        val appContext = context.applicationContext
-        appDiscovery = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            FgAppDiscovery21(appContext)
+    fun update(pid: Int) {
+        info = if (pid > 0) {
+            val mi = mActivityManager.getProcessMemoryInfo(intArrayOf(pid))[0]
+            MemoryData(pid, mi)
         } else {
-            FgAppDiscoveryLegacy(appContext)
+            MemoryData.getBlank(pid)
         }
     }
 
-    fun getForegroundAppData() = appDiscovery.getForegroundAppData()
 }

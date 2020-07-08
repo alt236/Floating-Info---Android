@@ -140,8 +140,9 @@ public class GeneralInfoProvider extends BaseProvider implements GeneralInfoRece
         mProcessMonitor.start(update -> {
             if (!mIsLogPaused.get()) {
                 final ForegroundAppData appData = update.getForegroundAppData();
+                Log.i(TAG, "Update received: " + appData);
 
-                final boolean change; // = false;
+                final boolean change;
                 if (appData.getPid() != mForegroundAppPid.get()) {
                     change = true;
                     mForegroundAppPid.set(appData.getPid());

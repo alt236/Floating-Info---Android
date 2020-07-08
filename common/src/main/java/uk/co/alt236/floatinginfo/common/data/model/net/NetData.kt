@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.alt236.floatinginfo.common.data.model
+package uk.co.alt236.floatinginfo.common.data.model.net
 
-import java.util.*
+import android.net.NetworkInfo
+import android.net.wifi.WifiInfo
 
-data class CpuData constructor(val statFile: String, val overallCpu: Int, private val perCpuUtilisation: List<Int>, val hasError: Boolean) {
-
-    constructor(statFile: String, overallCpu: Int, perCpuUtilisation: List<Int>) : this(statFile, overallCpu, perCpuUtilisation, false)
-    constructor(statFile: String, error: Boolean) : this(statFile, -1, emptyList<Int>(), error)
-
-    fun getPerCpuUtilisation(): List<Int> {
-        return Collections.unmodifiableList(perCpuUtilisation)
-    }
-}
+/**
+ *
+ */
+data class NetData(val networkInfo: NetworkInfo?,
+                   val wifiInfo: WifiInfo?,
+                   val proxy: String,
+                   val interfaces: List<Interface>)

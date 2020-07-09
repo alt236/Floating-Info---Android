@@ -19,6 +19,7 @@ import uk.co.alt236.floatinginfo.common.data.model.CpuData
 import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData
 import uk.co.alt236.floatinginfo.common.data.model.LocaleData
 import uk.co.alt236.floatinginfo.common.data.model.MemoryData
+import uk.co.alt236.floatinginfo.common.data.model.bt.BluetoothData
 import uk.co.alt236.floatinginfo.common.data.model.net.NetData
 import java.util.*
 
@@ -41,8 +42,15 @@ class InfoStore {
     val memoryInfo: MemoryData?
         get() = get(Key.MEMORY_INFO) as MemoryData?
 
+    val bluetoothInfo: BluetoothData?
+        get() = get(Key.BT_DATA) as BluetoothData?
+
     fun set(value: CpuData?) {
         put(Key.CPU_INFO, value)
+    }
+
+    fun set(value: BluetoothData?) {
+        put(Key.BT_DATA, value)
     }
 
     fun set(value: LocaleData?) {
@@ -70,6 +78,6 @@ class InfoStore {
     }
 
     private enum class Key {
-        PROCESS_INFO, CPU_INFO, MEMORY_INFO, NET_DATA, GENERAL
+        PROCESS_INFO, CPU_INFO, MEMORY_INFO, NET_DATA, GENERAL, BT_DATA
     }
 }

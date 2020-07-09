@@ -28,6 +28,7 @@ class TextWriterWrapper(private val mEnabledInfoPrefs: EnabledInfoPrefs) : TextW
     private val localeDataWriter = LocaleDataTextWriter()
     private val memoryTextWriter = MemoryTextWriter(mEnabledInfoPrefs)
     private val netDataTextWriter = NetDataTextWriter()
+    private val bluetoothTextWriter = BluetoothTextWriter()
 
     override fun writeText(input: InfoStore?, sb: StringBuilderHelper) {
         if (input == null) {
@@ -37,7 +38,9 @@ class TextWriterWrapper(private val mEnabledInfoPrefs: EnabledInfoPrefs) : TextW
         writeProcessInfo(input, sb)
         writeLocaleInfo(input, sb)
         writeNetInfo(input, sb)
+        writeBluetoothInfo(input, sb)
         writeCpuInfo(input, sb)
+        writeMemoryInfo(input, sb)
     }
 
     override fun clear() {
@@ -47,8 +50,8 @@ class TextWriterWrapper(private val mEnabledInfoPrefs: EnabledInfoPrefs) : TextW
     }
 
     private fun writeProcessInfo(input: InfoStore, sb: StringBuilderHelper) {
-        val procInfo = input.foregroundProcessInfo
-        fgProcessTextWriter.writeText(procInfo, sb)
+        val info = input.foregroundProcessInfo
+        fgProcessTextWriter.writeText(info, sb)
     }
 
     private fun writeLocaleInfo(input: InfoStore, sb: StringBuilderHelper) {
@@ -70,15 +73,22 @@ class TextWriterWrapper(private val mEnabledInfoPrefs: EnabledInfoPrefs) : TextW
 
     private fun writeCpuInfo(input: InfoStore, sb: StringBuilderHelper) {
         if (mEnabledInfoPrefs.isCpuInfoEnabled) {
-            val cpuInfo = input.cpuInfo
-            cpuTextWriter.writeText(cpuInfo, sb)
+            val info = input.cpuInfo
+            cpuTextWriter.writeText(info, sb)
         }
     }
 
     private fun writeMemoryInfo(input: InfoStore, sb: StringBuilderHelper) {
         if (mEnabledInfoPrefs.isMemoryInfoEnabled) {
-            val memoryInfo = input.memoryInfo
-            memoryTextWriter.writeText(memoryInfo, sb)
+            val info = input.memoryInfo
+            memoryTextWriter.writeText(info, sb)
+        }
+    }
+
+    private fun writeBluetoothInfo(input: InfoStore, sb: StringBuilderHelper) {
+        if (mEnabledInfoPrefs.isBluetoothInfoEnabled) {
+            val info = input.bluetoothInfo
+            bluetoothTextWriter.writeText(info, sb)
         }
     }
 }

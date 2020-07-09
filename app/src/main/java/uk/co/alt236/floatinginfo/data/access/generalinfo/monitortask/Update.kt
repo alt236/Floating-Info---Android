@@ -19,10 +19,12 @@ import uk.co.alt236.floatinginfo.common.data.model.CpuData
 import uk.co.alt236.floatinginfo.common.data.model.ForegroundAppData
 import uk.co.alt236.floatinginfo.common.data.model.LocaleData
 import uk.co.alt236.floatinginfo.common.data.model.MemoryData
+import uk.co.alt236.floatinginfo.common.data.model.bt.BluetoothData
 import uk.co.alt236.floatinginfo.common.data.model.net.NetData
 
 data class Update(val foregroundAppData: ForegroundAppData,
                   val netData: NetData?,
                   val memoryData: MemoryData?,
                   val cpuData: CpuData?,
-                  val generalData: LocaleData?)
+                  val generalData: LocaleData?,
+                  val bluetoothData: BluetoothData?)

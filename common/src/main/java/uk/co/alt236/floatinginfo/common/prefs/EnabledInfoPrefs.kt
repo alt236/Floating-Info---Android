@@ -56,6 +56,12 @@ class EnabledInfoPrefs(context: Context) {
             return getBoolean(R.string.pref_key_show_memory_info, defValue)
         }
 
+    val isBluetoothInfoEnabled: Boolean
+        get() {
+            val defValue = resources.getBoolean(R.bool.default_enabled_info_value)
+            return getBoolean(R.string.pref_key_show_bluetooth_info, defValue)
+        }
+
     fun showZeroMemoryItems(): Boolean {
         val defValue = resources.getBoolean(R.bool.default_enabled_info_value)
         return getBoolean(R.string.pref_key_show_zero_memory_items, defValue)

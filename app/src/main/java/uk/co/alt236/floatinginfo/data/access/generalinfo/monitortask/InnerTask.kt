@@ -21,9 +21,11 @@ import androidx.annotation.CallSuper
 import uk.co.alt236.floatinginfo.common.data.model.CpuData
 import uk.co.alt236.floatinginfo.common.data.model.LocaleData
 import uk.co.alt236.floatinginfo.common.data.model.MemoryData
+import uk.co.alt236.floatinginfo.common.data.model.bt.BluetoothData
 import uk.co.alt236.floatinginfo.common.data.model.net.NetData
 import uk.co.alt236.floatinginfo.common.prefs.EnabledInfoPrefs
 import uk.co.alt236.floatinginfo.data.access.generalinfo.monitortask.ProcessMonitor.UpdateCallback
+import uk.co.alt236.floatinginfo.inforeader.bt.BluetoothInfoReader
 import uk.co.alt236.floatinginfo.inforeader.cpu.CpuUtilisationReader
 import uk.co.alt236.floatinginfo.inforeader.fgappinfo.ForegroundAppDiscovery
 import uk.co.alt236.floatinginfo.inforeader.general.LocaleInfoReader
@@ -37,6 +39,7 @@ internal class InnerTask(context: Context, private val mEnabledInfoPrefs: Enable
     private val mLocaleInfoReader: LocaleInfoReader = LocaleInfoReader(context)
     private val mCpuUtilisationReader: CpuUtilisationReader = CpuUtilisationReader()
     private val mMemoryInfoReader: MemoryInfoReader = MemoryInfoReader(context)
+    private val bluetoothInfoReader = BluetoothInfoReader(context)
 
     override fun doInBackground(vararg voids: Void): Void? {
         while (!isCancelled) {
@@ -47,7 +50,8 @@ internal class InnerTask(context: Context, private val mEnabledInfoPrefs: Enable
                             netData,
                             getMemoryData(appData.pid),
                             cpuData,
-                            localeData))
+                            localeData,
+                            bluetoothData))
             if (!isCancelled) {
                 try {
                     Thread.sleep(Constants.PROC_MONITOR_SLEEP.toLong())
@@ -93,6 +97,16 @@ internal class InnerTask(context: Context, private val mEnabledInfoPrefs: Enable
             return if (mEnabledInfoPrefs.isLocaleInfoEnabled) {
                 mLocaleInfoReader.update()
                 mLocaleInfoReader.data
+            } else {
+                null
+            }
+        }
+
+    private val bluetoothData: BluetoothData?
+        get() {
+            return if (mEnabledInfoPrefs.isBluetoothInfoEnabled) {
+                bluetoothInfoReader.update()
+                bluetoothInfoReader.data
             } else {
                 null
             }

@@ -15,6 +15,7 @@
     <string name="pref_key_show_cpu_info" translatable="false">pref_show_cpu_info</string>
     <string name="pref_key_show_locale_info" translatable="false">pref_key_show_locale_info</string>
     <string name="pref_key_show_memory_info" translatable="false">pref_show_memory_info</string>
+    <string name="pref_key_show_bluetooth_info" translatable="false">pref_key_show_bluetooth_info</string>
     <string name="pref_key_show_zero_memory_items" translatable="false">pref_key_show_zero_memory_items</string>
 
 </resources>

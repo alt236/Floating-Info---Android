@@ -47,9 +47,7 @@ internal class FgAppDiscovery21(context: Context) : FgAppDiscovery(context) {
         }
 
         val sortedMap: SortedMap<Long, UsageStats> = TreeMap()
-        Log.i("FgAppDiscovery21", "Size: ${appList.size}")
         for (usageStats in appList) {
-            Log.i("FgAppDiscovery21", "Usagestats: ${usageStats.packageName}")
             sortedMap[usageStats.lastTimeUsed] = usageStats
         }
 

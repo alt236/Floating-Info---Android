@@ -46,12 +46,15 @@ internal class NetDataTextWriter : TextWriter<NetData?> {
             if (netInfo.type == ConnectivityManager.TYPE_WIFI) {
                 wifiInfoTextWriter.writeText(input.wifiInfo, sb)
             }
-            val proxy = if (TextUtils.isEmpty(input.proxy)) "OFF" else input.proxy
-            sb.append("Proxy", proxy)
+            sb.append("Proxy", getProxy(input))
         }
 
         sb.endKeyValueSection()
         sb.appendNewLine()
+    }
+
+    private fun getProxy(input: NetData): String {
+        return if (TextUtils.isEmpty(input.proxy)) "OFF" else input.proxy
     }
 
     override fun clear() {

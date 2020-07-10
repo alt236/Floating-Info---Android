@@ -24,12 +24,12 @@ import uk.co.alt236.floatinginfo.overlay.writers.TextWriter
 internal class InterfaceWriter : TextWriter<List<Interface>> {
 
     override fun writeText(input: List<Interface>?, sb: StringBuilderHelper) {
-        if (!isValid(input)) {
+        if (input.isNullOrEmpty()) {
             return
         }
 
         sb.appendBold("Interfaces")
-        for ((name, addresses) in sortInterfaces(input!!)) {
+        for ((name, addresses) in sortInterfaces(input)) {
             sb.appendBold(name)
             sb.startKeyValueSection()
 
@@ -40,10 +40,6 @@ internal class InterfaceWriter : TextWriter<List<Interface>> {
         }
 
         sb.appendNewLine()
-    }
-
-    private fun isValid(interfaces: List<Interface>?): Boolean {
-        return interfaces != null && !interfaces.isEmpty()
     }
 
     private fun sortInterfaces(input: List<Interface>): List<Interface> {

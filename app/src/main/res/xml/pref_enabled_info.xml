@@ -12,14 +12,14 @@
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"
-        android:key="@string/pref_key_show_bluetooth_info"
-        android:title="@string/prefs_title_show_bluetooth_info" />
-
-    <CheckBoxPreference
-        android:defaultValue="@bool/default_enabled_info_value"
         android:dependency="@string/pref_key_show_net_info"
         android:key="@string/pref_key_show_ip_info"
         android:title="@string/prefs_title_show_ip_info" />
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/default_enabled_info_value"
+        android:key="@string/pref_key_show_bluetooth_info"
+        android:title="@string/prefs_title_show_bluetooth_info" />
 
     <CheckBoxPreference
         android:defaultValue="@bool/default_enabled_info_value"

@@ -32,7 +32,7 @@ internal class BluetoothTextWriter : TextWriter<BluetoothData> {
         sb.appendBold("Bluetooth Info")
         sb.startKeyValueSection()
         sb.append("Enabled", input.enabled)
-        sb.append("Address", input.address.pretty())
+        //sb.append("Address", input.address.pretty())
         sb.append("Scan Mode", input.scanMode.toString())
         sb.endKeyValueSection()
         //addCurrentDevices(sb, input.bondedDevices)
